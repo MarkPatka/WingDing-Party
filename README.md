@@ -309,7 +309,7 @@ CREATE INDEX idx_events_type ON events(event_type);
 **Ответственность:** Real-time общение, управление чатами
 
 **Технологии:**
-- .NET 8 (ASP.NET Core + SignalR)
+- .NET 8 (ASP.NET Core + gRPC-Web + WebSocket)
 - PostgreSQL (история сообщений)
 - Redis (кеш активных сессий, pub/sub)
 
@@ -321,10 +321,6 @@ GET /chats                          // Список чатов пользова�
 POST /chats                         // Создание чата
 GET /chats/{chatId}/messages       // История сообщений
 POST /chats/{chatId}/messages      // Отправка сообщения
-
-// SignalR Hubs
-ChatHub - real-time сообщения
-PresenceHub - онлайн статусы
 ```
 
 **События Kafka:**
