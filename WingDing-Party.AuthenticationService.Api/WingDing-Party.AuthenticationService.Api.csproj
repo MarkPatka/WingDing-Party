@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>WingDing_Party.AuthenticationService.Api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WingDing-Party.AuthenticationService.Application\WingDing-Party.AuthenticationService.Application.csproj" />
+    <ProjectReference Include="..\WingDing-Party.AuthenticationService.Contracts\WingDing-Party.AuthenticationService.Contracts.csproj" />
+    <ProjectReference Include="..\WingDing-Party.AuthenticationService.Infrastructure\WingDing-Party.AuthenticationService.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
