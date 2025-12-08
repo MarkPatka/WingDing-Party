@@ -1,5 +1,15 @@
+using WingDing_Party.AuthenticationService.Api;
+using WingDing_Party.AuthenticationService.Application;
+using WingDing_Party.AuthenticationService.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 {
+    builder.Services
+        .AddApplication()
+        .AddInfrastructure(builder.Configuration)
+        .AddPresentation()
+        ;
+
     builder.Services.AddControllers();
 }
 
