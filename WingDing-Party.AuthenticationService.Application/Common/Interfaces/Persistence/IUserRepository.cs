@@ -1,6 +1,6 @@
 ﻿using WingDing_Party.AuthenticationService.Domain.Entities;
 
-namespace WingDing_Party.AuthenticationService.Application.Persistence;
+namespace WingDing_Party.AuthenticationService.Application.Common.Interfaces.Persistence;
 
 public interface IUserRepository
 {
