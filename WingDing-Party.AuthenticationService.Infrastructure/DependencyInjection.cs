@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WingDing_Party.AuthenticationService.Application.Common.Interfaces.Authentication;
+using WingDing_Party.AuthenticationService.Application.Common.Interfaces.Persistence;
 using WingDing_Party.AuthenticationService.Application.Common.Interfaces.Services;
-using WingDing_Party.AuthenticationService.Application.Persistence;
 using WingDing_Party.AuthenticationService.Infrastructure.Authentication;
 using WingDing_Party.AuthenticationService.Infrastructure.Persistence;
 using WingDing_Party.AuthenticationService.Infrastructure.Services;

@@ -1,4 +1,4 @@
-﻿using WingDing_Party.AuthenticationService.Application.Persistence;
+﻿using WingDing_Party.AuthenticationService.Application.Common.Interfaces.Persistence;
 using WingDing_Party.AuthenticationService.Domain.Entities;
 
 namespace WingDing_Party.AuthenticationService.Infrastructure.Persistence;
