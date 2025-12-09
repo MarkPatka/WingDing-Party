@@ -1,10 +1,8 @@
-﻿namespace WingDing_Party.AuthenticationService.Application.Authentication;
+﻿using WingDing_Party.AuthenticationService.Domain.Entities;
+
+namespace WingDing_Party.AuthenticationService.Application.Authentication;
 
 public record AuthenticationResult(
-    Guid Id,
-    string FirstName, 
-    string LastName,
-    string Email,
-    string Token);
+    User User, string Token);
 
 
