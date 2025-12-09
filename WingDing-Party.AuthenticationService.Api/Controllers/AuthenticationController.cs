@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WingDing_Party.AuthenticationService.Application.Authentication;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WingDing_Party.AuthenticationService.Application.Authentication.Commands.Register;
+using WingDing_Party.AuthenticationService.Application.Authentication.Queries.Login;
 using WingDing_Party.AuthenticationService.Contracts.Authentication;
 
 namespace WingDing_Party.AuthenticationService.Api.Controllers;
@@ -8,28 +10,23 @@ namespace WingDing_Party.AuthenticationService.Api.Controllers;
 [Route("auth")]
 public class AuthenticationController : ControllerBase
 {
-    private readonly IAuthenticationService _authenticationService;
+    private readonly ISender _sender;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(ISender sender)
     {
-        _authenticationService = authenticationService;
+        _sender = sender;
     }
 
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var authResult = _authenticationService.Register(
+        var command = new RegisterCommand(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password);
         
-        var responce = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName,
-            authResult.User.LastName,
-            authResult.User.Email,
-            authResult.Token);
+        var responce = await _sender.Send(command);
 
         return Ok(responce);
     }
@@ -37,16 +34,8 @@ public class AuthenticationController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-        var authResult = _authenticationService.Login(
-            request.Email,
-            request.Password);
-
-        var response = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName,
-            authResult.User.LastName,
-            authResult.User.Email,
-            authResult.Token);
+        var query = new LoginQuery(request.Email, request.Password);
+        var response = _sender.Send(query);
 
         return Ok(response);
     }
