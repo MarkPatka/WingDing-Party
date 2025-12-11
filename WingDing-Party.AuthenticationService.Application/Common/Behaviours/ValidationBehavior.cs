@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.IdentityModel.Tokens.Experimental;
 using WingDing_Party.AuthenticationService.Application.Authentication.Commands.Register;
 
 namespace WingDing_Party.AuthenticationService.Application.Common.Behaviours;
@@ -22,7 +21,7 @@ public class ValidationBehavior<TRequest, TResponse>
         CancellationToken cancellationToken)
     {
         if (_validator is null)
-            return await next();
+            return await next(cancellationToken);
 
         var validationResult = await _validator
             .ValidateAsync(request, cancellationToken);
@@ -32,8 +31,7 @@ public class ValidationBehavior<TRequest, TResponse>
 
         var context = new ValidationContext<TRequest>(request);
 
-        var errors = _validator
-            .Validate(context).Errors
+        var errors = _validator.Validate(context).Errors
             .GroupBy(
                 x => x.PropertyName,
                 x => x.ErrorMessage,
@@ -42,7 +40,7 @@ public class ValidationBehavior<TRequest, TResponse>
                     Key = propertyName,
                     Values = errorMessages.Distinct().ToArray()
                 })
-            .ToDictionary(x => x.Key, x => x.Values); ;
+            .ToDictionary(x => x.Key, x => x.Values);
 
         if (errors.Count != 0)
         {

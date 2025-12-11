@@ -5,12 +5,10 @@ using WingDing_Party.AuthenticationService.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
+        .AddPresentation()
         .AddApplication()
         .AddInfrastructure(builder.Configuration)
-        .AddPresentation()
         ;
-
-    builder.Services.AddControllers();
 }
 
 var app = builder.Build();
@@ -18,6 +16,13 @@ var app = builder.Build();
     if (app.Environment.IsDevelopment())
     {
         app.UseExceptionHandler("/error-development");
+
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "WingDing Authentication API v1");
+            c.RoutePrefix = string.Empty;
+        });
     }
     else
     {

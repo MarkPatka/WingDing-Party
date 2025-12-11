@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Mapster;
+using MapsterMapper;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.OpenApi;
+using System.Reflection;
 using WingDing_Party.AuthenticationService.Api.Common.Errors;
 
 namespace WingDing_Party.AuthenticationService.Api;
@@ -7,7 +11,13 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
-        services.AddGlobalErrorHandling();
+        services.AddControllers();
+
+        services
+            .AddSwagger()
+            .AddGlobalErrorHandling()
+            .AddMappings();
+
         return services;
     }
 
@@ -15,6 +25,31 @@ public static class DependencyInjection
     {
         services.AddSingleton<ProblemDetailsFactory, AuthenticationServiceProblemDetailsFactory>();
         services.AddProblemDetails();
+        return services;
+    }
+
+    private static IServiceCollection AddMappings(this IServiceCollection services)
+    {
+        var config = TypeAdapterConfig.GlobalSettings;
+        config.Scan(Assembly.GetExecutingAssembly());
+
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
+        return services;
+    }
+
+    private static IServiceCollection AddSwagger(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "WingDing Authentication Service Api",
+                Version = "v1",
+                Description = "Example API with Swagger"
+            });
+        });
         return services;
     }
 }

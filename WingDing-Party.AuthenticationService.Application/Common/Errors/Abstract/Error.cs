@@ -1,7 +1,11 @@
-﻿namespace WingDing_Party.AuthenticationService.Application.Common.Errors.Abstract;
+﻿using System.Net;
 
-public abstract class Error(ErrorType type, string message)
-    : Exception(message)
+namespace WingDing_Party.AuthenticationService.Application.Common.Errors.Abstract;
+
+public abstract class Error(ErrorType type, string message, HttpStatusCode statusCode)
+    : Exception(message), IServiceException
 {
-    public ErrorType Type { get; private set; } = type;
+    public HttpStatusCode StatusCode => statusCode;
+    public ErrorType Type => type;
+    public string ErrorMessage => Message;
 }
