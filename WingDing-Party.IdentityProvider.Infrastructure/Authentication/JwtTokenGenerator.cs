@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using WingDing_Party.IdentityProvider.Application.Common.Interfaces.Authentication;
 using WingDing_Party.IdentityProvider.Application.Common.Interfaces.Services;
-using WingDing_Party.IdentityProvider.Domain.Entities;
+using WingDing_Party.IdentityProvider.Domain.UserAggregate;
 
 namespace WingDing_Party.IdentityProvider.Infrastructure.Authentication;
 

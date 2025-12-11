@@ -1,5 +1,5 @@
 ﻿using WingDing_Party.IdentityProvider.Application.Common.Interfaces.Persistence;
-using WingDing_Party.IdentityProvider.Domain.Entities;
+using WingDing_Party.IdentityProvider.Domain.UserAggregate;
 
 namespace WingDing_Party.IdentityProvider.Infrastructure.Persistence;
 
