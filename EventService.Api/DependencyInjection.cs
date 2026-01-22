@@ -5,6 +5,7 @@ using EventService.Application.Common.Configuration;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
+using Microsoft.Extensions.Configuration.Memory;
 
 namespace EventService.Api;
 
@@ -66,8 +67,11 @@ public static class DependencyInjection
             configuration.GetSection(PgAdminSettings.SectionName));
 
         // bind .env
-        services.Configure<EventsDatabaseConnection>(
-            options => configuration.Bind(options));
+        var eventsDatabaseConnectionConfig = new ConfigurationBuilder()
+            .Add(new MemoryConfigurationSource { InitialData = GetEnvVarsForClass<EventsDatabaseConnection>() })
+            .Build();
+
+        services.Configure<EventsDatabaseConnection>(eventsDatabaseConnectionConfig);
 
         // validate settings
         services.AddOptions<ApiSettings>()
@@ -136,6 +140,16 @@ public static class DependencyInjection
         {
             Log.Warning(".env file not found at: {EnvPath}", envPath);
         }
+    }
+
+    private static Dictionary<string, string?> GetEnvVarsForClass<T>()
+    {
+        return typeof(T).GetProperties()
+            .Where(p => p.CanRead && p.CanWrite)
+            .ToDictionary(
+                p => p.Name,
+                p => Environment.GetEnvironmentVariable(p.Name),
+                StringComparer.OrdinalIgnoreCase);
     }
 }
 
