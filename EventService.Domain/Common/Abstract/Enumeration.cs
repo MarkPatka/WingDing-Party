@@ -22,8 +22,10 @@ public abstract class Enumeration
         .Cast<T>();
 
     public static T GetFromId<T>(int id)
-        where T : Enumeration => Parse<T, int>(id, i => i.Id == id)
-        ;
+        where T : Enumeration => Parse<T, int>(id, i => i.Id == id);
+
+    public static T GetFromName<T>(string name)
+        where T : Enumeration => Parse<T, string>(name, i => i.Name.Equals(name));
 
     public static T Parse<T, K>(K value, Func<T, bool> predicate)
         where T : Enumeration => GetAll<T>().FirstOrDefault(predicate)

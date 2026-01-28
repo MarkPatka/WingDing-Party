@@ -8,5 +8,5 @@ public record CreateEventResult(
         Guid EventId,
         DateTime CreatedAt,
         DateTime? UpdatedAt,
-        EventStatus Status
+        int StatusId
     );

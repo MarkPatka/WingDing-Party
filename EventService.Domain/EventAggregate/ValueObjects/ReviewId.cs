@@ -2,9 +2,11 @@
 
 namespace EventService.Domain.EventAggregate.ValueObjects;
 
-public sealed class ReviewId : ValueObject
+public sealed class ReviewId : ValueObject, IEntityId
 {
     public Guid Value { get; }
+
+    object IEntityId.Value => Value;
 
     private ReviewId(Guid value) => Value = value;
 

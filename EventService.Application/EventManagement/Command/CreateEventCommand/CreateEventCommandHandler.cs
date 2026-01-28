@@ -1,7 +1,6 @@
 ﻿using EventService.Domain;
 using MediatR;
 using EventService.Application.EventManagement.Common;
-using EventService.Application.Persistence;
 using EventService.Application.Services;
 
 namespace EventService.Application.EventManagement.Command.CreateEventCommand;
@@ -9,12 +8,14 @@ namespace EventService.Application.EventManagement.Command.CreateEventCommand;
 public class CreateEventCommandHandler
     : IRequestHandler<CreateEventCommand, CreateEventResult>
 {
-    private readonly IEventRepository _repository;
+    private readonly IEventService _eventService;
     private readonly ITimeProviderService _timeProvider;
 
-    public CreateEventCommandHandler(IEventRepository repository, ITimeProviderService timeProvider)
+    public CreateEventCommandHandler(
+        IEventService eventService,
+        ITimeProviderService timeProvider)
     {
-        _repository = repository;
+        _eventService = eventService;
         _timeProvider = timeProvider;
     }
 
@@ -23,16 +24,11 @@ public class CreateEventCommandHandler
         CancellationToken cancellationToken)
     {
         // check if not exists
-        var existingEventFromDb = await _repository.GetByFilter(x =>
-                x.Title == request.Title &&
-                x.EventType == request.EventType &&
-                x.StartDate == request.StartDate &&
-                x.OrganizerId == request.OrganizerId);
+        var eventExists = await _eventService
+            .CheckEventNotExists(request.Title, request.OrganizerId, cancellationToken); /// NEW 
 
-        if (existingEventFromDb != null)
-        {
+        if (eventExists)
             throw new Exception($"Event already exists");
-        }
 
         // create
         var newEvent = Event.Create(
@@ -49,15 +45,13 @@ public class CreateEventCommandHandler
         );
 
         // add
-        await _repository.Add(newEvent);
+        await _eventService.CreateEventAsync(newEvent, cancellationToken);
 
         // return result
-        var result = new CreateEventResult(
+        return new CreateEventResult(
                     newEvent.Id.Value,
                     newEvent.CreatedAt,
                     newEvent.UpdatedAt,
-                    newEvent.Status);
-
-        return await Task.FromResult(result);
+                    newEvent.Status.Id);
     }
 }

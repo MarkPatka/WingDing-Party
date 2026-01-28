@@ -6,4 +6,4 @@ public sealed record CreateEventResponse(
     Guid EventId,
     DateTime CreatedAt,
     DateTime? UpdatedAt,
-    EventStatus Status);
+    int EventStatusId);

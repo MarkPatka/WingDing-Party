@@ -1,23 +1,45 @@
 ﻿using EventService.Application.EventManagement.Common;
 using MediatR;
-using EventService.Application.Persistence;
+using EventService.Application.Services;
+using EventService.Domain.EventAggregate.ValueObjects;
+using EventService.Contracts.DTO;
 
 namespace EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 
 public class GetAllUserEventsQueryHandler
     : IRequestHandler<GetAllUserEventsQuery, GetAllUserEventsResult>
 {
-    private readonly IEventRepository _repository;
+    private readonly IEventService _eventService;
 
-    public GetAllUserEventsQueryHandler(IEventRepository repository)
+    public GetAllUserEventsQueryHandler(IEventService service)
     {
-        _repository = repository;
+        _eventService = service;
     }
 
-    public async Task<GetAllUserEventsResult> Handle(GetAllUserEventsQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllUserEventsResult> Handle(
+        GetAllUserEventsQuery request, CancellationToken cancellationToken)
     {
-        var events = await _repository.GetByFilter(x => x.OrganizerId.Value.ToString() == request.userId);
+        var events = await _eventService.GetEventsByOrganizerIdAsync(
+            OrganizerId.Create(request.OrganizerId),
+            request.PageNumber,
+            request.PageSize,
+            cancellationToken);
 
-        return await Task.FromResult(new GetAllUserEventsResult(events));
+        var eventDtos = events.Select(e => new EventDto(
+            e.Id.Value.ToString(),
+            e.Title,
+            e.Description,
+            e.EventType.Name,
+            e.Status.Name,
+            new LocationDto(
+                e.Location.Address,
+                e.Location.City,
+                e.Location.Country),
+            e.StartDate,
+            e.EndDate,
+            e.MaxParticipants
+            ));
+
+        return new GetAllUserEventsResult(eventDtos);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EventService.Domain.Common.Abstract;
+using EventService.Domain.EventAggregate.DomainEvents;
 using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.Enumerations;
 using EventService.Domain.EventAggregate.ValueObjects;
@@ -68,7 +69,7 @@ public sealed class Event : AggregateRoot<EventId>
         DateTime createdAt,
         DateTime updatedAt)
     {
-        return new Event(
+        var @event = new Event(
             EventId.CreateUnique(),
             title,
             description,
@@ -80,5 +81,30 @@ public sealed class Event : AggregateRoot<EventId>
             organizerId,
             createdAt,
             updatedAt);
+
+        @event.AddDomainEvent(new EventCreated(@event.Id, DateTime.UtcNow));
+        return @event;
+    }
+
+    public void Publish()
+    {
+        if (Status != EventStatus.Draft)
+            throw new InvalidOperationException("Only draft events can be published");
+
+        Status = EventStatus.Active;
+        UpdatedAt = DateTime.UtcNow;
+
+        AddDomainEvent(new EventPublished(Id, DateTime.UtcNow));
+    }
+
+    public void Cancell()
+    {
+        if (Status != EventStatus.Active)
+            throw new InvalidOperationException("Only active events can be cancelled");
+
+        Status = EventStatus.Cancelled;
+        UpdatedAt = DateTime.UtcNow;
+
+        AddDomainEvent(new EventCancelled(Id, DateTime.UtcNow));
     }
 }

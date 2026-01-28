@@ -2,9 +2,11 @@
 
 namespace EventService.Domain.EventAggregate.ValueObjects;
 
-public sealed class ParticipantId : ValueObject
+public sealed class ParticipantId : ValueObject, IEntityId
 {
     public Guid Value { get; }
+
+    object IEntityId.Value => Value;
 
     private ParticipantId(Guid value) => Value = value;
 

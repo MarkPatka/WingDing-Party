@@ -1,14 +1,18 @@
-﻿using EventService.Domain.EventAggregate.Entities;
+﻿using EventService.Contracts.DTO;
+using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
 
 namespace EventService.Contracts.Events;
 
 public sealed record CreateEventRequest(
     string Title,
-    EventType EventType,
+    Guid EventTypeId,
+    string EventTypeName,
+    string? EventTypeIcon,
+    string? EventTypeDescription,
     DateTime StartDate,
     DateTime EndDate,
     int MaxParticipants,
-    OrganizerId OrganizerId,
+    Guid OrganizerId,
     string? Description,
-    Location? Location);
+    LocationFullDto Location);
