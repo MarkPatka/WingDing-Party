@@ -1,7 +1,8 @@
-﻿using EventService.Domain;
-using MediatR;
-using EventService.Application.EventManagement.Common;
+﻿using EventService.Application.EventManagement.Common;
+using EventService.Application.Persistence;
 using EventService.Application.Services;
+using EventService.Domain;
+using MediatR;
 
 namespace EventService.Application.EventManagement.Command.CreateEventCommand;
 
@@ -10,13 +11,16 @@ public class CreateEventCommandHandler
 {
     private readonly IEventService _eventService;
     private readonly ITimeProviderService _timeProvider;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CreateEventCommandHandler(
         IEventService eventService,
-        ITimeProviderService timeProvider)
+        ITimeProviderService timeProvider,
+        IUnitOfWork unitOfWork)
     {
         _eventService = eventService;
         _timeProvider = timeProvider;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<CreateEventResult> Handle(
@@ -46,6 +50,8 @@ public class CreateEventCommandHandler
 
         // add
         await _eventService.CreateEventAsync(newEvent, cancellationToken);
+
+        await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
         // return result
         return new CreateEventResult(
