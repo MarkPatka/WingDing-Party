@@ -14,10 +14,10 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
     public void Configure(EntityTypeBuilder<Event> builder)
     {
         ConfigureEventsTable(builder);
-        ConfigureReviewsTable(builder);
+        //ConfigureReviewsTable(builder);
         // ConfigureParticipantsTable(builder);
     }
-
+    /*
     private void ConfigureReviewsTable(EntityTypeBuilder<Event> builder)
     {
         builder.OwnsMany(r => r.Reviews, rb =>
@@ -50,6 +50,7 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
             .FindNavigation(nameof(Event.Reviews))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
+    */
 
     // COMPLETE PARTICIPANT TABLE CONFIGURATION 
 

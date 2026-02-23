@@ -1,7 +1,7 @@
 ﻿using EventService.Domain.Common.Abstract;
 using EventService.Domain.EventAggregate.ValueObjects;
 
-namespace MockEventService.Domain.EventAggregate.DomainEvents;
+namespace EventService.Domain.EventAggregate.DomainEvents;
 
 public sealed record ParticipantRegistered(
     EventId EventId,

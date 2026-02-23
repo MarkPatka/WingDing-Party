@@ -67,18 +67,18 @@ public static class DependencyInjection
             configuration.GetSection(PgAdminSettings.SectionName));
 
         // bind .env
-        var eventsDatabaseConnectionConfig = new ConfigurationBuilder()
-            .Add(new MemoryConfigurationSource { InitialData = GetEnvVarsForClass<EventsDatabaseConnection>() })
+        var EventsDatabaseOptionsConfig = new ConfigurationBuilder()
+            .Add(new MemoryConfigurationSource { InitialData = GetEnvVarsForClass<EventsDatabaseOptions>() })
             .Build();
 
-        services.Configure<EventsDatabaseConnection>(eventsDatabaseConnectionConfig);
+        services.Configure<EventsDatabaseOptions>(EventsDatabaseOptionsConfig);
 
         // validate settings
         services.AddOptions<ApiSettings>()
             .Validate(x => x.Port > 0, "API Port must be greater than 0")
             .ValidateOnStart();
 
-        services.AddOptions<EventsDatabaseConnection>()
+        services.AddOptions<EventsDatabaseOptions>()
             .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
@@ -130,7 +130,7 @@ public static class DependencyInjection
 
         if (File.Exists(envPath))
         {
-            Log.Information("Loading environment variables from: {EnvPath}", envPath);
+            Log.Information("Loading environment variables from: {0}", envPath);
 
             DotNetEnv.Env.Load(envPath);
 
@@ -138,7 +138,7 @@ public static class DependencyInjection
         }
         else
         {
-            Log.Warning(".env file not found at: {EnvPath}", envPath);
+            Log.Warning(".env file not found at: {0}", envPath);
         }
     }
 

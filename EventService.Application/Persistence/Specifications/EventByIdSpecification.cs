@@ -9,7 +9,6 @@ public class EventByIdSpec : BaseSpecification<Event>
         : base(e => e.Id == eventId)
     {
         AddInclude(e => e.Participants);
-        AddInclude(e => e.Reviews);
         ApplySplitQuery();
     }
 }

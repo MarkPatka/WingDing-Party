@@ -7,7 +7,7 @@ namespace EventService.Infrastructure.Services;
 
 internal class ConfigurationService : IConfigurationService
 {
-    private readonly EventsDatabaseConnection _dbConfig;
+    private readonly EventsDatabaseOptions _dbConfig;
     private readonly ApiSettings _apiSettings;
     private readonly PgAdminSettings _pgAdminSettings;
 
@@ -19,7 +19,7 @@ internal class ConfigurationService : IConfigurationService
     // 2. IOptionsSnapshot<T> - Scoped, reloads configuration per request
     // 3. IOptionsMonitor<T>  - Singleton, reloads configuration on change
     public ConfigurationService(
-        IOptions<EventsDatabaseConnection> dbConfig,
+        IOptions<EventsDatabaseOptions> dbConfig,
         IOptions<ApiSettings> apiSettings,
         IOptionsSnapshot<PgAdminSettings> pgAdminSettings,
         ILogger<ConfigurationService> logger)
@@ -31,7 +31,7 @@ internal class ConfigurationService : IConfigurationService
         _logger = logger;
     }
 
-    public EventsDatabaseConnection GetDatabaseInfo()
+    public EventsDatabaseOptions GetDatabaseInfo()
     {
         _logger.LogInformation("Log proccess");
         _logger.LogWarning("Log smth strange");

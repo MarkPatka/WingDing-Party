@@ -1,4 +1,5 @@
 ﻿using EventService.Domain;
+using EventService.Domain.EventAggregate.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventService.Infrastructure.Persistence
@@ -7,5 +8,6 @@ namespace EventService.Infrastructure.Persistence
         : DbContext(options)
     {
         public DbSet<Event> Events { get; set; } = null!;
+        public DbSet<Participant> Participants { get; set; }
     }
 }
