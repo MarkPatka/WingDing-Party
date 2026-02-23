@@ -10,16 +10,13 @@ public class CreateEventCommandHandler
     : IRequestHandler<CreateEventCommand, CreateEventResult>
 {
     private readonly IEventService _eventService;
-    private readonly ITimeProviderService _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateEventCommandHandler(
         IEventService eventService,
-        ITimeProviderService timeProvider,
         IUnitOfWork unitOfWork)
     {
         _eventService = eventService;
-        _timeProvider = timeProvider;
         _unitOfWork = unitOfWork;
     }
 
@@ -44,8 +41,8 @@ public class CreateEventCommandHandler
             request.EndDate,
             request.MaxParticipants,
             request.OrganizerId,
-            _timeProvider.UtcNow,
-            _timeProvider.UtcNow
+            TimeProvider.System.GetUtcNow().DateTime,
+            TimeProvider.System.GetUtcNow().DateTime
         );
 
         // add

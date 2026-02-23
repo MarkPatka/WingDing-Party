@@ -1,8 +1,8 @@
 ﻿namespace EventService.Application.Common.Configuration;
 
-public class EventsDatabaseConnection
+public class EventsDatabaseOptions
 {
-    public const string SectionName = nameof(EventsDatabaseConnection);
+    public const string SectionName = nameof(EventsDatabaseOptions);
 
     public string POSTGRES_DB { get; set; } = null!;
     public string POSTGRES_USER { get; set; } = null!;

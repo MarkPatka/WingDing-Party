@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11408.102 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventService.Api", "EventService.Api\EventService.Api.csproj", "{AA7B7695-42E2-4095-9DFE-9E673BF426E7}"
 EndProject
@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database-init-scripts", "database-init-scripts", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
 	ProjectSection(SolutionItems) = preProject
-		01-initial-script.sql = 01-initial-script.sql
+		database-init-scripts\01-initial-script.sql = database-init-scripts\01-initial-script.sql
 	EndProjectSection
 EndProject
 Global

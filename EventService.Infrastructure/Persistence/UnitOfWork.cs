@@ -10,7 +10,7 @@ namespace EventService.Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly DbContext _context;
+    private readonly EventServiceDbContext _context;
     private readonly IPublisher _publisher;
     private readonly ILogger<UnitOfWork> _logger;
 
@@ -18,7 +18,7 @@ public class UnitOfWork : IUnitOfWork
     private bool _disposed;
 
     public UnitOfWork(
-        DbContext context,
+        EventServiceDbContext context,
         IPublisher publisher,
         ILogger<UnitOfWork> logger)
     {
@@ -38,11 +38,17 @@ public class UnitOfWork : IUnitOfWork
     {
         try
         {
-            // Dispatch domain events before saving for transactional consistency
-            await DispatchDomainEventsAsync(cancellationToken);
-
+            // transaction
             // Save changes to database
             var result = await _context.SaveChangesAsync(cancellationToken);
+
+            // table for events
+            // -> transactional outbox message
+
+            // -> commit transaction
+
+            // Dispatch domain events before saving for transactional consistency
+            await DispatchDomainEventsAsync(cancellationToken);
 
             _logger.LogDebug("Saved {Count} entities to database", result);
 

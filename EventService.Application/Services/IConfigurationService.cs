@@ -4,7 +4,7 @@ namespace EventService.Application.Services;
 
 public interface IConfigurationService
 {
-    public EventsDatabaseConnection GetDatabaseInfo();
+    public EventsDatabaseOptions GetDatabaseInfo();
     public ApiSettings GetApiSettings();
     public PgAdminSettings GetPgAdminSettings();
 }

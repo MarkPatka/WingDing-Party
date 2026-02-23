@@ -6,7 +6,6 @@ using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Infrastructure.Persistence;
 using EventService.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -28,11 +27,10 @@ public static class DependencyInjection
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services
-            .AddSingleton<ITimeProviderService, TimeProviderService>();
-
-        services
             .AddTransient<IConfigurationService, ConfigurationService>();
-
+        
+        services
+            .AddScoped<IEventService, Services.EventService>();
 
         return services;
     }
@@ -50,10 +48,20 @@ public static class DependencyInjection
 
     private static IServiceCollection RegisterDbContext(this IServiceCollection services)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+        services.AddDbContext<EventServiceDbContext>((provider, options) =>
+        {
+            var dbSettings = provider
+                .GetRequiredService<IOptions<EventsDatabaseOptions>>().Value;
+
+            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+        }, ServiceLifetime.Scoped);
+
         services.AddDbContextFactory<EventServiceDbContext>((provider, options) =>
         {
             var dbSettings = provider
-                .GetRequiredService<IOptions<EventsDatabaseConnection>>().Value;
+                .GetRequiredService<IOptions<EventsDatabaseOptions>>().Value;
 
             options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
 
