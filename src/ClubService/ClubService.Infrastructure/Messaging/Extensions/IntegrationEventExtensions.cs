@@ -8,9 +8,12 @@ public static class IntegrationEventExtensions
 {
     public static string GetAggregateName(this IIntegrationEvent evt)
     {
-        var attr = evt.GetType().GetCustomAttribute<AggregateAttribute>();
+        var attr = evt.GetType()
+            .GetCustomAttribute<AggregateAttribute>();
+
         if (attr == null)
             throw new InvalidOperationException($"Event {evt.GetType().Name} does not have [Aggregate] attribute");
+
         return attr.Name;
     }
 }

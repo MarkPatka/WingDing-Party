@@ -1,12 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36915.13 d17.14
+VisualStudioVersion = 17.14.36915.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
-		.env = .env
 		.gitignore = .gitignore
 		docker-compose.yaml = docker-compose.yaml
 	EndProjectSection
@@ -29,6 +28,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventService.Infrastructure", "src\EventService\EventService.Infrastructure\EventService.Infrastructure.csproj", "{F373610E-7B1E-C016-B481-DAAB399845F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventService", "EventService", "{4CF4740B-BC9C-432E-9CFB-076AC9F42AA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClubService", "ClubService", "{E631AE93-D08E-4D63-B9A3-91987C50747F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubService.Api", "src\ClubService\ClubService.Api\ClubService.Api.csproj", "{BECB3450-7470-4832-FFB5-50038EC42A77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubService.Application", "src\ClubService\ClubService.Application\ClubService.Application.csproj", "{D767CE8E-29DE-C902-9652-11FB04C6877D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubService.Domain", "src\ClubService\ClubService.Domain\ClubService.Domain.csproj", "{D723B0BE-D73F-4EEC-64F8-087DD14DE73D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubService.Contracts", "src\ClubService\ClubService.Contracts\ClubService.Contracts.csproj", "{F6A7A6D8-7506-7378-9D9F-83B3FC158709}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubService.Infrastructure", "src\ClubService\ClubService.Infrastructure\ClubService.Infrastructure.csproj", "{F2B92914-1E8B-6751-E6E6-4E6187943649}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +67,26 @@ Global
 		{F373610E-7B1E-C016-B481-DAAB399845F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F373610E-7B1E-C016-B481-DAAB399845F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F373610E-7B1E-C016-B481-DAAB399845F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BECB3450-7470-4832-FFB5-50038EC42A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BECB3450-7470-4832-FFB5-50038EC42A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BECB3450-7470-4832-FFB5-50038EC42A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BECB3450-7470-4832-FFB5-50038EC42A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D767CE8E-29DE-C902-9652-11FB04C6877D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D767CE8E-29DE-C902-9652-11FB04C6877D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D767CE8E-29DE-C902-9652-11FB04C6877D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D767CE8E-29DE-C902-9652-11FB04C6877D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D723B0BE-D73F-4EEC-64F8-087DD14DE73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D723B0BE-D73F-4EEC-64F8-087DD14DE73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D723B0BE-D73F-4EEC-64F8-087DD14DE73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D723B0BE-D73F-4EEC-64F8-087DD14DE73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A7A6D8-7506-7378-9D9F-83B3FC158709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A7A6D8-7506-7378-9D9F-83B3FC158709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A7A6D8-7506-7378-9D9F-83B3FC158709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A7A6D8-7506-7378-9D9F-83B3FC158709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2B92914-1E8B-6751-E6E6-4E6187943649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2B92914-1E8B-6751-E6E6-4E6187943649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2B92914-1E8B-6751-E6E6-4E6187943649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2B92914-1E8B-6751-E6E6-4E6187943649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +99,12 @@ Global
 		{869C9288-DBDD-A694-5E77-78B086B6FA35} = {4CF4740B-BC9C-432E-9CFB-076AC9F42AA7}
 		{F373610E-7B1E-C016-B481-DAAB399845F2} = {4CF4740B-BC9C-432E-9CFB-076AC9F42AA7}
 		{4CF4740B-BC9C-432E-9CFB-076AC9F42AA7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E631AE93-D08E-4D63-B9A3-91987C50747F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{BECB3450-7470-4832-FFB5-50038EC42A77} = {E631AE93-D08E-4D63-B9A3-91987C50747F}
+		{D767CE8E-29DE-C902-9652-11FB04C6877D} = {E631AE93-D08E-4D63-B9A3-91987C50747F}
+		{D723B0BE-D73F-4EEC-64F8-087DD14DE73D} = {E631AE93-D08E-4D63-B9A3-91987C50747F}
+		{F6A7A6D8-7506-7378-9D9F-83B3FC158709} = {E631AE93-D08E-4D63-B9A3-91987C50747F}
+		{F2B92914-1E8B-6751-E6E6-4E6187943649} = {E631AE93-D08E-4D63-B9A3-91987C50747F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {55E8815B-C3BE-42A4-BEDD-7EA67F6A3AAE}

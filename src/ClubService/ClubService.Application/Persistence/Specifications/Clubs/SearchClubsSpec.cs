@@ -5,7 +5,7 @@ namespace ClubService.Application.Persistence.Specifications.Clubs;
 
 public sealed class SearchClubsSpec : BaseSpecification<Club>
 {
-    public SearchClubsSpec(string name, IEnumerable<string> interests = null, OwnerId? ownerId = null)
+    public SearchClubsSpec(string name, IEnumerable<string>? interests = null, OwnerId? ownerId = null)
     {
         AddCriteria(c => c.Name == name);
 

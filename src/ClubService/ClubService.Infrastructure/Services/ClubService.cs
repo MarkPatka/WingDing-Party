@@ -18,14 +18,14 @@ public class ClubService : IClubService
     public async Task<IEnumerable<Club>> SearchClubsAsync(string name, IEnumerable<string>? interests = null,
         OwnerId? ownerId = null)
     {
-        var spec = new SearchClubsSpec(name, interests, ownerId);
+        var spec = new SearchClubsSpec(name, interests ?? [], ownerId);
         return await _repository.ListAsync(spec);
     }
     
     public async Task<bool> GetAnyClubsAsync(string name, IEnumerable<string>? interests = null,
         OwnerId? ownerId = null)
     {
-        var spec = new GetAnyClubsSpec(name, interests, ownerId);
+        var spec = new GetAnyClubsSpec(name, interests ?? [], ownerId);
         return await _repository.AnyAsync(spec);
     }
 
@@ -43,14 +43,14 @@ public class ClubService : IClubService
 
     public async Task<IEnumerable<ClubMember>> GetClubMembersAsync(ClubId clubId)
     {
-        var club = await GetClubByIdAsync(clubId);
-        return club != null ? club.ClubMembers : Enumerable.Empty<ClubMember>();
+        Club? club = await GetClubByIdAsync(clubId);
+        return club is not null ? club.ClubMembers : Enumerable.Empty<ClubMember>();
     }
 
     public async Task<bool> IsMemberParticipatedAsync(ClubId clubId, UserId userId)
     {
-        var club = await GetClubByIdAsync(clubId);
-        return club != null && club.ClubMembers.Any(x => x.UserId == userId);
+        Club? club = await GetClubByIdAsync(clubId);
+        return club is not null && club.ClubMembers.Any(x => x.UserId == userId);
     }
 
     public async Task<Club> AddAsync(Club club)

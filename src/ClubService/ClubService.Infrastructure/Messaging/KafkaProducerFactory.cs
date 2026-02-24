@@ -36,7 +36,8 @@ public class KafkaProducerFactory : IKafkaProducerFactory, IDisposable
             EnableIdempotence = cfg.EnableIdempotence,
             MessageTimeoutMs = cfg.MessageTimeoutMs
         };
-        return new ProducerBuilder<string, string>(config).SetErrorHandler((_, e) => _logger.LogError(e.Reason))
+        return new ProducerBuilder<string, string>(config)
+            .SetErrorHandler((_, e) => _logger.LogError(e.Reason))
             .Build();
     }
 

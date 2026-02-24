@@ -108,7 +108,7 @@ public class ClubController : ControllerBase
     }
     
     [HttpGet("members")]
-    public async Task<IActionResult> GetClubsMembers(GetClubMembersRequest request)
+    public async Task<IActionResult> GetClubMembers(GetClubMembersRequest request)
     {
         // request -> map to query
         var query = _mapper.Map<GetClubMembersQuery>(request);
