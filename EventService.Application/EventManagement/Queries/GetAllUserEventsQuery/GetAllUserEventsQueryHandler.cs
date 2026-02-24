@@ -20,7 +20,7 @@ public class GetAllUserEventsQueryHandler
         GetAllUserEventsQuery request, CancellationToken cancellationToken)
     {
         var events = await _eventService.GetEventsByOrganizerIdAsync(
-            OrganizerId.Create(request.OrganizerId),
+            UserId.Create(request.OrganizerId),
             request.PageNumber,
             request.PageSize,
             cancellationToken);

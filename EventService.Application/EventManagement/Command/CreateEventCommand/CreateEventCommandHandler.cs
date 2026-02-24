@@ -2,6 +2,8 @@
 using EventService.Application.Persistence;
 using EventService.Application.Services;
 using EventService.Domain;
+using EventService.Domain.EventAggregate.Entities;
+using EventService.Domain.EventAggregate.ValueObjects;
 using MediatR;
 
 namespace EventService.Application.EventManagement.Command.CreateEventCommand;
@@ -26,7 +28,7 @@ public class CreateEventCommandHandler
     {
         // check if not exists
         var eventExists = await _eventService
-            .CheckEventNotExists(request.Title, request.OrganizerId, cancellationToken); /// NEW 
+            .CheckEventNotExists(request.Title, UserId.Create(request.OrganizerId), cancellationToken); /// NEW 
 
         if (eventExists)
             throw new Exception($"Event already exists");
@@ -35,12 +37,16 @@ public class CreateEventCommandHandler
         var newEvent = Event.Create(
             request.Title,
             request.Description!,
-            request.EventType,
+            eventType: EventType.CreateNew(
+                    Guid.NewGuid(),
+                    "DotNext",
+                    "Conference",
+                    "Persisted_Icon_In_MiniO_Storage"),
             request.Location!,
             request.StartDate,
             request.EndDate,
             request.MaxParticipants,
-            request.OrganizerId,
+            UserId.Create(request.OrganizerId),
             TimeProvider.System.GetUtcNow().DateTime,
             TimeProvider.System.GetUtcNow().DateTime
         );

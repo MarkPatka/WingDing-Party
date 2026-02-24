@@ -5,7 +5,7 @@ namespace EventService.Application.Persistence.Specifications;
 
 public class EventsByOrganizerSpec : BaseSpecification<Event>
 {
-    public EventsByOrganizerSpec(OrganizerId organizerId, int pageNumber, int pageSize)
+    public EventsByOrganizerSpec(UserId organizerId, int pageNumber, int pageSize)
     {
         AddCriteria(e => e.OrganizerId == organizerId);
         ApplyOrderByDescending(e => e.CreatedAt);

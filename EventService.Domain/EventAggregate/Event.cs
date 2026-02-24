@@ -24,7 +24,7 @@ public sealed class Event : AggregateRoot<EventId>
     public int MaxParticipants  { get; private set; }
     public EventStatus Status   { get; private set; } = EventStatus.Draft;
 
-    public OrganizerId OrganizerId  { get; private set; } = null!;
+    public UserId OrganizerId  { get; private set; } = null!;
     public string OrganizerName     { get; private set; } = string.Empty;
 
     public DateTime CreatedAt   { get; private set; }
@@ -44,7 +44,7 @@ public sealed class Event : AggregateRoot<EventId>
         DateTime startDate,
         DateTime endDate,
         int maxParticipants,
-        OrganizerId organizerId,
+        UserId organizerId,
         DateTime createdAt,
         DateTime updatedAt,
         int reviewsCount = 0,
@@ -74,7 +74,7 @@ public sealed class Event : AggregateRoot<EventId>
         DateTime startDate,
         DateTime endDate,
         int maxParticipants,
-        OrganizerId organizerId,
+        UserId organizerId,
         DateTime createdAt,
         DateTime updatedAt,
         int reviewsCount = 0,

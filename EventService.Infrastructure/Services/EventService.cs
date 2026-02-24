@@ -20,14 +20,14 @@ public class EventService : IEventService
     }
 
     public async Task<bool> CheckEventNotExists(
-        string title, OrganizerId organizerId, CancellationToken cancellationToken)
+        string title, UserId organizerId, CancellationToken cancellationToken)
     {
         var spec = new GetEventByTitleAndOrganizerSpecification(title, organizerId);
         return await _eventRepository.AnyAsync(spec, cancellationToken);
     }
 
     public async Task<IReadOnlyList<Event>> GetEventsByOrganizerIdAsync(
-        OrganizerId id, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        UserId id, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         var spec = new EventsByOrganizerSpec(id, pageNumber, pageSize);
         return await _eventRepository.ListAsync(spec, cancellationToken);
