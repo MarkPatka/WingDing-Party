@@ -182,13 +182,17 @@ CREATE INDEX idx_users_username ON users(username);
 
 ```csharp
 // Minimal API
-GET /profiles/{userId}              // Получение профиля
-PUT /profiles/{userId}              // Обновление профиля
-GET /profiles/{userId}/interests    // Интересы пользователя
-POST /profiles/interests            // Добавление интересов
-GET /clubs                          // Список клубов
-POST /clubs                         // Создание клуба
-POST /clubs/{clubId}/join          // Вступление в клуб
+GET /profiles/{userId}              // Получить профиль
+PUT /profiles/{userId}              // Обновить профиль
+GET /profiles/{userId}/interests    // Получить интересы пользователя
+PUT /profiles/interests/{userId}    // Обновить интересы
+GET /clubs/user/{userId}            // Получить список клубов, в которые входит пользователь 
+POST /clubs                         // Создать клуб
+DELETE /club/{clubId}               // Удалить клуб
+POST /clubs/{clubId}/join           // Вступить в клуб
+POST /clubs/{clubId}/leave          // Покинуть клуб
+POST /clubs/search                  // Получить список клубов, отфильтрованных по параметрам (локация, интересы и др. параметры) 
+GET /clubs/users                    // Получить всех участников клуба
 ```
 
 **События Kafka:**
@@ -196,6 +200,7 @@ POST /clubs/{clubId}/join          // Вступление в клуб
 - `user.profile.updated` - обновление профиля
 - `user.interests.updated` - изменение интересов
 - `club.created` - создан новый клуб
+- `club.deleted` - клуб удалён
 
 **Модель данных:**
 ```sql
