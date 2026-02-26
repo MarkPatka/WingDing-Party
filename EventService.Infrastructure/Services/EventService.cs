@@ -55,4 +55,33 @@ public class EventService : IEventService
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return @event;
     }
+
+    public Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteEventAsync(EventId id, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<Event>> SearchEventsAsync(
+        string query, 
+        string? eventType, 
+        string? city, 
+        DateTime? dateFrom, 
+        DateTime? dateTo, 
+        int pageNumber, 
+        int pageSize, 
+        CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<Event>> GetRecommendedEventsAsync(
+        DateTime fromDate, int limit, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }
