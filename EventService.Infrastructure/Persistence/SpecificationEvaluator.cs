@@ -1,5 +1,7 @@
 ﻿using EventService.Application.Persistence;
+using EventService.Domain.Common.Abstract;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace EventService.Infrastructure.Persistence;
 
@@ -20,6 +22,12 @@ public static class SpecificationEvaluator
         if (specification.Criteria != null)
         {
             query = query.Where(specification.Criteria);
+        }
+
+        foreach (var searchTerm in specification.SearchTerms)
+        {
+            var likeExpression = CreateLikeExpression(searchTerm);
+            query = query.Where(likeExpression);
         }
 
         query = specification.Includes
@@ -59,5 +67,32 @@ public static class SpecificationEvaluator
         }
 
         return query;
+    }
+
+    private static Expression<Func<TEntity, bool>> CreateLikeExpression<TEntity>(SearchTerm<TEntity> searchTerm) 
+        where TEntity : class
+    {
+        var parameter = Expression.Parameter(typeof(TEntity), "e");
+        var propertyAccess = Expression.Invoke(searchTerm.PropertySelector, parameter);
+
+        // preperty.ToLower()
+        var toLowerProperty = Expression.Call(propertyAccess,
+            typeof(string).GetMethod("ToLower")!);
+
+        // EF.Functions
+        var efFunctions = Expression.Constant(EF.Functions);
+
+        // "%term%"
+        var pattern = $"%{searchTerm.Value}%";
+
+        // EF.Functions.Like(toLowerProperty, "%term%")
+        var likeMethod = typeof(DbFunctionsExtensions).GetMethod(
+            nameof(DbFunctionsExtensions.Like),
+            [typeof(DbFunctions), typeof(string), typeof(string)])!;
+
+        var likeCall = Expression.Call(likeMethod, efFunctions, toLowerProperty,
+            Expression.Constant(pattern));
+
+        return Expression.Lambda<Func<TEntity, bool>>(likeCall, parameter);
     }
 }

@@ -13,30 +13,31 @@ public class SearchEventsSpecification : BaseSpecification<Event>
         int pageNumber,
         int pageSize)
     {
-        if (!string.IsNullOrWhiteSpace(query))
-            AddCriteria(e => 
-                e.Title.ToLower().Contains(query.ToLower()) ||
-                e.Description.ToLower().Contains(query.ToLower()));
+        AddSearchTerm(e => e.Title, query);
+        AddSearchTerm(e => e.Description, query);
 
         if (!string.IsNullOrWhiteSpace(eventType))
-            AddCriteria(e =>
-                e.EventType.Name.ToLower().Contains(eventType.ToLower()) ||
-                e.EventType.Description!.ToLower().Contains(eventType.ToLower()));
+        {
+            AddSearchTerm(e => e.EventType.Name, eventType);
+            AddSearchTerm(e => e.EventType.Description!, eventType);
+        }
 
         if (!string.IsNullOrWhiteSpace(city))
-            AddCriteria(e => e.Location.City.ToLower().Contains(city.ToLower()));
+            AddSearchTerm(e => e.Location.City, city);
 
         if (dateFrom.HasValue)
-            AddCriteria(e => e.StartDate == dateFrom.Value);
+            AddCriteria(e => e.StartDate >= dateFrom.Value);
 
         if (dateTo.HasValue)
-            AddCriteria(e => e.EndDate == dateTo.Value);
+            AddCriteria(e => e.EndDate <= dateTo.Value);
+
+        ApplyOrderBy(e => 
+            e.Title.ToLower().Contains(query.ToLower()) ? 0 : 1);
+        ApplyOrderBy(e => e.StartDate);
 
         ApplyPaging(
             skip: (pageNumber - 1) * pageSize,
             take: pageSize);
-
-        ApplyOrderByDescending(e => e.StartDate);
 
         ApplyNoTracking();
     }
