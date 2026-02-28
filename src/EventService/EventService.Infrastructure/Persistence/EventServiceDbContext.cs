@@ -1,6 +1,8 @@
 ﻿using EventService.Domain;
+using EventService.Domain.Common.Abstract;
 using EventService.Domain.EventAggregate.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace EventService.Infrastructure.Persistence
 {
@@ -8,6 +10,21 @@ namespace EventService.Infrastructure.Persistence
         : DbContext(options)
     {
         public DbSet<Event> Events { get; set; } = null!;
-        public DbSet<Participant> Participants { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(EventServiceDbContext).Assembly);
+
+            modelBuilder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetProperties())
+                .Where(p => p.IsPrimaryKey())
+                .ToList()
+                .ForEach(e => e.ValueGenerated = ValueGenerated.Never);
+
+            modelBuilder.Ignore<IDomainEvent>();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
