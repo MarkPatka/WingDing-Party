@@ -12,4 +12,6 @@ public sealed class EventStatus : Enumeration
 
     private EventStatus(int id, string name, string? description = null)
         : base(id, name, description) { }
+
+    public static IEnumerable<EventStatus> List => GetAll<EventStatus>();
 }

@@ -34,36 +34,51 @@ public class UnitOfWork : IUnitOfWork
     public bool HasActiveTransaction => _currentTransaction != null;
 
 
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task<int> SaveChangesAsync(
+        CancellationToken cancellationToken = default, int maxRetries = 3)
     {
-        try
+        var retryCount = 0;
+
+        while (retryCount < maxRetries)
         {
-            // transaction
-            // Save changes to database
-            var result = await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                // transaction
+                // Save changes to database
+                var result = await _context.SaveChangesAsync(cancellationToken);
 
-            // table for events
-            // -> transactional outbox message
+                // table for events
+                // -> transactional outbox message
 
-            // -> commit transaction
+                // -> commit transaction
 
-            // Dispatch domain events before saving for transactional consistency
-            await DispatchDomainEventsAsync(cancellationToken);
+                // Dispatch domain events before saving for transactional consistency
+                await DispatchDomainEventsAsync(cancellationToken);
 
-            _logger.LogDebug("Saved {Count} entities to database", result);
+                _logger.LogDebug("Saved {Count} entities to database", result);
 
-            return result;
+                return result;
+            }
+            catch (DbUpdateConcurrencyException ex) when (retryCount < maxRetries - 1)
+            {
+                retryCount++;
+
+                _logger.LogWarning(
+                    "Concurrency retry {Retry}/{MaxRetries}", retryCount, maxRetries);
+
+                foreach (var entry in ex.Entries)
+                    await entry.ReloadAsync(cancellationToken);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update exception occurred while saving changes");
+                throw;
+            }
         }
-        catch (DbUpdateConcurrencyException ex)
-        {
-            _logger.LogError(ex, "Concurrency exception occurred while saving changes");
-            throw;
-        }
-        catch (DbUpdateException ex)
-        {
-            _logger.LogError(ex, "Database update exception occurred while saving changes");
-            throw;
-        }
+
+        throw new InvalidOperationException(
+            $"Failed to save changes after {maxRetries} retries due to concurrency conflicts");
+
     }
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)

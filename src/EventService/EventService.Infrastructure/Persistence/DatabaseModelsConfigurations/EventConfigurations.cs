@@ -5,7 +5,6 @@ using EventService.Domain.EventAggregate.Enumerations;
 using EventService.Domain.EventAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EventService.Infrastructure.Persistence.DatabaseModelsConfigurations;
 
@@ -14,90 +13,211 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
     public void Configure(EntityTypeBuilder<Event> builder)
     {
         ConfigureEventsTable(builder);
-        //ConfigureReviewsTable(builder);
-        // ConfigureParticipantsTable(builder);
+        ConfigureEventTypes(builder);
+        ConfigureLocation(builder);
+        ConfigureParticipantTable(builder);
     }
-    /*
-    private void ConfigureReviewsTable(EntityTypeBuilder<Event> builder)
-    {
-        builder.OwnsMany(r => r.Reviews, rb =>
-        {
-            rb.ToTable("Reviews");
 
-            // IF THE KEY CONSIST OF SEVERAL COLUMNS USE:
-            // rb.HasKey("IdFirst", "IdSecond");
-            // or rb.HasKey(new[] { x.Id_1, x.Id_2 });
-
-            rb.HasKey(nameof(Review.Id), "ReviewId");
-
-            rb.WithOwner().HasForeignKey("EventId");
-
-            rb.Property(x => x.Id)
-            .ValueGeneratedNever()
-            .HasConversion(
-                id => id.Value,
-                value => ReviewId.Create(value));
-
-            rb.Property(x => x.CreatedAt);
-            rb.Property(x => x.Comment)
-                .HasMaxLength(200);
-
-            rb.Property(x => x.Rating); // restrict to be 1 to 100 in domain
-            rb.Property(x => x.ReviewerName);
-        });
-
-        builder.Metadata
-            .FindNavigation(nameof(Event.Reviews))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
-    }
-    */
-
-    // COMPLETE PARTICIPANT TABLE CONFIGURATION 
-
-    private void ConfigureEventsTable(EntityTypeBuilder<Event> builder)
+    private static void ConfigureEventsTable(EntityTypeBuilder<Event> builder)
     {
         builder.ToTable("Events");
 
         builder.HasKey(e => e.Id);
-        // MAPPING ID VALUE OBJECT
+
         builder.Property(e => e.Id)
+            .HasColumnName("EventId")
             .ValueGeneratedNever()
             .HasConversion(
-                id => id.Value,                  // ЛОГИКА ЕСЛИ ПОЛУЧАЕМ НА ВХОД EventId, а вернуть должны Guid
-                value => EventId.Create(value)); // ЛОГИКА ЕСЛИ ПОЛУЧАЕМ НА ВХОД Guid, а вернуть должны EventId
+                id => id.Value,
+                value => EventId.Create(value));
 
         builder.Property(e => e.Title)
-            .HasMaxLength(100);
+            .HasMaxLength(100)
+            .IsRequired();
 
         builder.Property(e => e.Description)
             .HasMaxLength(500);
 
-        // MAPPING ENUMERATIONS
-        builder.Property(x => x.Status)
-            .HasConversion(
-            new ValueConverter<EventStatus, string>(
-                type => type.Name,
-                value => Enumeration.GetFromName<EventStatus>(value)));
-
-        // CHILDREN ENTITY WITH IDENTITY
-        builder.OwnsOne(e => e.EventType, et =>
-        {
-            et.HasKey(x => x.Id);
-
-            builder.Property(x => x.EventType.Id)
-            .ValueGeneratedNever()
+        // OrganizerId (ссылка на User из UserService)
+        builder.Property(e => e.OrganizerId)
             .HasConversion(
                 id => id.Value,
-                value => EventTypeId.Create(value));
+                value => UserId.Create(value))
+            .IsRequired();
+
+        builder.Property(e => e.OrganizerName)
+            .HasMaxLength(100)
+            .IsRequired();
+
+        builder.Property(e => e.Status)
+            .HasColumnName("StatusId")
+            .HasConversion(
+                status => status.Id,
+                value => Enumeration.GetFromId<EventStatus>(value))
+            .IsRequired();
+
+        builder.HasOne<EventStatus>()
+            .WithMany()
+            .HasForeignKey("StatusId");
+
+        // Данные отзывов (обновляются через поглощение событий ReviewService)
+        builder.Property(e => e.ReviewsCount)
+            .HasDefaultValue(0)
+            .IsRequired();
+
+        builder.Property(e => e.AverageRating)
+            .HasPrecision(3, 2)
+            .IsRequired(false);
+
+        builder.Property(e => e.StartDate)
+            .IsRequired();
+
+        builder.Property(e => e.EndDate)
+            .IsRequired();
+
+        builder.Property(e => e.MaxParticipants)
+            .IsRequired();
+
+        builder.Property(e => e.CreatedAt)
+            .IsRequired();
+
+        builder.Property(e => e.UpdatedAt);
+
+        // Автоматически bytea(8000) в PostgreSQL
+        builder.Property<byte[]>("RowVersion")
+            .IsRowVersion();
+
+        builder.HasIndex(e => e.OrganizerId)
+            .HasDatabaseName("IX_Events_OrganizerId");
+
+        builder.HasIndex(e => e.Status)
+            .HasDatabaseName("IX_Events_StatusId");
+
+        builder.HasIndex(e => e.StartDate)
+            .HasDatabaseName("IX_Events_StartDate");
+
+        builder.HasIndex(e => new { e.Status, e.StartDate })
+            .HasDatabaseName("IX_Events_StatusId_StartDate");
+
+        builder.HasIndex(e => new { e.OrganizerId, e.Status })
+            .HasDatabaseName("IX_Events_OrganizerId_StatusId");
+    }
+    private static void ConfigureEventTypes(EntityTypeBuilder<Event> builder)
+    {
+        builder.OwnsOne(e => e.EventType, et =>
+        {
+            et.Property(x => x.Id)
+                .HasColumnName("EventTypeId")
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => EventTypeId.Create(value))
+                .IsRequired();
 
             et.Property(x => x.Name)
+                .HasColumnName("EventTypeName")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            et.Property(x => x.Description)
+                .HasColumnName("EventTypeDescription")
+                .HasMaxLength(500);
+
+            et.Property(x => x.Icon)
+                .HasColumnName("EventTypeIcon")
+                .HasMaxLength(200);
+        });
+    }
+    private static void ConfigureLocation(EntityTypeBuilder<Event> builder)
+    {
+        builder.OwnsOne(e => e.Location, lb =>
+        {
+            lb.Property(l => l.Address)
+                .HasColumnName("LocationAddress")
+                .HasMaxLength(200);
+
+            lb.Property(l => l.City)
+                .HasColumnName("LocationCity")
                 .HasMaxLength(100);
 
-            et.Property(x => x.Description);
-            et.Property(x => x.Icon);
+            lb.Property(l => l.Country)
+                .HasColumnName("LocationCountry")
+                .HasMaxLength(100);
+
+            lb.Property(l => l.Latitude)
+                .HasColumnName("LocationLatitude")
+                .HasPrecision(10, 7);
+
+            lb.Property(l => l.Longitude)
+                .HasColumnName("LocationLongitude")
+                .HasPrecision(10, 7);
+        });
+    }
+    private static void ConfigureParticipantTable(EntityTypeBuilder<Event> builder)
+    {
+        builder.OwnsMany(e => e.Participants, pb =>
+        {
+            pb.ToTable("Participants");
+
+            pb.HasKey(nameof(Participant.Id));
+
+            // OwnsMany по умолчанию использует DeleteBehavior.Cascade
+            // Прямая установка через Metadata.DeleteBehavior = DeleteBehavior.Cascade
+            pb.WithOwner()
+                .HasForeignKey("EventId");
+
+            pb.Property(p => p.Id)
+                .HasColumnName("ParticipantId")
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => ParticipantId.Create(value));
+
+            pb.Property(p => p.EventId)
+                .HasConversion(
+                    id => id.Value,
+                    value => EventId.Create(value));
+
+            pb.Property(p => p.UserId)
+                .HasConversion(
+                    id => id.Value,
+                    value => UserId.Create(value));
+
+            pb.Property(p => p.UserName)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            pb.Property(p => p.RegisteredAt)
+                .IsRequired();
+
+            pb.Property(p => p.Status)
+                .HasColumnName("StatusId")
+                .HasConversion(
+                    status => status.Id,
+                    value => Enumeration.GetFromId<ParticipantStatus>(value))
+                .IsRequired();
+
+            pb.HasOne<ParticipantStatus>()
+                .WithMany()
+                .HasForeignKey("StatusId");
+
+            // один юзер не может зарегистрироваться дважды на одно мероприятие
+            pb.HasIndex(p => new { p.EventId, p.UserId })
+                .IsUnique()
+                .HasDatabaseName("IX_Participants_EventId_UserId");
+
+            pb.HasIndex(p => p.UserId)
+            .HasDatabaseName("IX_Participants_UserId");
+
+            pb.HasIndex(p => p.Status)
+                .HasDatabaseName("IX_Participants_StatusId");
         });
 
-        builder.Property(e => e.StartDate);
-        builder.Property(e => e.EndDate);
+        builder.Navigation(d => d.Participants)
+            .Metadata.SetField("_participants");
+
+        builder.Metadata
+            .FindNavigation(nameof(Event.Participants))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
