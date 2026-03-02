@@ -9,7 +9,6 @@ public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
     public Expression<Func<TEntity, bool>>? Criteria { get; private set; }
     public List<Expression<Func<TEntity, object>>> Includes { get; } = [];
     public List<string> IncludeStrings { get; } = [];
-    public List<SearchTerm<TEntity>> SearchTerms { get; } = [];
 
     public Expression<Func<TEntity, object>>? OrderBy { get; private set; }
     public Expression<Func<TEntity, object>>? OrderByDescending { get; private set; }
@@ -25,8 +24,11 @@ public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
     protected BaseSpecification() { }
     protected BaseSpecification(Expression<Func<TEntity, bool>> criteria) => Criteria = criteria;
 
-    protected virtual void AddCriteria(Expression<Func<TEntity, bool>> criteria) =>
+    protected virtual void AddAndCriteria(Expression<Func<TEntity, bool>> criteria) =>
         Criteria = Criteria == null ? criteria : Criteria.And(criteria);
+
+    protected virtual void AddOrCriteria(Expression<Func<TEntity, bool>> criteria) =>
+        Criteria = Criteria == null ? criteria : Criteria.Or(criteria);
 
     // Tell EF Core to eager load related entities (prevent N+1 queries)
     // One query fetches instead of separate queries (avoids N+1 problem) 
@@ -39,16 +41,6 @@ public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
     // AddInclude("Participants.Reviews")
     protected virtual void AddInclude(string includeString) =>
         IncludeStrings.Add(includeString);
-
-    // Tell EF Core search with EF.Functions.Like()
-    // AddSearchTerm(e => e.Property, "search string")
-    protected virtual void AddSearchTerm(
-        Expression<Func<TEntity, string>> selector,
-        string value)
-    {
-        if (!string.IsNullOrWhiteSpace(value))
-            SearchTerms.Add(new SearchTerm<TEntity>(selector, value.ToLower()));
-    }
 
     protected virtual void ApplyOrderBy(Expression<Func<TEntity, object>> orderByExpression) =>
         OrderBy = orderByExpression;

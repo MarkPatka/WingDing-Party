@@ -8,7 +8,6 @@ public interface ISpecification<TEntity>
     Expression<Func<TEntity, bool>>? Criteria { get; }
     List<Expression<Func<TEntity, object>>> Includes { get; }
     List<string> IncludeStrings { get; }
-    List<SearchTerm<TEntity>> SearchTerms { get; }
 
     Expression<Func<TEntity, object>>? OrderBy { get; }
     Expression<Func<TEntity, object>>? OrderByDescending { get; }
@@ -21,8 +20,3 @@ public interface ISpecification<TEntity>
     bool AsNoTracking { get; }
     bool AsSplitQuery { get; }
 }
-
-public record SearchTerm<TEntity>(
-    Expression<Func<TEntity, string>> PropertySelector, // e => e.Title
-    string Value                                        // "concert"
-) where TEntity : class;

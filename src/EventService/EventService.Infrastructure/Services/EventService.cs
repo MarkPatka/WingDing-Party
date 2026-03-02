@@ -66,8 +66,8 @@ public class EventService : IEventService
         throw new NotImplementedException();
     }
 
-    public Task<IReadOnlyList<Event>> SearchEventsAsync(
-        string query, 
+    public Task<IReadOnlyList<Event>> SearchEventsByTextAndFiltersAsync(
+        string text, 
         string? eventType, 
         string? city, 
         DateTime? dateFrom, 
@@ -79,8 +79,8 @@ public class EventService : IEventService
         throw new NotImplementedException();
     }
 
-    public Task<IReadOnlyList<Event>> GetRecommendedEventsAsync(
-        DateTime fromDate, int limit, CancellationToken cancellationToken)
+    public Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
+        DateTime startDate, int limit, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
