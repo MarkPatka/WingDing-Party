@@ -15,8 +15,8 @@ public interface IEventService
         CancellationToken cancellationToken = default);
     public Task<Event> CreateEventAsync(Event @event, CancellationToken cancellationToken);
     public Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken);
-    public Task<bool> DeleteEventAsync(EventId id, CancellationToken cancellationToken);
-    public Task<IReadOnlyList<Event>> SearchEventsByTextAndFiltersAsync(
+    public Task<bool> DeleteEventAsync(Event @event, CancellationToken cancellationToken);
+    public Task<IReadOnlyList<Event>> GetEventsByTextAndFiltersAsync(
         string text, 
         string? eventType, 
         string? city, 

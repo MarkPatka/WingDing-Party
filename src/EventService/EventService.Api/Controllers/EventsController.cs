@@ -51,4 +51,5 @@ public class EventsController : ControllerBase
         // get the handler response 
         return Ok(response);
     }
+
 }

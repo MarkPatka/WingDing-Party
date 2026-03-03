@@ -3,9 +3,9 @@ using EventService.Domain.EventAggregate.Enumerations;
 
 namespace EventService.Application.Persistence.Specifications;
 
-public class GetTopRatedEventsByStartDateWithLimitSpecification : BaseSpecification<Event>
+public class TopRatedEventsByStartDateWithLimitSpecification : BaseSpecification<Event>
 {
-    public GetTopRatedEventsByStartDateWithLimitSpecification(DateTime startDate, int limit)
+    public TopRatedEventsByStartDateWithLimitSpecification(DateTime startDate, int limit)
     {
         AddAndCriteria(e => e.StartDate >= startDate);
         AddAndCriteria(e => e.Status == EventStatus.Active);

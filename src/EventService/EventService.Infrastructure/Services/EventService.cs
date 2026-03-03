@@ -56,17 +56,20 @@ public class EventService : IEventService
         return @event;
     }
 
-    public Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken)
+    public async Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _eventRepository.UpdateAsync(@event, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return @event;
     }
 
-    public Task<bool> DeleteEventAsync(EventId id, CancellationToken cancellationToken)
+    public async Task<bool> DeleteEventAsync(Event @event, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _eventRepository.DeleteAsync(@event, cancellationToken);
+        return await _unitOfWork.SaveEntitiesAsync(cancellationToken);
     }
 
-    public Task<IReadOnlyList<Event>> SearchEventsByTextAndFiltersAsync(
+    public async Task<IReadOnlyList<Event>> GetEventsByTextAndFiltersAsync(
         string text, 
         string? eventType, 
         string? city, 
@@ -76,12 +79,15 @@ public class EventService : IEventService
         int pageSize, 
         CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var spec = new EventsByTextAndFiltersSpecification(
+            text, eventType, city, dateFrom, dateTo, pageNumber, pageSize);
+        return await _eventRepository.ListAsync(spec, cancellationToken);
     }
 
-    public Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
+    public async Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
         DateTime startDate, int limit, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var spec = new TopRatedEventsByStartDateWithLimitSpecification(startDate, limit);
+        return await _eventRepository.ListAsync(spec, cancellationToken);
     }
 }

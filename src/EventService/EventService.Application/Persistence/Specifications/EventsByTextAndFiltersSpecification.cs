@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 
 namespace EventService.Application.Persistence.Specifications;
 
-public class SearchEventsByTextAndFiltersSpecification : BaseSpecification<Event>
+public class EventsByTextAndFiltersSpecification : BaseSpecification<Event>
 {
-    public SearchEventsByTextAndFiltersSpecification(
+    public EventsByTextAndFiltersSpecification(
         string text,
         string? eventType,
         string? city,
