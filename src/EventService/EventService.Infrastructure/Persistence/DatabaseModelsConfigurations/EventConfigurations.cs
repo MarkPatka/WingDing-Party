@@ -56,10 +56,6 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
                 value => Enumeration.GetFromId<EventStatus>(value))
             .IsRequired();
 
-        builder.HasOne<EventStatus>()
-            .WithMany()
-            .HasForeignKey("StatusId");
-
         // Данные отзывов (обновляются через поглощение событий ReviewService)
         builder.Property(e => e.ReviewsCount)
             .HasDefaultValue(0)
@@ -196,10 +192,6 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
                     status => status.Id,
                     value => Enumeration.GetFromId<ParticipantStatus>(value))
                 .IsRequired();
-
-            pb.HasOne<ParticipantStatus>()
-                .WithMany()
-                .HasForeignKey("StatusId");
 
             // один юзер не может зарегистрироваться дважды на одно мероприятие
             pb.HasIndex(p => new { p.EventId, p.UserId })
