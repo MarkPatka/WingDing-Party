@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using EventService.Application.EventManagement.Command.CreateEventCommand;
 using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 using EventService.Contracts.Events;
+using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
+using EventService.Application.Services;
 
 namespace EventService.Api.Controllers;
 
@@ -12,14 +14,13 @@ public class EventsController : ControllerBase
     private readonly ISender _sender;
     private readonly IMapper _mapper;
 
-
     public EventsController(ISender sender, IMapper mapper)
     {
         _sender = sender;
         _mapper = mapper;
     }
 
-    [HttpPost("create")]
+    [HttpPost("CreateEvent")]
     public async Task<IActionResult> CreateEvent(CreateEventRequest request)
     {
         // request -> map to command
@@ -36,7 +37,7 @@ public class EventsController : ControllerBase
     }
 
 
-    [HttpGet("get")]
+    [HttpGet("GetAllUserEvents")]
     public async Task<IActionResult> GetAllUserEvents(GetAllUserEventsRequest request)
     {
         // request -> map to command
@@ -52,4 +53,17 @@ public class EventsController : ControllerBase
         return Ok(response);
     }
 
+
+    [HttpGet("GetEventsByTextAndFilters")]
+    public async Task<IActionResult> GetEventsByTextAndFilters(
+        GetEventsByTextAndFiltersRequest request)
+    {
+        var query = _mapper.Map<GetEventsByTextAndFiltersQuery>(request);
+
+        var result = await _sender.Send(query);
+
+        var response = _mapper.Map<GetEventsByTextAndFiltersResponse>(result);
+
+        return Ok(response);
+    }
 }
