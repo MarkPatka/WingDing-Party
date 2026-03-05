@@ -8,10 +8,24 @@ public class GetEventsByTextAndFiltersQueryValidator
     public GetEventsByTextAndFiltersQueryValidator()
     {
         RuleFor(x => x.Text).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.EventType).MaximumLength(100);
-        RuleFor(x => x.City).MaximumLength(100);
-        RuleFor(x => x.DateFrom).GreaterThanOrEqualTo(DateTime.UtcNow);
-        RuleFor(x => x.DateTo).GreaterThanOrEqualTo(x => x.DateFrom);
-        RuleFor(x => x.PageSize).LessThan(200);
+
+        RuleFor(x => x.EventType)
+            .MaximumLength(100)
+            .When(x => !string.IsNullOrWhiteSpace(x.EventType));
+
+        RuleFor(x => x.City)
+            .MaximumLength(100)
+            .When(x => !string.IsNullOrWhiteSpace(x.City));
+
+        RuleFor(x => x.DateFrom)
+            .GreaterThanOrEqualTo(DateTime.UtcNow)
+            .When(x => x.DateFrom.HasValue);
+
+        RuleFor(x => x.DateTo)
+            .GreaterThanOrEqualTo(x => x.DateFrom)
+            .When(x => x.DateTo.HasValue);
+
+        RuleFor(x => x.PageNumber).GreaterThan(0);
+        RuleFor(x => x.PageSize).InclusiveBetween(1, 200);
     }
 }

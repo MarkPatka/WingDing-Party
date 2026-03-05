@@ -1,6 +1,4 @@
-﻿using EventService.Application.Common.Extensions;
-using EventService.Domain;
-using System.Linq.Expressions;
+﻿using EventService.Domain;
 
 namespace EventService.Application.Persistence.Specifications;
 
@@ -15,20 +13,14 @@ public class EventsByTextAndFiltersSpecification : BaseSpecification<Event>
         int pageNumber,
         int pageSize)
     {
-        Expression<Func<Event, bool>> titleCriteria =
-            e => e.Title.ToLower().Contains(text.ToLower());
-        Expression<Func<Event, bool>> descriptionCriteria =
-            e => e.Description.ToLower().Contains(text.ToLower());
-        AddAndCriteria(titleCriteria.Or(descriptionCriteria));
+        AddOrCriteriasIntoAndGroup(
+            e => e.Title.ToLower().Contains(text.ToLower()),
+            e => e.Description.ToLower().Contains(text.ToLower()));
 
         if (!string.IsNullOrWhiteSpace(eventType))
-        {
-            Expression<Func<Event, bool>> eventTypeNameCriteria =
-                e => e.EventType.Name.ToLower().Contains(eventType.ToLower());
-            Expression<Func<Event, bool>> eventTypeDescriptionCriteria =
-                e => e.EventType.Description!.ToLower().Contains(eventType.ToLower());
-            AddAndCriteria(eventTypeNameCriteria.Or(eventTypeDescriptionCriteria));
-        }
+            AddOrCriteriasIntoAndGroup(
+                e => e.EventType.Name.ToLower().Contains(eventType.ToLower()),
+                e => e.EventType.Description!.ToLower().Contains(eventType.ToLower()));
 
         if (!string.IsNullOrWhiteSpace(city))
             AddAndCriteria(e => e.Location.City.ToLower().Contains(city.ToLower()));

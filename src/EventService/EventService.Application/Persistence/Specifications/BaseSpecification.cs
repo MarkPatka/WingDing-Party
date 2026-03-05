@@ -30,6 +30,19 @@ public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
     protected virtual void AddOrCriteria(Expression<Func<TEntity, bool>> criteria) =>
         Criteria = Criteria == null ? criteria : Criteria.Or(criteria);
 
+    protected virtual void AddOrCriteriasIntoAndGroup(
+        params Expression<Func<TEntity, bool>>[] criterias)
+    {
+        if (criterias.Length == 0)
+            return;
+
+        var group = criterias[0];
+        for (int i = 1; i < criterias.Length; i++)
+            group = group.Or(criterias[i]);
+
+        Criteria = Criteria == null ? group : Criteria.And(group);
+    }
+
     // Tell EF Core to eager load related entities (prevent N+1 queries)
     // One query fetches instead of separate queries (avoids N+1 problem) 
     // USING .AddInclude(e => e.Participants)
