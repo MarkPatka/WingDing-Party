@@ -98,7 +98,7 @@ public static class DependencyInjection
                     path: "../logs/Information/log-.txt",
                     rollingInterval: RollingInterval.Day,
                     outputTemplate: "{Timestamp:dd-MM-yyyy HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}");
-            })
+            })            
             .WriteTo.Logger(l =>
             {
                 l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning)

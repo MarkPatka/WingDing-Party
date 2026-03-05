@@ -32,7 +32,7 @@ namespace EventService.Infrastructure.Migrations
                     StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     MaxParticipants = table.Column<int>(type: "integer", nullable: false),
-                    StatusId = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     OrganizerId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrganizerName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -81,7 +81,7 @@ namespace EventService.Infrastructure.Migrations
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     RegisteredAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    StatusId = table.Column<int>(type: "integer", nullable: false)
+                    Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,9 +122,9 @@ namespace EventService.Infrastructure.Migrations
                 column: "OrganizerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_OrganizerId_StatusId",
+                name: "IX_Events_OrganizerId_Status",
                 table: "Events",
-                columns: new[] { "OrganizerId", "StatusId" });
+                columns: new[] { "OrganizerId", "Status" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_StartDate",
@@ -132,14 +132,14 @@ namespace EventService.Infrastructure.Migrations
                 column: "StartDate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_StatusId",
+                name: "IX_Events_Status",
                 table: "Events",
-                column: "StatusId");
+                column: "Status");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_StatusId_StartDate",
+                name: "IX_Events_Status_StartDate",
                 table: "Events",
-                columns: new[] { "StatusId", "StartDate" });
+                columns: new[] { "Status", "StartDate" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Participants_EventId_UserId",
@@ -148,9 +148,9 @@ namespace EventService.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Participants_StatusId",
+                name: "IX_Participants_Status",
                 table: "Participants",
-                column: "StatusId");
+                column: "Status");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Participants_UserId",

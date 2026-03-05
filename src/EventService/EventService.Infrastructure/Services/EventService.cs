@@ -52,7 +52,6 @@ public class EventService : IEventService
         CancellationToken cancellationToken)
     {
         await _eventRepository.AddAsync(@event, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return @event;
     }
 

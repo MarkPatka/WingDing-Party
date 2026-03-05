@@ -50,10 +50,10 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
             .IsRequired();
 
         builder.Property(e => e.Status)
-            .HasColumnName("StatusId")
             .HasConversion(
-                status => status.Id,
-                value => Enumeration.GetFromId<EventStatus>(value))
+                status => status.Name,
+                value => Enumeration.GetFromName<EventStatus>(value))
+            .HasMaxLength(50)
             .IsRequired();
 
         // Данные отзывов (обновляются через поглощение событий ReviewService)
@@ -87,16 +87,16 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
             .HasDatabaseName("IX_Events_OrganizerId");
 
         builder.HasIndex(e => e.Status)
-            .HasDatabaseName("IX_Events_StatusId");
+            .HasDatabaseName("IX_Events_Status");
 
         builder.HasIndex(e => e.StartDate)
             .HasDatabaseName("IX_Events_StartDate");
 
         builder.HasIndex(e => new { e.Status, e.StartDate })
-            .HasDatabaseName("IX_Events_StatusId_StartDate");
+            .HasDatabaseName("IX_Events_Status_StartDate");
 
         builder.HasIndex(e => new { e.OrganizerId, e.Status })
-            .HasDatabaseName("IX_Events_OrganizerId_StatusId");
+            .HasDatabaseName("IX_Events_OrganizerId_Status");
     }
     private static void ConfigureEventTypes(EntityTypeBuilder<Event> builder)
     {
@@ -187,10 +187,10 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
                 .IsRequired();
 
             pb.Property(p => p.Status)
-                .HasColumnName("StatusId")
                 .HasConversion(
-                    status => status.Id,
-                    value => Enumeration.GetFromId<ParticipantStatus>(value))
+                    status => status.Name,
+                    value => Enumeration.GetFromName<ParticipantStatus>(value))
+                .HasMaxLength(50)
                 .IsRequired();
 
             // один юзер не может зарегистрироваться дважды на одно мероприятие
@@ -202,7 +202,7 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
             .HasDatabaseName("IX_Participants_UserId");
 
             pb.HasIndex(p => p.Status)
-                .HasDatabaseName("IX_Participants_StatusId");
+                .HasDatabaseName("IX_Participants_Status");
         });
 
         builder.Navigation(d => d.Participants)

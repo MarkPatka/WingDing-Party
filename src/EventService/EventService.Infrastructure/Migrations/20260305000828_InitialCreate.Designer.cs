@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventService.Infrastructure.Migrations
 {
     [DbContext(typeof(EventServiceDbContext))]
-    [Migration("20260304213305_InitialCreate")]
+    [Migration("20260305000828_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -70,9 +70,10 @@ namespace EventService.Infrastructure.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("StatusId");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -91,13 +92,13 @@ namespace EventService.Infrastructure.Migrations
                         .HasDatabaseName("IX_Events_StartDate");
 
                     b.HasIndex("Status")
-                        .HasDatabaseName("IX_Events_StatusId");
+                        .HasDatabaseName("IX_Events_Status");
 
                     b.HasIndex("OrganizerId", "Status")
-                        .HasDatabaseName("IX_Events_OrganizerId_StatusId");
+                        .HasDatabaseName("IX_Events_OrganizerId_Status");
 
                     b.HasIndex("Status", "StartDate")
-                        .HasDatabaseName("IX_Events_StatusId_StartDate");
+                        .HasDatabaseName("IX_Events_Status_StartDate");
 
                     b.ToTable("Events", (string)null);
                 });
@@ -241,9 +242,10 @@ namespace EventService.Infrastructure.Migrations
                             b1.Property<DateTime>("RegisteredAt")
                                 .HasColumnType("timestamp without time zone");
 
-                            b1.Property<int>("Status")
-                                .HasColumnType("integer")
-                                .HasColumnName("StatusId");
+                            b1.Property<string>("Status")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
 
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
@@ -256,7 +258,7 @@ namespace EventService.Infrastructure.Migrations
                             b1.HasKey("Id");
 
                             b1.HasIndex("Status")
-                                .HasDatabaseName("IX_Participants_StatusId");
+                                .HasDatabaseName("IX_Participants_Status");
 
                             b1.HasIndex("UserId")
                                 .HasDatabaseName("IX_Participants_UserId");
