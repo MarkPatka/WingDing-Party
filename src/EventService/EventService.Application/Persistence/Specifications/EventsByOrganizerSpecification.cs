@@ -7,7 +7,7 @@ public class EventsByOrganizerSpec : BaseSpecification<Event>
 {
     public EventsByOrganizerSpec(UserId organizerId, int pageNumber, int pageSize)
     {
-        AddCriteria(e => e.OrganizerId == organizerId);
+        AddAndCriteria(e => e.OrganizerId == organizerId);
         ApplyOrderByDescending(e => e.CreatedAt);
 
         // Page 1, Size 10 → Skip 0, Take 10

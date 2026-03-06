@@ -15,9 +15,9 @@ public interface IEventService
         CancellationToken cancellationToken = default);
     public Task<Event> CreateEventAsync(Event @event, CancellationToken cancellationToken);
     public Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken);
-    public Task<bool> DeleteEventAsync(EventId id, CancellationToken cancellationToken);
-    public Task<IReadOnlyList<Event>> SearchEventsAsync(
-        string query, 
+    public Task<bool> DeleteEventAsync(Event @event, CancellationToken cancellationToken);
+    public Task<IReadOnlyList<Event>> GetEventsByTextAndFiltersAsync(
+        string text, 
         string? eventType, 
         string? city, 
         DateTime? dateFrom, 
@@ -25,6 +25,6 @@ public interface IEventService
         int pageNumber,
         int pageSize,
         CancellationToken cancellationToken = default);
-    public Task<IReadOnlyList<Event>> GetRecommendedEventsAsync(
-        DateTime fromDate, int limit, CancellationToken cancellationToken);
+    public Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
+        DateTime startDate, int limit, CancellationToken cancellationToken);
 }

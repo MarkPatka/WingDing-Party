@@ -7,8 +7,8 @@ public class GetEventByTitleAndOrganizerSpecification : BaseSpecification<Event>
 {
     public GetEventByTitleAndOrganizerSpecification(string title, UserId OrganizerId)
     {
-        AddCriteria(x => x.Title == title);
-        AddCriteria(x => x.OrganizerId == OrganizerId);
+        AddAndCriteria(x => x.Title == title);
+        AddAndCriteria(x => x.OrganizerId == OrganizerId);
         ApplyNoTracking();
     }
 }

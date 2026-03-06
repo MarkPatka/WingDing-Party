@@ -3,12 +3,12 @@ using EventService.Domain.EventAggregate.Enumerations;
 
 namespace EventService.Application.Persistence.Specifications;
 
-public class RecommendedEventsSpecification : BaseSpecification<Event>
+public class TopRatedEventsByStartDateWithLimitSpecification : BaseSpecification<Event>
 {
-    public RecommendedEventsSpecification(DateTime fromDate, int limit)
+    public TopRatedEventsByStartDateWithLimitSpecification(DateTime startDate, int limit)
     {
-        AddCriteria(e => e.StartDate >= fromDate);
-        AddCriteria(e => e.Status == EventStatus.Active);
+        AddAndCriteria(e => e.StartDate >= startDate);
+        AddAndCriteria(e => e.Status == EventStatus.Active);
 
         ApplyOrderByDescending(e => e.AverageRating ?? 0m);
 
