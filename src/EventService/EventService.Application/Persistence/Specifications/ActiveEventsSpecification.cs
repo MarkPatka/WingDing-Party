@@ -7,8 +7,8 @@ public class ActiveEventsSpecification : BaseSpecification<Event>
 {
     public ActiveEventsSpecification(DateTime fromDate)
     {
-        AddCriteria(e => e.Status == EventStatus.Active);
-        AddCriteria(e => e.StartDate >= fromDate);
+        AddAndCriteria(e => e.Status == EventStatus.Active);
+        AddAndCriteria(e => e.StartDate >= fromDate);
         ApplyOrderBy(e => e.StartDate);
         ApplyNoTracking();
     }

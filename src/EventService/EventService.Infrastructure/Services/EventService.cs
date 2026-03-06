@@ -20,14 +20,14 @@ public class EventService : IEventService
     }
 
     public async Task<bool> CheckEventNotExists(
-        string title, OrganizerId organizerId, CancellationToken cancellationToken)
+        string title, UserId organizerId, CancellationToken cancellationToken)
     {
         var spec = new GetEventByTitleAndOrganizerSpecification(title, organizerId);
         return await _eventRepository.AnyAsync(spec, cancellationToken);
     }
 
     public async Task<IReadOnlyList<Event>> GetEventsByOrganizerIdAsync(
-        OrganizerId id, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        UserId id, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         var spec = new EventsByOrganizerSpec(id, pageNumber, pageSize);
         return await _eventRepository.ListAsync(spec, cancellationToken);
@@ -54,5 +54,40 @@ public class EventService : IEventService
         await _eventRepository.AddAsync(@event, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return @event;
+    }
+
+    public async Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken)
+    {
+        await _eventRepository.UpdateAsync(@event, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return @event;
+    }
+
+    public async Task<bool> DeleteEventAsync(Event @event, CancellationToken cancellationToken)
+    {
+        await _eventRepository.DeleteAsync(@event, cancellationToken);
+        return await _unitOfWork.SaveEntitiesAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<Event>> GetEventsByTextAndFiltersAsync(
+        string text, 
+        string? eventType, 
+        string? city, 
+        DateTime? dateFrom, 
+        DateTime? dateTo, 
+        int pageNumber, 
+        int pageSize, 
+        CancellationToken cancellationToken = default)
+    {
+        var spec = new EventsByTextAndFiltersSpecification(
+            text, eventType, city, dateFrom, dateTo, pageNumber, pageSize);
+        return await _eventRepository.ListAsync(spec, cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
+        DateTime startDate, int limit, CancellationToken cancellationToken)
+    {
+        var spec = new TopRatedEventsByStartDateWithLimitSpecification(startDate, limit);
+        return await _eventRepository.ListAsync(spec, cancellationToken);
     }
 }

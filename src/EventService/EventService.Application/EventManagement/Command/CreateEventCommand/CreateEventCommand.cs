@@ -7,11 +7,11 @@ namespace EventService.Application.EventManagement.Command.CreateEventCommand;
 
 public record CreateEventCommand(
     string Title,
-    EventType EventType,
+    Guid EventType,
     DateTime StartDate,
     DateTime EndDate,
     int MaxParticipants,
-    OrganizerId OrganizerId,
+    Guid OrganizerId,
     string? Description = null,
     Location? Location = null
     ) : IRequest<CreateEventResult>;
