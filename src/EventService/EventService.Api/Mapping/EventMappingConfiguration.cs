@@ -42,8 +42,8 @@ public class EventMappingConfiguration : IRegister
 
         config.NewConfig<GetEventsByTextAndFiltersRequest, GetEventsByTextAndFiltersQuery>();
         config.NewConfig<GetEventsByTextAndFiltersResult, GetEventsByTextAndFiltersResponse>();
-        
-    	private static Location MapLocation(LocationFullDto dto) =>
+    }
+    private static Location MapLocation(LocationFullDto dto) =>
             Location.Create(
                 dto.Address,
                 dto.City,
@@ -51,5 +51,4 @@ public class EventMappingConfiguration : IRegister
                 dto.Latitude,
                 dto.Longitude
             );
-    }
 }
