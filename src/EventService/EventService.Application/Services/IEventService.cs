@@ -6,7 +6,7 @@ namespace EventService.Application.Services;
 public interface IEventService
 {
     public Task<IReadOnlyList<Event>> GetEventsByOrganizerIdAsync(
-        UserId id, int pageNumber, int pageSize, CancellationToken cancellationToken);
+        UserId id, int pageNumber, int pageSize, CancellationToken cancellationToken = default);
     public Task<bool> CheckEventNotExists(
         string title, UserId request, CancellationToken cancellationToken);
     public Task<Event?> GetEventByIdAsync(
