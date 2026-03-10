@@ -1,6 +1,4 @@
 ﻿using EventService.Contracts.DTO;
-using EventService.Domain.EventAggregate.Entities;
-using EventService.Domain.EventAggregate.ValueObjects;
 
 namespace EventService.Contracts.Events;
 

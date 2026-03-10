@@ -28,7 +28,10 @@ public class CreateEventCommandHandler
     {
         // check if not exists
         var eventExists = await _eventService
-            .CheckEventNotExists(request.Title, UserId.Create(request.OrganizerId), cancellationToken); /// NEW 
+            .CheckEventNotExists(
+                request.Title, 
+                UserId.Create(request.OrganizerId), 
+                cancellationToken);
 
         if (eventExists)
             throw new Exception($"Event already exists");

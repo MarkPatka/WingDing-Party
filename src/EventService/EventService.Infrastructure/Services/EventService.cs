@@ -9,14 +9,10 @@ namespace EventService.Infrastructure.Services;
 public class EventService : IEventService
 {
     private readonly IRepository<Event, EventId> _eventRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public EventService(
-        IRepository<Event, EventId> eventRepository,
-        IUnitOfWork unitOfWork)
+    public EventService(IRepository<Event, EventId> eventRepository)
     {
         _eventRepository = eventRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<bool> CheckEventNotExists(
@@ -58,14 +54,13 @@ public class EventService : IEventService
     public async Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken)
     {
         await _eventRepository.UpdateAsync(@event, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return @event;
     }
 
     public async Task<bool> DeleteEventAsync(Event @event, CancellationToken cancellationToken)
     {
         await _eventRepository.DeleteAsync(@event, cancellationToken);
-        return await _unitOfWork.SaveEntitiesAsync(cancellationToken);
+        return true;
     }
 
     public async Task<IReadOnlyList<Event>> GetEventsByTextAndFiltersAsync(

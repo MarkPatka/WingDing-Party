@@ -10,7 +10,7 @@ public class CreateEventCommandValidator : AbstractValidator<CreateEventCommand>
         RuleFor(x => x.EventTypeId).NotEmpty();
         RuleFor(x => x.StartDate).GreaterThanOrEqualTo(DateTime.UtcNow);
         RuleFor(x => x.EndDate).GreaterThanOrEqualTo(x => x.StartDate);
-        RuleFor(x => x.MaxParticipants).InclusiveBetween(2, 100);
+        RuleFor(x => x.MaxParticipants).GreaterThan(1);
         RuleFor(x => x.OrganizerId).NotEmpty();
     }
 }
