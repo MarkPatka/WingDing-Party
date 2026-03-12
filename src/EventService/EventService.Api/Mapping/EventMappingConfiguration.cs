@@ -6,6 +6,8 @@ using EventService.Contracts.Events;
 using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Contracts.DTO;
+using EventService.Application.EventManagement.Command.UpdateEventCommand;
+using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
 
 namespace EventService.Api.Mapping;
 
@@ -41,10 +43,24 @@ public class EventMappingConfiguration : IRegister
         config.NewConfig<GetAllUserEventsResult, GetAllUserEventsResponse>();
 
         config.NewConfig<GetEventsByTextAndFiltersRequest, GetEventsByTextAndFiltersQuery>();
+
         config.NewConfig<GetEventsByTextAndFiltersResult, GetEventsByTextAndFiltersResponse>();
+
+        config.NewConfig<UpdateEventRequest, UpdateEventCommand>()
+            .ConstructUsing(src => new UpdateEventCommand(
+                EventId.Create(src.EventId),
+                src.Title,
+                src.Description,
+                MapLocation(src.Location),
+                src.StartDate,
+                src.EndDate,
+                src.MaxParticipants
+                ));
+
+        config.NewConfig<UpdateEventResult, UpdateEventResponse>();
     }
-    private static Location MapLocation(LocationFullDto dto) =>
-            Location.Create(
+    private static Location? MapLocation(LocationFullDto? dto) =>
+            dto == null ? null : Location.Create(
                 dto.Address,
                 dto.City,
                 dto.Country,

@@ -6,6 +6,7 @@ using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 using EventService.Contracts.Events;
 using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
 using EventService.Application.Services;
+using EventService.Application.EventManagement.Command.UpdateEventCommand;
 
 namespace EventService.Api.Controllers;
 
@@ -33,6 +34,18 @@ public class EventsController : ControllerBase
         var response = _mapper.Map<CreateEventResponse>(result);
 
         // get the handler response 
+        return Ok(response);
+    }
+
+    [HttpPut("UpdateEvent")]
+    public async Task<IActionResult> UpdateEvent(UpdateEventRequest request)
+    {
+        var command = _mapper.Map<UpdateEventCommand>(request);
+
+        var result = _sender.Send(command);
+
+        var response = _mapper.Map<UpdateEventResponse>(result);
+
         return Ok(response);
     }
 
