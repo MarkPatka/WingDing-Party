@@ -51,13 +51,17 @@ public class EventService : IEventService
         return @event;
     }
 
-    public async Task<Event> UpdateEventAsync(Event @event, CancellationToken cancellationToken)
+    public async Task<Event> UpdateEventAsync(
+        Event @event, 
+        CancellationToken cancellationToken)
     {
         await _eventRepository.UpdateAsync(@event, cancellationToken);
         return @event;
     }
 
-    public async Task<bool> DeleteEventAsync(Event @event, CancellationToken cancellationToken)
+    public async Task<bool> DeleteEventAsync(
+        Event @event, 
+        CancellationToken cancellationToken)
     {
         await _eventRepository.DeleteAsync(@event, cancellationToken);
         return true;

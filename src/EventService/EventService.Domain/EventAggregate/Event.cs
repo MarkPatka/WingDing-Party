@@ -136,7 +136,7 @@ public sealed class Event : AggregateRoot<EventId>
         if (!string.IsNullOrWhiteSpace(description))
             SetDescription(description);
 
-        if (location != null)
+        if (location! != null!)
             SetLocation(location);
 
         if (startDate.HasValue)
