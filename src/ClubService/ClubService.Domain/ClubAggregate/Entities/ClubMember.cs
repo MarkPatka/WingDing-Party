@@ -1,8 +1,9 @@
 using ClubService.Domain.ClubAggregate.ValueObjects;
+using ClubService.Domain.Common.Abstract;
 
-namespace ClubService.Domain.ClubAggregate;
+namespace ClubService.Domain.ClubAggregate.Entities;
 
-public sealed class ClubMember
+public sealed class ClubMember : Entity<int>
 {
     public ClubId ClubId { get; private set; }
     public UserId UserId { get; private set; }

@@ -1,6 +1,7 @@
 ﻿using ClubService.Application.ClubManagement.Common;
 using ClubService.Application.Services;
 using ClubService.Domain.ClubAggregate;
+using ClubService.Domain.ClubAggregate.Entities;
 using ClubService.Domain.ClubAggregate.ValueObjects;
 using MediatR;
 

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace ClubService.Application.ClubManagement.Command.CreateClubCommand;
 
-public class CreateClubCommandHandler : IRequestHandler<ClubService.Application.ClubManagement.Command.CreateClubCommand.CreateClubCommand, CreateClubResult>
+public class CreateClubCommandHandler : IRequestHandler<CreateClubCommand, CreateClubResult>
 {
     private readonly IClubService _clubService;
     private readonly IUnitOfWork _unitOfWork;
@@ -19,7 +19,7 @@ public class CreateClubCommandHandler : IRequestHandler<ClubService.Application.
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CreateClubResult> Handle(ClubService.Application.ClubManagement.Command.CreateClubCommand.CreateClubCommand request, CancellationToken cancellationToken)
+    public async Task<CreateClubResult> Handle(CreateClubCommand request, CancellationToken cancellationToken)
     {
         bool isExist = await _clubService
             .GetAnyClubsAsync(request.Name, null, OwnerId.Create(request.OwnerId));

@@ -1,4 +1,5 @@
 using ClubService.Domain.ClubAggregate;
+using ClubService.Domain.ClubAggregate.Entities;
 using ClubService.Domain.ClubAggregate.ValueObjects;
 
 namespace ClubService.Application.Services;
