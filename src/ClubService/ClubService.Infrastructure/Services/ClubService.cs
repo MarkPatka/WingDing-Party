@@ -2,6 +2,7 @@ using ClubService.Application.Persistence;
 using ClubService.Application.Persistence.Specifications.Clubs;
 using ClubService.Application.Services;
 using ClubService.Domain.ClubAggregate;
+using ClubService.Domain.ClubAggregate.Entities;
 using ClubService.Domain.ClubAggregate.ValueObjects;
 
 namespace ClubService.Infrastructure.Services;

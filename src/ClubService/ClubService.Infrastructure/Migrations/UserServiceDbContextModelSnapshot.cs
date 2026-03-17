@@ -22,7 +22,7 @@ namespace ClubService.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("UserService.Domain.ClubAggregate.Club", b =>
+            modelBuilder.Entity("ClubService.Domain.ClubAggregate.Club", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -58,50 +58,7 @@ namespace ClubService.Infrastructure.Migrations
                     b.ToTable("Clubs", (string)null);
                 });
 
-            modelBuilder.Entity("UserService.Domain.UserProfileAggregate.UserProfile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("AvatarUri")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.PrimitiveCollection<string[]>("Interests")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id");
-
-                    b.HasIndex("Interests");
-
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Interests"), "gin");
-
-                    b.ToTable("UserProfiles", (string)null);
-                });
-
-            modelBuilder.Entity("UserService.Infrastructure.Persistence.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("ClubService.Infrastructure.Persistence.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,14 +69,14 @@ namespace ClubService.Infrastructure.Migrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime>("OccurredOnUtc")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Payload")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("ProcessedOnUtc")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Retries")
                         .ValueGeneratedOnAdd()
@@ -138,9 +95,9 @@ namespace ClubService.Infrastructure.Migrations
                     b.ToTable("OutboxMessages", (string)null);
                 });
 
-            modelBuilder.Entity("UserService.Domain.ClubAggregate.Club", b =>
+            modelBuilder.Entity("ClubService.Domain.ClubAggregate.Club", b =>
                 {
-                    b.OwnsMany("UserService.Domain.ClubAggregate.ClubMember", "ClubMembers", b1 =>
+                    b.OwnsMany("ClubService.Domain.ClubAggregate.Entities.ClubMember", "ClubMembers", b1 =>
                         {
                             b1.Property<Guid>("ClubId")
                                 .HasColumnType("uuid");
@@ -148,8 +105,14 @@ namespace ClubService.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b1.Property<int>("Id"));
+
                             b1.Property<DateTime>("JoinedAt")
-                                .HasColumnType("timestamp with time zone");
+                                .HasColumnType("timestamp without time zone");
 
                             b1.HasKey("ClubId", "UserId");
 

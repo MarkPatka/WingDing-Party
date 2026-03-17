@@ -22,7 +22,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
-        services.AddMappings();
+        //services.AddMappings();
         services.RegisterRepositories();
         services.RegisterDbContext();
         services.BackgroundServices();
@@ -47,7 +47,7 @@ public static class DependencyInjection
     public static IServiceCollection AddMappings(this IServiceCollection services)
     {
         var config = new TypeAdapterConfig();
-        config.Scan(typeof(ClubIntegrationMappingConfiguration).Assembly);
+        config.Scan(Assembly.GetExecutingAssembly());
         services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
         return services;
