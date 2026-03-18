@@ -8,6 +8,7 @@ using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Contracts.DTO;
 using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
+using EventService.Application.EventManagement.Command.DeleteEventCommand;
 
 namespace EventService.Api.Mapping;
 
@@ -58,6 +59,11 @@ public class EventMappingConfiguration : IRegister
                 ));
 
         config.NewConfig<UpdateEventResult, UpdateEventResponse>();
+
+        config.NewConfig<DeleteEventRequest, DeleteEventCommand>()
+            .ConstructUsing(src => new DeleteEventCommand(EventId.Create(src.EventId)));
+
+        config.NewConfig<DeleteEventResult, DeleteEventResponse>();
     }
     private static Location? MapLocation(LocationFullDto? dto) =>
             dto == null ? null : Location.Create(

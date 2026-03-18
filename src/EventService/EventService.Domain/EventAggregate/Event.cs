@@ -202,7 +202,7 @@ public sealed class Event : AggregateRoot<EventId>
         AddDomainEvent(new EventCancelled(Id, UpdatedAt.Value));
     }
 
-    public void Delete()
+    public void MarkAsDeleted()
     {
         if (Status != EventStatus.Draft && Status != EventStatus.Cancelled)
             throw new InvalidOperationException(

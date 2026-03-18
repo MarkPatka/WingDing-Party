@@ -6,9 +6,11 @@ using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 using EventService.Contracts.Events;
 using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
 using EventService.Application.EventManagement.Command.UpdateEventCommand;
+using EventService.Application.EventManagement.Command.DeleteEventCommand;
 
 namespace EventService.Api.Controllers;
 
+[Route("[controller]/[action]")]
 public class EventsController : ControllerBase
 {
     private readonly ISender _sender;
@@ -20,7 +22,7 @@ public class EventsController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost("CreateEvent")]
+    [HttpPost(Name = nameof(CreateEvent))]
     public async Task<IActionResult> CreateEvent(CreateEventRequest request)
     {
         // request -> map to command
@@ -36,7 +38,7 @@ public class EventsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPut("UpdateEvent")]
+    [HttpPut("{EventId}", Name = nameof(UpdateEvent))]
     public async Task<IActionResult> UpdateEvent(UpdateEventRequest request)
     {
         var command = _mapper.Map<UpdateEventCommand>(request);
@@ -48,8 +50,20 @@ public class EventsController : ControllerBase
         return Ok(response);
     }
 
+    [HttpDelete("{EventId}", Name = nameof(DeleteEvent))]
+    public async Task<IActionResult> DeleteEvent(DeleteEventRequest request)
+    {
+        var command = _mapper.Map<DeleteEventCommand>(request);
 
-    [HttpGet("GetAllUserEvents")]
+        var result = await _sender.Send(command);
+
+        var response = _mapper.Map<DeleteEventResponse>(result);
+
+        return Ok(response);
+    }
+
+
+    [HttpGet("{UserId}", Name = "GetAllUserEvents")]
     public async Task<IActionResult> GetAllUserEvents(GetAllUserEventsRequest request)
     {
         // request -> map to command
@@ -66,7 +80,7 @@ public class EventsController : ControllerBase
     }
 
 
-    [HttpGet("GetEventsByTextAndFilters")]
+    [HttpGet("{Text}", Name = nameof(GetEventsByTextAndFilters))]
     public async Task<IActionResult> GetEventsByTextAndFilters(
         GetEventsByTextAndFiltersRequest request)
     {

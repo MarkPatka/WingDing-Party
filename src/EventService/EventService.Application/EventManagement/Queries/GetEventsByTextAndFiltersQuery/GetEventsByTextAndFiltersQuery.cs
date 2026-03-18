@@ -9,5 +9,5 @@ public record GetEventsByTextAndFiltersQuery(
     string? City,
     DateTime? DateFrom,
     DateTime? DateTo,
-    int PageNumber,
-    int PageSize) : IRequest<GetEventsByTextAndFiltersResult>;
+    int PageNumber = 1,
+    int PageSize = 20) : IRequest<GetEventsByTextAndFiltersResult>;
