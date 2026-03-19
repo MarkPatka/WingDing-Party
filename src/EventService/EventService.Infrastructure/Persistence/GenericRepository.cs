@@ -13,13 +13,12 @@ public class GenericRepository<TEntity, TId>
     where TEntity : class
     where TId : IEntityId
 {
-    private readonly IDbContextFactory<EventServiceDbContext> _dbContextFactory = null!;
     protected readonly DbContext Context;
     protected readonly DbSet<TEntity> DbSet;
 
-    public GenericRepository(IDbContextFactory<EventServiceDbContext> dbContextFactory)
+    public GenericRepository(EventServiceDbContext dbContext)
     {
-        Context = dbContextFactory.CreateDbContext();
+        Context = dbContext;
         DbSet = Context.Set<TEntity>();
     }
 

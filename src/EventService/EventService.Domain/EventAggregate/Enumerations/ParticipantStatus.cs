@@ -10,4 +10,6 @@ public sealed class ParticipantStatus : Enumeration
 
     private ParticipantStatus(int id, string name, string? description = null)
         : base(id, name, description) { }
+
+    public static IEnumerable<ParticipantStatus> List => GetAll<ParticipantStatus>();
 }

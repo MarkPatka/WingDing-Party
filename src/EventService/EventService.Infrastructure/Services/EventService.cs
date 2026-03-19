@@ -27,7 +27,7 @@ public class EventService : IEventService
     }
 
     public async Task<IReadOnlyList<Event>> GetEventsByOrganizerIdAsync(
-        UserId id, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        UserId id, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         var spec = new EventsByOrganizerSpec(id, pageNumber, pageSize);
         return await _eventRepository.ListAsync(spec, cancellationToken);
@@ -52,7 +52,6 @@ public class EventService : IEventService
         CancellationToken cancellationToken)
     {
         await _eventRepository.AddAsync(@event, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return @event;
     }
 

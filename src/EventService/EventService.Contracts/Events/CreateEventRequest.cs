@@ -7,9 +7,6 @@ namespace EventService.Contracts.Events;
 public sealed record CreateEventRequest(
     string Title,
     Guid EventTypeId,
-    string EventTypeName,
-    string? EventTypeIcon,
-    string? EventTypeDescription,
     DateTime StartDate,
     DateTime EndDate,
     int MaxParticipants,

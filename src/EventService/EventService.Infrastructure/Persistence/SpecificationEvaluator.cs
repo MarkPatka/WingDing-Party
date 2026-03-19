@@ -1,5 +1,4 @@
 ﻿using EventService.Application.Persistence;
-using EventService.Domain.Common.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
