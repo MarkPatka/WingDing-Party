@@ -147,7 +147,7 @@ public sealed class Event : AggregateRoot<EventId>
 
         UpdatedAt = DateTime.UtcNow;
 
-        AddDomainEvent(new EventUpdated(Id, DateTime.UtcNow));
+        AddDomainEvent(new EventUpdated(Id, UpdatedAt.Value));
     }
 
     private void SetMaxParticipants(int maxParticipants)

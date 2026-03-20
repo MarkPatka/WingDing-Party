@@ -27,4 +27,10 @@ public interface IEventService
         CancellationToken cancellationToken = default);
     public Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
         DateTime startDate, int limit, CancellationToken cancellationToken);
+
+    public Task<Event> RegisterParticipantAsync(
+        Event @event,
+        UserId userId,
+        string UserName,
+        CancellationToken cancellationToken);
 }
