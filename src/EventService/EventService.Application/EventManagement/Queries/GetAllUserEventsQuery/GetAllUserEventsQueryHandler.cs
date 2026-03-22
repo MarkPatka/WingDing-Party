@@ -3,6 +3,7 @@ using MediatR;
 using EventService.Application.Services;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Contracts.DTO;
+using EventService.Application.Common.Exceptions;
 
 namespace EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 
@@ -24,6 +25,10 @@ public class GetAllUserEventsQueryHandler
             request.PageNumber,
             request.PageSize,
             cancellationToken);
+
+        if (events == null)
+            throw new EntityNotFoundException(
+                $"Events by OrganizerId {request.UserId} not found");
 
         var eventDtos = events.Select(e => new EventDto(
             e.Id.Value.ToString(),

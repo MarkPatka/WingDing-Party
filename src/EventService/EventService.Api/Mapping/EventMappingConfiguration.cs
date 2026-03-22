@@ -10,6 +10,7 @@ using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
 using EventService.Application.EventManagement.Command.RegisterParticipant;
+using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
 
 namespace EventService.Api.Mapping;
 
@@ -73,6 +74,10 @@ public class EventMappingConfiguration : IRegister
                 src.UserName));
 
         config.NewConfig<RegisterParticipantResult, RegisterParticipantResponse>();
+
+        config.NewConfig<GetEventByIdRequest, GetEventByIdQuery>();
+
+        config.NewConfig<GetEventByIdResult, GetEventByIdResponse>();
     }
     private static Location? MapLocation(LocationFullDto? dto) =>
             dto == null ? null : Location.Create(

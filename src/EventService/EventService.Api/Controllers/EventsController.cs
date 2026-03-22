@@ -8,6 +8,7 @@ using EventService.Application.EventManagement.Queries.GetEventsByTextAndFilters
 using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
 using EventService.Application.EventManagement.Command.RegisterParticipant;
+using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
 
 namespace EventService.Api.Controllers;
 
@@ -72,7 +73,7 @@ public class EventsController : ControllerBase
     }
 
 
-    [HttpGet("{UserId}", Name = "GetAllUserEvents")]
+    [HttpGet("{UserId}", Name = nameof(GetAllUserEvents))]
     public async Task<IActionResult> GetAllUserEvents(GetAllUserEventsRequest request)
     {
         var query = _mapper.Map<GetAllUserEventsQuery>(request);
@@ -81,6 +82,18 @@ public class EventsController : ControllerBase
 
         var response = _mapper.Map<GetAllUserEventsResponse>(result);
 
+        return Ok(response);
+    }
+
+    [HttpGet("{EventId}", Name = nameof(GetEventById))]
+    public async Task<IActionResult> GetEventById(GetEventByIdRequest request)
+    {
+        var query = _mapper.Map<GetEventByIdQuery>(request);
+
+        var result = await _sender.Send(query);
+
+        var response = _mapper.Map<GetEventByIdResponse>(result);
+        
         return Ok(response);
     }
 
