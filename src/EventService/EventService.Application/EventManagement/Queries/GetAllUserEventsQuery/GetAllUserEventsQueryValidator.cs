@@ -6,8 +6,7 @@ public class GetAllUserEventsQueryValidator : AbstractValidator<GetAllUserEvents
 {
     public GetAllUserEventsQueryValidator()
     {
-        RuleFor(x => x.OrganizerId).NotEmpty();
-        RuleFor(x => x.PageSize).LessThan(200);
+        RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.PageNumber).GreaterThan(0);
         RuleFor(x => x.PageSize).InclusiveBetween(1, 200);
     }

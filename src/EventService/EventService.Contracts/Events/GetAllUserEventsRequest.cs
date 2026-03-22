@@ -1,6 +1,6 @@
 ﻿namespace EventService.Contracts.Events;
 
 public sealed record GetAllUserEventsRequest(
-    string UserId, 
+    Guid UserId, 
     int PageNumber = 1, 
     int PageSize = 20);

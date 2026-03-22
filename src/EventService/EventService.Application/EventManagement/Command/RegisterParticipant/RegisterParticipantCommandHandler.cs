@@ -31,7 +31,7 @@ public class RegisterParticipantCommandHandler
 
         var participant = @event.RegisterParticipant(request.UserId, request.UserName);
 
-        //await _eventService.
+        await _eventService.UpdateEventAsync(@event, cancellationToken);
         await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
         return new RegisterParticipantResult(participant.Id.Value, participant.RegisteredAt);

@@ -7,6 +7,7 @@ using EventService.Contracts.Events;
 using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
 using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
+using EventService.Application.EventManagement.Command.RegisterParticipant;
 
 namespace EventService.Api.Controllers;
 
@@ -25,16 +26,12 @@ public class EventsController : ControllerBase
     [HttpPost(Name = nameof(CreateEvent))]
     public async Task<IActionResult> CreateEvent(CreateEventRequest request)
     {
-        // request -> map to command
         var command = _mapper.Map<CreateEventCommand>(request);
 
-        // send command to request handler
         var result = await _sender.Send(command);
 
-        // map the result model to response model 
         var response = _mapper.Map<CreateEventResponse>(result);
 
-        // get the handler response 
         return Ok(response);
     }
 
@@ -62,20 +59,28 @@ public class EventsController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPost(Name = nameof(RegisterParticipantOnEvent))]
+    public async Task<IActionResult> RegisterParticipantOnEvent(RegisterParticipantRequest request)
+    {
+        var command = _mapper.Map<RegisterParticipantCommand>(request);
+
+        var result = await _sender.Send(command);
+
+        var response = _mapper.Map<RegisterParticipantResponse>(result);
+
+        return Ok(response);
+    }
+
 
     [HttpGet("{UserId}", Name = "GetAllUserEvents")]
     public async Task<IActionResult> GetAllUserEvents(GetAllUserEventsRequest request)
     {
-        // request -> map to command
         var query = _mapper.Map<GetAllUserEventsQuery>(request);
 
-        // send command to request handler
         var result = await _sender.Send(query);
 
-        // map the result model to response model 
         var response = _mapper.Map<GetAllUserEventsResponse>(result);
 
-        // get the handler response 
         return Ok(response);
     }
 

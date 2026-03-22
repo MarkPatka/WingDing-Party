@@ -88,14 +88,4 @@ public class EventService : IEventService
         var spec = new TopRatedEventsByStartDateWithLimitSpecification(startDate, limit);
         return await _eventRepository.ListAsync(spec, cancellationToken);
     }
-
-    public async Task<Event> RegisterParticipantAsync(
-        Event @event, 
-        UserId userId, 
-        string UserName, 
-        CancellationToken cancellationToken)
-    {
-        await _eventRepository.UpdateAsync(@event, cancellationToken);
-        return @event;
-    }
 }
