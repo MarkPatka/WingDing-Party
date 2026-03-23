@@ -11,6 +11,7 @@ using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
 using EventService.Application.EventManagement.Command.RegisterParticipant;
 using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
+using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
 
 namespace EventService.Api.Mapping;
 
@@ -78,6 +79,10 @@ public class EventMappingConfiguration : IRegister
         config.NewConfig<GetEventByIdRequest, GetEventByIdQuery>();
 
         config.NewConfig<GetEventByIdResult, GetEventByIdResponse>();
+
+        config.NewConfig<GetTopRatedEventsByStartDateWithLimitRequest, GetTopRatedEventsByStartDateWithLimitQuery>();
+
+        config.NewConfig<GetTopRatedEventsByStartDateWithLimitResult, GetTopRatedEventsByStartDateWithLimitResponse>();
     }
     private static Location? MapLocation(LocationFullDto? dto) =>
             dto == null ? null : Location.Create(

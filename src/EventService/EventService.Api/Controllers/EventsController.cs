@@ -9,6 +9,7 @@ using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
 using EventService.Application.EventManagement.Command.RegisterParticipant;
 using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
+using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
 
 namespace EventService.Api.Controllers;
 
@@ -97,6 +98,18 @@ public class EventsController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("{StartDate}", Name = nameof(GetTopRatedEventsByStartDateWithLimit))]
+    public async Task<IActionResult> GetTopRatedEventsByStartDateWithLimit(
+        GetTopRatedEventsByStartDateWithLimitRequest request)
+    {
+        var query = _mapper.Map<GetTopRatedEventsByStartDateWithLimitQuery>(request);
+
+        var result = await _sender.Send(query);
+
+        var response = _mapper.Map<GetTopRatedEventsByStartDateWithLimitResponse>(result);
+
+        return Ok(response);
+    }
 
     [HttpGet("{Text}", Name = nameof(GetEventsByTextAndFilters))]
     public async Task<IActionResult> GetEventsByTextAndFilters(
