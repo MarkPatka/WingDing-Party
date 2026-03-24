@@ -17,7 +17,7 @@ public class GetEventsByTextAndFiltersQueryHandler
     public async Task<GetEventsByTextAndFiltersResult> Handle(
         GetEventsByTextAndFiltersQuery request, CancellationToken cancellationToken)
     {
-        var events = await _eventService.GetEventsByTextAndFiltersAsync(
+        var pagedEvents = await _eventService.GetEventsByTextAndFiltersAsync(
             request.Text,
             request.EventType,
             request.City,
@@ -27,7 +27,7 @@ public class GetEventsByTextAndFiltersQueryHandler
             request.PageSize,
             cancellationToken);
 
-        var eventDtos = events.Select(e => new EventDto(
+        var eventDtos = pagedEvents.Items.Select(e => new EventDto(
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
@@ -41,6 +41,13 @@ public class GetEventsByTextAndFiltersQueryHandler
             e.EndDate,
             e.MaxParticipants));
 
-        return new GetEventsByTextAndFiltersResult(eventDtos);
+        return new GetEventsByTextAndFiltersResult(
+            eventDtos,
+            pagedEvents.TotalCount,
+            pagedEvents.PageNumber,
+            pagedEvents.PageSize,
+            pagedEvents.TotalPages,
+            pagedEvents.HasNext,
+            pagedEvents.HasPrevious);
     }
 }

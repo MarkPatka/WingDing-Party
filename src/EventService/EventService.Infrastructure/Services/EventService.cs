@@ -1,4 +1,5 @@
-﻿using EventService.Application.Persistence;
+﻿using EventService.Application.Common;
+using EventService.Application.Persistence;
 using EventService.Application.Persistence.Specifications;
 using EventService.Application.Services;
 using EventService.Domain;
@@ -67,7 +68,7 @@ public class EventService : IEventService
         return true;
     }
 
-    public async Task<IReadOnlyList<Event>> GetEventsByTextAndFiltersAsync(
+    public async Task<PagedResult<Event>> GetEventsByTextAndFiltersAsync(
         string text, 
         string? eventType, 
         string? city, 
@@ -79,7 +80,13 @@ public class EventService : IEventService
     {
         var spec = new EventsByTextAndFiltersSpecification(
             text, eventType, city, dateFrom, dateTo, pageNumber, pageSize);
-        return await _eventRepository.ListAsync(spec, cancellationToken);
+
+        var events = await _eventRepository.ListAsync(spec, cancellationToken);
+        var totalCount = await _eventRepository.CountAsync(spec, cancellationToken);
+
+        var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+        return new PagedResult<Event>(events, totalCount, pageNumber, pageSize, totalPages);
     }
 
     public async Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
