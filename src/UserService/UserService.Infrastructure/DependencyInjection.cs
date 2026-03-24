@@ -1,28 +1,30 @@
 ﻿using System.Reflection;
-using ClubService.Application.Common.Configuration;
-using ClubService.Application.Persistence;
-using ClubService.Application.Services;
-using ClubService.Domain.ClubAggregate;
-using ClubService.Domain.ClubAggregate.ValueObjects;
-using ClubService.Infrastructure.Messaging;
 using ClubService.Infrastructure.Messaging.Mapping;
-using ClubService.Infrastructure.Persistence;
-using ClubService.Infrastructure.Persistence.Outbox;
 using Mapster;
 using MapsterMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using UserService.Application.Common.Configuration;
+using UserService.Application.Persistence;
+using UserService.Application.Services;
+using UserService.Domain.UserProfileAggregate;
+using UserService.Domain.UserProfileAggregate.ValueObjects;
+using UserService.Infrastructure.Messaging;
+using UserService.Infrastructure.Persistence;
+using UserService.Infrastructure.Persistence.Outbox;
+using UserService.Infrastructure.Services;
 
-namespace ClubService.Infrastructure;
+namespace UserService.Infrastructure;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
-        //services.AddMappings();
+        services.AddMappings();
         services.RegisterRepositories();
         services.RegisterDbContext();
         services.BackgroundServices();
@@ -33,23 +35,14 @@ public static class DependencyInjection
 
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IRepository<Club, ClubId>, GenericRepository<Club, ClubId>>();
+        services.AddScoped<IRepository<UserProfile, UserId>, GenericRepository<UserProfile, UserId>>();
         return services;
     }
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IClubService, ClubService.Infrastructure.Services.ClubService>();
+        services.AddScoped<IUserProfileService, UserProfileService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        return services;
-    }
-
-    public static IServiceCollection AddMappings(this IServiceCollection services)
-    {
-        var config = new TypeAdapterConfig();
-        config.Scan(Assembly.GetExecutingAssembly());
-        services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
         return services;
     }
 
@@ -69,6 +62,15 @@ public static class DependencyInjection
         services.AddOptions<Dictionary<string, KafkaOptions>>()
             .Bind(configuration.GetSection("KafkaOptions"))
             .ValidateOnStart();
+        return services;
+    }
+    
+    public static IServiceCollection AddMappings(this IServiceCollection services)
+    {
+        var config = new TypeAdapterConfig();
+        config.Scan(typeof(UserIntegrationMappingConfiguration).Assembly);
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
         return services;
     }
 
