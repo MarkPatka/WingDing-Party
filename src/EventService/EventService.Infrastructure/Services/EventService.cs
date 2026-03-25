@@ -78,11 +78,15 @@ public class EventService : IEventService
         int pageSize, 
         CancellationToken cancellationToken = default)
     {
-        var spec = new EventsByTextAndFiltersSpecification(
+        var listSpec = new EventsByTextAndFiltersSpecification(
             text, eventType, city, dateFrom, dateTo, pageNumber, pageSize);
 
-        var events = await _eventRepository.ListAsync(spec, cancellationToken);
-        var totalCount = await _eventRepository.CountAsync(spec, cancellationToken);
+        var countSpec = new EventsByTextAndFiltersSpecification(
+            text, eventType, city, dateFrom, dateTo, pageNumber, pageSize);
+        countSpec.ClearPaging(); // подсчет общего количества событий без пагинации
+
+        var events = await _eventRepository.ListAsync(listSpec, cancellationToken);
+        var totalCount = await _eventRepository.CountAsync(countSpec, cancellationToken);
 
         var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 

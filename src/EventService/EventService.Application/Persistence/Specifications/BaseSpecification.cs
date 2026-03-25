@@ -68,6 +68,11 @@ public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
         IsPagingEnabled = true;
     }
 
+    public void ClearPaging()
+    {
+        IsPagingEnabled = false;
+    }
+
     protected virtual void ApplyGroupBy(Expression<Func<TEntity, object>> groupByExpression) =>
         GroupBy = groupByExpression;
 

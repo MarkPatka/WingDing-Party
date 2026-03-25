@@ -11,7 +11,7 @@ public class EventsByTextAndFiltersSpecification : BaseSpecification<Event>
         DateTime? dateFrom,
         DateTime? dateTo,
         int pageNumber,
-        int pageSize)
+        int pageSize) : base()
     {
         AddOrCriteriasIntoAndGroup(
             e => e.Title.ToLower().Contains(text.ToLower()),
