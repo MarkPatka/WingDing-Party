@@ -25,7 +25,7 @@ public class CreateUserProfileCommandHandler : IRequestHandler<CreateUserProfile
 
         if (userProfile != null)
         {
-            throw new Exception("UserProfile already exists");
+            throw new EntityAlreadyExistsException("UserProfile already exists");
         }
 
         userProfile = UserProfile.Create(
