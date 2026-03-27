@@ -25,7 +25,7 @@ public class
 
         if (userProfile == null)
         {
-            throw new Exception("UserProfile doesn't exist");
+            throw new EntityNotFoundException("UserProfile doesn't exist");
         }
 
         userProfile.Update(

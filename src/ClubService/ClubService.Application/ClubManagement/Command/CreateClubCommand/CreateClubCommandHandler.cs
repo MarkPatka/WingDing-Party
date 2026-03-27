@@ -26,7 +26,7 @@ public class CreateClubCommandHandler : IRequestHandler<CreateClubCommand, Creat
 
         if (isExist)
         {
-            throw new EntityNotFoundException("The same club exists");
+            throw new EntityAlreadyExistsException("The same club exists");
         }
 
         var club = Club.Create(
