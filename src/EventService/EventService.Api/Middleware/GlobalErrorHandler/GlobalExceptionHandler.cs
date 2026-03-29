@@ -14,15 +14,6 @@ internal sealed class GlobalExceptionHandler(
         Exception exception,
         CancellationToken cancellationToken)
     {
-        var statusCode = exception switch
-        {
-            ValidationError => StatusCodes.Status400BadRequest,
-            IServiceError serviceError => (int)serviceError.StatusCode,
-            _ => StatusCodes.Status500InternalServerError
-        };
-
-        httpContext.Response.StatusCode = statusCode;
-
         logger.LogError(
             exception,
             $"Unhandled exception occurred. " +
@@ -30,28 +21,36 @@ internal sealed class GlobalExceptionHandler(
             $"Method: {httpContext.Request.Method}, " +
             $"User: {httpContext.User?.Identity?.Name ?? "Anonymous"}");
 
-        var problemDetails = exception switch
+        var (statusCode, problemDetails) = exception switch
         {
-            ValidationError validationError => new ProblemDetails
+            ValidationError validationError => (
+                StatusCodes.Status400BadRequest,
+                new ProblemDetails
                 {
                     Title = "Validation Error",
-                    Status = statusCode,
+                    Status = StatusCodes.Status400BadRequest,
                     Extensions = { { "errors", validationError.Errors } }
-                },
+                }),
 
-            IServiceError serviceError => new ProblemDetails
+            IServiceError serviceError => (
+                (int)serviceError.StatusCode,
+                new ProblemDetails
                 {
                     Title = "Service Error",
                     Detail = serviceError.ErrorMessage,
-                    Status = statusCode
-                },
+                    Status = (int)serviceError.StatusCode
+                }),
             
-            _ => new ProblemDetails
-            {
-                Title = "An unexpected error occurred",
-                Status = statusCode
-            }
+            _ => (
+                StatusCodes.Status500InternalServerError, 
+                new ProblemDetails
+                {
+                    Title = "An unexpected error occurred",
+                    Status = StatusCodes.Status500InternalServerError
+                })
         };
+
+        httpContext.Response.StatusCode = statusCode;
 
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
