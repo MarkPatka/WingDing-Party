@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace EventService.Application.Common.Behaviors;
 
@@ -8,9 +9,13 @@ public class ValidationBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly IValidator<TRequest>? _validator;
+    private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
 
-    public ValidationBehavior(IValidator<TRequest>? validator = null)
+    public ValidationBehavior(
+        ILogger<ValidationBehavior<TRequest, TResponse>> logger,
+        IValidator<TRequest>? validator = null)
     {
+        _logger = logger;
         _validator = validator;
     }
 
@@ -41,11 +46,17 @@ public class ValidationBehavior<TRequest, TResponse>
                 })
             .ToDictionary(x => x.Key, x => x.Values);
 
+        var errorDetails = string.Join("; ",
+            errors.Select(kvp => $"[{kvp.Key}: {string.Join(", ", kvp.Value)}]"));
+
+        _logger.LogWarning("Validation failed for {RequestType}: {Errors}",
+            typeof(TRequest).Name, errorDetails);
+
         if (errors.Count != 0)
         {
             throw new Errors.ValidationError(
-                $"One or more errors occurred while validation the request",
-                System.Net.HttpStatusCode.Conflict,
+                $"Validation failed: {errorDetails}",
+                System.Net.HttpStatusCode.BadRequest,
                 errors);
         }
         return await next(cancellationToken);

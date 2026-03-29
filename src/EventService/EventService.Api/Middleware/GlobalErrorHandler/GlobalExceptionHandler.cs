@@ -14,23 +14,14 @@ internal sealed class GlobalExceptionHandler(
         Exception exception,
         CancellationToken cancellationToken)
     {
-        var errorFeature = httpContext.Features
-            .Get<IExceptionHandlerFeature>();
-
-        var originalError = errorFeature?.Error;
-
-        if (originalError is null)
+        var statusCode = exception switch
         {
-            return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
-            {
-                HttpContext = httpContext,
-                ProblemDetails = new ProblemDetails
-                {
-                    Title = "An unknown error occurred",
-                    Status = StatusCodes.Status500InternalServerError
-                }
-            });
-        }
+            ValidationError => StatusCodes.Status400BadRequest,
+            IServiceError serviceError => (int)serviceError.StatusCode,
+            _ => StatusCodes.Status500InternalServerError
+        };
+
+        httpContext.Response.StatusCode = statusCode;
 
         logger.LogError(
             exception,
@@ -39,23 +30,34 @@ internal sealed class GlobalExceptionHandler(
             $"Method: {httpContext.Request.Method}, " +
             $"User: {httpContext.User?.Identity?.Name ?? "Anonymous"}");
 
-        var (statusCode, message) = exception switch
+        var problemDetails = exception switch
         {
-            IServiceError serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
-            _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred")
+            ValidationError validationError => new ProblemDetails
+                {
+                    Title = "Validation Error",
+                    Status = statusCode,
+                    Extensions = { { "errors", validationError.Errors } }
+                },
+
+            IServiceError serviceError => new ProblemDetails
+                {
+                    Title = "Service Error",
+                    Detail = serviceError.ErrorMessage,
+                    Status = statusCode
+                },
+            
+            _ => new ProblemDetails
+            {
+                Title = "An unexpected error occurred",
+                Status = statusCode
+            }
         };
 
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
             HttpContext = httpContext,
             Exception = exception,
-            ProblemDetails = new ProblemDetails
-            {
-                Type = originalError.GetType().Name,
-                Title = "An error occurred",
-                Detail = message,
-                Status = statusCode
-            }
+            ProblemDetails = problemDetails
         });
     }
 }
