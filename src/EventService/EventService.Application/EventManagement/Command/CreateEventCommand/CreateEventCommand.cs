@@ -1,5 +1,4 @@
-﻿using EventService.Domain.EventAggregate.Entities;
-using EventService.Domain.EventAggregate.ValueObjects;
+﻿using EventService.Domain.EventAggregate.ValueObjects;
 using MediatR;
 using EventService.Application.EventManagement.Common;
 

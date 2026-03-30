@@ -3,6 +3,7 @@ using EventService.Application.Persistence;
 using EventService.Application.Persistence.Specifications;
 using EventService.Application.Services;
 using EventService.Domain;
+using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
 
 namespace EventService.Infrastructure.Services;
@@ -60,13 +61,13 @@ public class EventService : IEventService
         return @event;
     }
 
-    public async Task<bool> DeleteEventAsync(
-        Event @event, 
-        CancellationToken cancellationToken)
-    {
-        await _eventRepository.DeleteAsync(@event, cancellationToken);
-        return true;
-    }
+    //public async Task<bool> DeleteEventAsync(
+    //    Event @event, 
+    //    CancellationToken cancellationToken)
+    //{
+    //    await _eventRepository.DeleteAsync(@event, cancellationToken);
+    //    return true;
+    //}
 
     public async Task<PagedResult<Event>> GetEventsByTextAndFiltersAsync(
         string text, 
@@ -98,5 +99,11 @@ public class EventService : IEventService
     {
         var spec = new TopRatedEventsByStartDateWithLimitSpecification(startDate, limit);
         return await _eventRepository.ListAsync(spec, cancellationToken);
+    }
+
+    public async Task<EventType?> GetEventTypeByIdAsync(
+        EventTypeId eventTypeId, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,4 +1,5 @@
-﻿using EventService.Application.EventManagement.Common;
+﻿using EventService.Application.Common.Errors;
+using EventService.Application.EventManagement.Common;
 using EventService.Application.Persistence;
 using EventService.Application.Services;
 using EventService.Domain;
@@ -26,7 +27,6 @@ public class CreateEventCommandHandler
         CreateEventCommand request,
         CancellationToken cancellationToken)
     {
-        // check if not exists
         var eventExists = await _eventService
             .CheckEventNotExists(
                 request.Title, 
@@ -34,9 +34,8 @@ public class CreateEventCommandHandler
                 cancellationToken);
 
         if (eventExists)
-            throw new Exception($"Event already exists");
+            throw new InvalidOperationException("Event already exists");
 
-        // create
         var newEvent = Event.Create(
             request.Title,
             request.Description!,
@@ -54,12 +53,10 @@ public class CreateEventCommandHandler
             TimeProvider.System.GetUtcNow().DateTime
         );
 
-        // add
         await _eventService.CreateEventAsync(newEvent, cancellationToken);
 
         await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        // return result
         return new CreateEventResult(
                     newEvent.Id.Value,
                     newEvent.CreatedAt,
