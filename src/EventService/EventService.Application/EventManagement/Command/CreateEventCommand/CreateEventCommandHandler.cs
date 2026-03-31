@@ -1,4 +1,5 @@
 ﻿using EventService.Application.Common.Errors;
+using EventService.Application.Common.Exceptions;
 using EventService.Application.EventManagement.Common;
 using EventService.Application.Persistence;
 using EventService.Application.Services;
@@ -13,13 +14,16 @@ public class CreateEventCommandHandler
     : IRequestHandler<CreateEventCommand, CreateEventResult>
 {
     private readonly IEventService _eventService;
+    private readonly IEventTypeService _eventTypeService;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateEventCommandHandler(
         IEventService eventService,
+        IEventTypeService eventTypeService,
         IUnitOfWork unitOfWork)
     {
         _eventService = eventService;
+        _eventTypeService = eventTypeService;
         _unitOfWork = unitOfWork;
     }
 
@@ -36,14 +40,26 @@ public class CreateEventCommandHandler
         if (eventExists)
             throw new InvalidOperationException("Event already exists");
 
+        EventType eventType;
+
+        if (request.EventTypeId.HasValue)
+        {
+            eventType = await _eventTypeService
+            .GetEventTypeByIdAsync(
+                EventTypeId.Create(request.EventTypeId.Value), cancellationToken)
+            ?? throw new EntityNotFoundException(
+                $"EventType:{request.EventTypeId} not found");
+        }
+        else
+        {
+            eventType = await _eventTypeService.GetDefaultEventTypeAsync(cancellationToken)
+            ?? throw new EntityNotFoundException("Default EventType not found");
+        }
+
         var newEvent = Event.Create(
             request.Title,
             request.Description!,
-            eventType: EventType.CreateNew(
-                    Guid.NewGuid(),
-                    "DotNext",
-                    "Conference",
-                    "Persisted_Icon_In_MiniO_Storage"),
+            eventType: eventType,
             request.Location!,
             request.StartDate,
             request.EndDate,

@@ -100,10 +100,4 @@ public class EventService : IEventService
         var spec = new TopRatedEventsByStartDateWithLimitSpecification(startDate, limit);
         return await _eventRepository.ListAsync(spec, cancellationToken);
     }
-
-    public async Task<EventType?> GetEventTypeByIdAsync(
-        EventTypeId eventTypeId, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
 }

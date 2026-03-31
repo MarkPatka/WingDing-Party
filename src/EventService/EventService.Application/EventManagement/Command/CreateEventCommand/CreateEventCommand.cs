@@ -6,7 +6,7 @@ namespace EventService.Application.EventManagement.Command.CreateEventCommand;
 
 public record CreateEventCommand(
     string Title,
-    Guid EventTypeId,
+    Guid? EventTypeId,
     DateTime StartDate,
     DateTime EndDate,
     int MaxParticipants,
