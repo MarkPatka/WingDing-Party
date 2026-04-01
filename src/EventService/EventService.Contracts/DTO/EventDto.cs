@@ -4,7 +4,7 @@ public sealed record EventDto(
     string Id,
     string Title,
     string Description,
-    string EventType,
+    string EventTypeId,
     string Status,
     LocationDto Location,
     DateTime StartDate,

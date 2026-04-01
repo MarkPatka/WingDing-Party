@@ -9,15 +9,12 @@ namespace EventService.Domain;
 
 public sealed class Event : AggregateRoot<EventId>
 {
-    //private readonly List<Review> _reviews = [];
     private readonly List<Participant> _participants = [];
-
     public IReadOnlyCollection<Participant> Participants => _participants.AsReadOnly();
-    //public IReadOnlyCollection<Review> Reviews => _reviews.AsReadOnly();
 
     public string Title         { get; private set; } = string.Empty;
     public string Description   { get; private set; } = string.Empty;
-    public EventType EventType  { get; private set; } = null!;
+    public EventTypeId EventTypeId { get; private set; } = null!;
     public Location Location    { get; private set; } = null!;
     public DateTime StartDate   { get; private set; }
     public DateTime EndDate     { get; private set; }
@@ -39,7 +36,7 @@ public sealed class Event : AggregateRoot<EventId>
         EventId id,
         string title,
         string description,
-        EventType eventType,
+        EventTypeId eventTypeId,
         Location location,
         DateTime startDate,
         DateTime endDate,
@@ -54,7 +51,7 @@ public sealed class Event : AggregateRoot<EventId>
     {
         Title = title;
         Description = description;
-        EventType = eventType;
+        EventTypeId = eventTypeId;
         Location = location;
         StartDate = startDate;
         EndDate = endDate;
@@ -69,7 +66,7 @@ public sealed class Event : AggregateRoot<EventId>
     public static Event Create(
         string title,
         string description,
-        EventType eventType,
+        EventTypeId eventTypeId,
         Location location,
         DateTime startDate,
         DateTime endDate,
@@ -93,7 +90,7 @@ public sealed class Event : AggregateRoot<EventId>
             EventId.CreateUnique(),
             title,
             description,
-            eventType,
+            eventTypeId,
             location,
             startDate,
             endDate,

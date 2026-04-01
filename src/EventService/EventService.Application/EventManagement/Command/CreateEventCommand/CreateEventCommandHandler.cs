@@ -59,7 +59,7 @@ public class CreateEventCommandHandler
         var newEvent = Event.Create(
             request.Title,
             request.Description!,
-            eventType: eventType,
+            eventTypeId: eventType.Id,
             request.Location!,
             request.StartDate,
             request.EndDate,

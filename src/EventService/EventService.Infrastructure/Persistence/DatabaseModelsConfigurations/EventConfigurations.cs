@@ -48,15 +48,12 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property<Guid>("EventTypeId")
+        builder.Property(e => e.EventTypeId)
             .HasColumnName("EventTypeId")
+            .HasConversion(
+                id => id.Value,
+                value =>  EventTypeId.Create(value))
             .IsRequired();
-
-        builder.HasOne(e => e.EventType)
-            .WithMany()
-            .HasForeignKey("EventTypeId")
-            .OnDelete(DeleteBehavior.Restrict)
-            .HasConstraintName("FK_Events_EventTypes_EventTypeId");
 
         builder.Property(e => e.Status)
             .HasConversion(
@@ -92,7 +89,7 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
         builder.Property<byte[]>("RowVersion")
             .IsRowVersion();
 
-        builder.HasIndex("EventTypeId")
+        builder.HasIndex(e => e.EventTypeId)
             .HasDatabaseName("IX_Events_EventTypeId");
 
         builder.HasIndex(e => e.OrganizerId)

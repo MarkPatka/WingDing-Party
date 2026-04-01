@@ -9,10 +9,6 @@ public class GetEventsByTextAndFiltersQueryValidator
     {
         RuleFor(x => x.Text).NotEmpty().MaximumLength(100);
 
-        RuleFor(x => x.EventType)
-            .MaximumLength(100)
-            .When(x => !string.IsNullOrWhiteSpace(x.EventType));
-
         RuleFor(x => x.City)
             .MaximumLength(100)
             .When(x => !string.IsNullOrWhiteSpace(x.City));

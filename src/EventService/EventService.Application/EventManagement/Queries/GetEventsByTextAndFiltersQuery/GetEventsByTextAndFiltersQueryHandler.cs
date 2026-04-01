@@ -19,7 +19,6 @@ public class GetEventsByTextAndFiltersQueryHandler
     {
         var pagedEvents = await _eventService.GetEventsByTextAndFiltersAsync(
             request.Text,
-            request.EventType,
             request.City,
             request.DateFrom,
             request.DateTo,
@@ -31,7 +30,7 @@ public class GetEventsByTextAndFiltersQueryHandler
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            e.EventType.Name,
+            e.EventTypeId.Value.ToString(),
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,

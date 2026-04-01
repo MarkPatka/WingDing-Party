@@ -30,7 +30,7 @@ public class GetEventByIdQueryHandler
             @event.Id.Value.ToString(),
             @event.Title,
             @event.Description,
-            @event.EventType.Name,
+            @event.EventTypeId.Value.ToString(),
             @event.Status.Name,
             new LocationDto(
                 @event.Location.Address,

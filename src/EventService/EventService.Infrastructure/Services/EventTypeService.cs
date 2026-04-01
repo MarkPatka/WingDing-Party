@@ -42,7 +42,8 @@ public class EventTypeService : IEventTypeService
     public async Task<EventType?> GetEventTypeByIdAsync(
         EventTypeId id, CancellationToken cancellationToken = default)
     {
-        return await _eventTypeRepository.GetByIdAsync(id, cancellationToken);
+        var spec = new EventTypeByIdSpecification(id);
+        return await _eventTypeRepository.FirstOrDefaultAsync(spec, cancellationToken);
     }
 
     public async Task<EventType?> GetDefaultEventTypeAsync(

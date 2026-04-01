@@ -29,7 +29,7 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            e.EventType.Name,
+            e.EventTypeId.Value.ToString(),
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,

@@ -20,7 +20,6 @@ public interface IEventService
     //public Task<bool> DeleteEventAsync(Event @event, CancellationToken cancellationToken);
     public Task<PagedResult<Event>> GetEventsByTextAndFiltersAsync(
         string text, 
-        string? eventType, 
         string? city, 
         DateTime? dateFrom, 
         DateTime? dateTo,
