@@ -10,6 +10,8 @@ using EventService.Application.EventManagement.Command.DeleteEventCommand;
 using EventService.Application.EventManagement.Command.RegisterParticipant;
 using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
 using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
+using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
+using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
 
 namespace EventService.Api.Controllers;
 
@@ -23,6 +25,30 @@ public class EventsController : ControllerBase
     {
         _sender = sender;
         _mapper = mapper;
+    }
+
+    [HttpPost(Name = nameof(CreateEventType))]
+    public async Task<IActionResult> CreateEventType(CreateEventTypeRequest request)
+    {
+        var command = _mapper.Map<CreateEventTypeCommand>(request);
+
+        var result = await _sender.Send(command);
+
+        var response = _mapper.Map<CreateEventTypeResponse>(result);
+
+        return Ok(response);
+    }
+
+    [HttpGet(Name = nameof(GetAllEventTypes))]
+    public async Task<IActionResult> GetAllEventTypes(GetAllEventTypesRequest request)
+    {
+        var query = _mapper.Map<GetAllEventTypesQuery>(request);
+
+        var result = await _sender.Send(query);
+
+        var response = _mapper.Map<GetAllEventTypesResponse>(result);
+
+        return Ok(response);
     }
 
     [HttpPost(Name = nameof(CreateEvent))]

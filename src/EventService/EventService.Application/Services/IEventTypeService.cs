@@ -9,12 +9,10 @@ public interface IEventTypeService
         EventTypeId id, CancellationToken cancellationToken = default);
 
     Task<IReadOnlyList<EventType>> GetAllEventTypesAsync(
-        CancellationToken cancellationToken = default);
+        int pageNumber, int pageSize, CancellationToken cancellationToken = default);
 
-    Task<EventTypeId> CreateEventTypeAsync(
-        string name,
-        string? description,
-        string? IconUrl = null,
+    Task<EventType> CreateEventTypeAsync(
+        EventType eventType,
         CancellationToken cancellationToken = default);
 
     Task<bool> EventTypeIdExistsAsync(
@@ -22,4 +20,7 @@ public interface IEventTypeService
 
     Task<EventType?> GetDefaultEventTypeAsync(
         CancellationToken cancellationToken = default);
+
+    public Task<bool> CheckEventTypeNotExists(
+        string name, CancellationToken cancellationToken);
 }

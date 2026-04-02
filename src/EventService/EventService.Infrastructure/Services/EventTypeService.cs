@@ -15,15 +15,12 @@ public class EventTypeService : IEventTypeService
         _eventTypeRepository = eventTypeRepository;
     }
 
-    public async Task<EventTypeId> CreateEventTypeAsync(
-        string name, 
-        string? description, 
-        string? iconUrl = null, 
+    public async Task<EventType> CreateEventTypeAsync(
+        EventType eventType,
         CancellationToken cancellationToken = default)
     {
-        var eventType = EventType.Create(name, description, iconUrl);
         await _eventTypeRepository.AddAsync(eventType, cancellationToken);
-        return eventType.Id;
+        return eventType;
     }
 
     public async Task<bool> EventTypeIdExistsAsync(
@@ -34,9 +31,10 @@ public class EventTypeService : IEventTypeService
     }
 
     public async Task<IReadOnlyList<EventType>> GetAllEventTypesAsync(
-        CancellationToken cancellationToken = default)
+        int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
-        return await _eventTypeRepository.ListAsync(cancellationToken);
+        var spec = new EventTypesSpecification(pageNumber, pageSize);
+        return await _eventTypeRepository.ListAsync(spec, cancellationToken);
     }
 
     public async Task<EventType?> GetEventTypeByIdAsync(
@@ -51,5 +49,12 @@ public class EventTypeService : IEventTypeService
     {
         var spec = new DefaultEventTypeSpecification();
         return await _eventTypeRepository.FirstOrDefaultAsync(spec, cancellationToken);
+    }
+
+    public async Task<bool> CheckEventTypeNotExists(
+        string name, CancellationToken cancellationToken = default)
+    {
+        var spec = new EventTypeByNameSpecification(name);
+        return await _eventTypeRepository.AnyAsync(spec, cancellationToken);
     }
 }
