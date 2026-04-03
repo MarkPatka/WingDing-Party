@@ -4,6 +4,7 @@ using EventService.Application.Services;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Contracts.DTO;
 using EventService.Application.Common.Exceptions;
+using EventService.Domain.EventAggregate.Entities;
 
 namespace EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 
@@ -11,10 +12,14 @@ public class GetAllUserEventsQueryHandler
     : IRequestHandler<GetAllUserEventsQuery, GetAllUserEventsResult>
 {
     private readonly IEventService _eventService;
+    private readonly IEventTypeService _eventTypeService;
 
-    public GetAllUserEventsQueryHandler(IEventService service)
+    public GetAllUserEventsQueryHandler(
+        IEventService service,
+        IEventTypeService eventTypeService)
     {
         _eventService = service;
+        _eventTypeService = eventTypeService;
     }
 
     public async Task<GetAllUserEventsResult> Handle(
@@ -30,11 +35,26 @@ public class GetAllUserEventsQueryHandler
             throw new EntityNotFoundException(
                 $"Events by OrganizerId {request.UserId} not found");
 
-        var eventDtos = events.Select(e => new EventDto(
+        var eventTypes = new EventTypeDto?[events.Count];
+        for (int i = 0; i < events.Count; i++)
+        {
+            var eventType = await _eventTypeService.GetEventTypeByIdAsync(
+                events[i].EventTypeId, cancellationToken);
+
+            eventTypes[i] = eventType is not null
+                ? new EventTypeDto(
+                    eventType.Id.Value.ToString(), 
+                    eventType.Name, 
+                    eventType.Description, 
+                    eventType.Icon)
+                : null;
+        }
+
+        var eventDtos = events.Zip(eventTypes, (e, et) => new EventDto(
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            e.EventTypeId.Value.ToString(),
+            et!,
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,

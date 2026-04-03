@@ -1,10 +1,12 @@
-﻿namespace EventService.Contracts.DTO;
+﻿using EventService.Domain.EventAggregate.Entities;
+
+namespace EventService.Contracts.DTO;
 
 public sealed record EventDto(
     string Id,
     string Title,
     string Description,
-    string EventTypeId,
+    EventTypeDto EventType,
     string Status,
     LocationDto Location,
     DateTime StartDate,

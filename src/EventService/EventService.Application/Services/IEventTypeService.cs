@@ -21,6 +21,6 @@ public interface IEventTypeService
     Task<EventType?> GetDefaultEventTypeAsync(
         CancellationToken cancellationToken = default);
 
-    public Task<bool> CheckEventTypeNotExists(
+    Task<bool> CheckEventTypeNotExists(
         string name, CancellationToken cancellationToken);
 }

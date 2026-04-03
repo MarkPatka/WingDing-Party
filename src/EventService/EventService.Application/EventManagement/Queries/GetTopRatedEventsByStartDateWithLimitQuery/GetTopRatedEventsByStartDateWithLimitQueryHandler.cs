@@ -10,10 +10,14 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
     : IRequestHandler<GetTopRatedEventsByStartDateWithLimitQuery, GetTopRatedEventsByStartDateWithLimitResult>
 {
     private readonly IEventService _eventService;
+    private readonly IEventTypeService _eventTypeService;
 
-    public GetTopRatedEventsByStartDateWithLimitQueryHandler(IEventService eventService)
+    public GetTopRatedEventsByStartDateWithLimitQueryHandler(
+        IEventService eventService,
+        IEventTypeService eventTypeService)
     {
         _eventService = eventService;
+        _eventTypeService = eventTypeService;
     }
 
     public async Task<GetTopRatedEventsByStartDateWithLimitResult> Handle(
@@ -25,11 +29,26 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
         if (events == null)
             throw new EntityNotFoundException("Events not found");
 
-        var eventDtos = events.Select(e => new EventDto(
+        var eventTypes = new EventTypeDto?[events.Count];
+        for (int i = 0; i < events.Count; i++)
+        {
+            var eventType = await _eventTypeService.GetEventTypeByIdAsync(
+                events[i].EventTypeId, cancellationToken);
+
+            eventTypes[i] = eventType is not null
+                ? new EventTypeDto(
+                    eventType.Id.Value.ToString(),
+                    eventType.Name,
+                    eventType.Description,
+                    eventType.Icon)
+                : null;
+        }
+
+        var eventDtos = events.Zip(eventTypes, (e, et) => new EventDto(
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            e.EventTypeId.Value.ToString(),
+            et!,
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,
@@ -37,7 +56,8 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
                 e.Location.Country),
             e.StartDate,
             e.EndDate,
-            e.MaxParticipants));
+            e.MaxParticipants
+            ));
 
         return new GetTopRatedEventsByStartDateWithLimitResult(eventDtos);
     }

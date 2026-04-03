@@ -9,9 +9,14 @@ public class GetEventsByTextAndFiltersQueryHandler
     : IRequestHandler<GetEventsByTextAndFiltersQuery, GetEventsByTextAndFiltersResult>
 {
     private readonly IEventService _eventService;
-    public GetEventsByTextAndFiltersQueryHandler(IEventService service)
+    private readonly IEventTypeService _eventTypeService;
+
+    public GetEventsByTextAndFiltersQueryHandler(
+        IEventService service,
+        IEventTypeService eventTypeService)
     {
         _eventService = service;
+        _eventTypeService = eventTypeService;
     }
 
     public async Task<GetEventsByTextAndFiltersResult> Handle(
@@ -26,11 +31,26 @@ public class GetEventsByTextAndFiltersQueryHandler
             request.PageSize,
             cancellationToken);
 
-        var eventDtos = pagedEvents.Items.Select(e => new EventDto(
+        var eventTypes = new EventTypeDto?[pagedEvents.Items.Count];
+        for (int i = 0; i < pagedEvents.Items.Count; i++)
+        {
+            var eventType = await _eventTypeService.GetEventTypeByIdAsync(
+                pagedEvents.Items[i].EventTypeId, cancellationToken);
+
+            eventTypes[i] = eventType is not null
+                ? new EventTypeDto(
+                    eventType.Id.Value.ToString(),
+                    eventType.Name,
+                    eventType.Description,
+                    eventType.Icon)
+                : null;
+        }
+
+        var eventDtos = pagedEvents.Items.Zip(eventTypes, (e, et) => new EventDto(
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            e.EventTypeId.Value.ToString(),
+            et!,
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,
@@ -38,7 +58,8 @@ public class GetEventsByTextAndFiltersQueryHandler
                 e.Location.Country),
             e.StartDate,
             e.EndDate,
-            e.MaxParticipants));
+            e.MaxParticipants
+            ));
 
         return new GetEventsByTextAndFiltersResult(
             eventDtos,
