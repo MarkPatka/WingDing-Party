@@ -33,15 +33,19 @@ public class GetEventByIdQueryHandler
         var eventType = await _eventTypeService.GetEventTypeByIdAsync(
             @event.EventTypeId, cancellationToken);
 
+        var eventTypeDto = eventType is not null
+            ? new EventTypeDto(
+                eventType.Id.Value.ToString(), 
+                eventType.Name, 
+                eventType.Description, 
+                eventType.Icon)
+            : new EventTypeDto("unknown", "Unknown", null, null);
+
         var eventDto = new EventDto(
             @event.Id.Value.ToString(),
             @event.Title,
             @event.Description,
-            new EventTypeDto(
-                eventType!.Id.Value.ToString(),
-                eventType.Name,
-                eventType.Description,
-                eventType.Icon),
+            eventTypeDto,
             @event.Status.Name,
             new LocationDto(
                 @event.Location.Address,

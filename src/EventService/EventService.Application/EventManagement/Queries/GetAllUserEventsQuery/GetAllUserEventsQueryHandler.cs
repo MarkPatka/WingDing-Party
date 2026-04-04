@@ -54,7 +54,7 @@ public class GetAllUserEventsQueryHandler
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            et!,
+            et ?? new EventTypeDto("unknown", "unknown", null, null),
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,

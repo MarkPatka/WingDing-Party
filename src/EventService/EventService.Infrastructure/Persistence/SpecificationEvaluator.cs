@@ -1,6 +1,5 @@
 ﻿using EventService.Application.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace EventService.Infrastructure.Persistence;
 
@@ -33,13 +32,19 @@ public static class SpecificationEvaluator
             seed: query,
             func: (current, include) => current.Include(include));
 
-        if (specification.OrderBy != null)
+        if (specification.OrderExpressions.Any())
         {
-            query = query.OrderBy(specification.OrderBy);
-        }
-        else if (specification.OrderByDescending != null)
-        {
-            query = query.OrderByDescending(specification.OrderByDescending);
+            var first = specification.OrderExpressions.First();
+            query = first.IsDescending
+                ? query.OrderByDescending(first.Expression)
+                : query.OrderBy(first.Expression);
+
+            foreach (var order in specification.OrderExpressions.Skip(1))
+            {
+                query = order.IsDescending
+                    ? ((IOrderedQueryable<TEntity>)query).ThenByDescending(order.Expression)
+                    : ((IOrderedQueryable<TEntity>)query).ThenBy(order.Expression);
+            }
         }
 
         if (specification.GroupBy != null)
