@@ -31,7 +31,7 @@ public class GetAllUserEventsQueryHandler
             request.PageSize,
             cancellationToken);
 
-        if (events == null)
+        if (!events.Any())
             throw new EntityNotFoundException(
                 $"Events by OrganizerId {request.UserId} not found");
 

@@ -12,6 +12,7 @@ using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
 using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
 using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
 using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
+using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
 
 namespace EventService.Api.Controllers;
 
@@ -146,6 +147,19 @@ public class EventsController : ControllerBase
         var result = await _sender.Send(query);
 
         var response = _mapper.Map<GetEventsByTextAndFiltersResponse>(result);
+
+        return Ok(response);
+    }
+
+    [HttpGet("{EventId}", Name = nameof(GetEventParticipants))]
+    public async Task<IActionResult> GetEventParticipants(
+        GetEventParticipantsRequest request)
+    {
+        var query = _mapper.Map<GetEventParticipantsQuery>(request);
+
+        var result = await _sender.Send(query);
+
+        var response = _mapper.Map<GetEventParticipantsResponse>(result);
 
         return Ok(response);
     }

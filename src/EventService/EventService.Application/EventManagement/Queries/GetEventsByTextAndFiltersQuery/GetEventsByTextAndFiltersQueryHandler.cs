@@ -1,4 +1,5 @@
-﻿using EventService.Application.EventManagement.Common;
+﻿using EventService.Application.Common.Exceptions;
+using EventService.Application.EventManagement.Common;
 using EventService.Application.Services;
 using EventService.Contracts.DTO;
 using MediatR;
@@ -30,6 +31,10 @@ public class GetEventsByTextAndFiltersQueryHandler
             request.PageNumber,
             request.PageSize,
             cancellationToken);
+
+        if (!pagedEvents.Items.Any())
+            throw new EntityNotFoundException(
+                $"Events by text '{request.Text}' not found");
 
         var eventTypes = new EventTypeDto?[pagedEvents.Items.Count];
         for (int i = 0; i < pagedEvents.Items.Count; i++)

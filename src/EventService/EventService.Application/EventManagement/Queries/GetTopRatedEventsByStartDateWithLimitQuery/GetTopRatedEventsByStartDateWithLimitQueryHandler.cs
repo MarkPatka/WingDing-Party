@@ -26,7 +26,7 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
         var events = await _eventService.GetTopRatedEventsByStartDateWithLimitAsync(
             request.StartDate, request.Limit, cancellationToken);
 
-        if (events == null)
+        if (!events.Any())
             throw new EntityNotFoundException("Events not found");
 
         var eventTypes = new EventTypeDto?[events.Count];

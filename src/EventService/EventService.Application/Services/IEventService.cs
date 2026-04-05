@@ -1,5 +1,6 @@
 ﻿using EventService.Application.Common;
 using EventService.Domain;
+using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
 
 namespace EventService.Application.Services;
@@ -27,4 +28,7 @@ public interface IEventService
         CancellationToken cancellationToken = default);
     public Task<IReadOnlyList<Event>> GetTopRatedEventsByStartDateWithLimitAsync(
         DateTime startDate, int limit, CancellationToken cancellationToken);
+
+    public Task<Event?> GetEventParticipantsAsync(
+        EventId id,  CancellationToken cancellationToken = default);
 }

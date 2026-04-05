@@ -99,4 +99,11 @@ public class EventService : IEventService
         var spec = new TopRatedEventsByStartDateWithLimitSpecification(startDate, limit);
         return await _eventRepository.ListAsync(spec, cancellationToken);
     }
+
+    public async Task<Event?> GetEventParticipantsAsync(
+        EventId id, CancellationToken cancellationToken = default)
+    {
+        var spec = new EventParticipantsByEventIdSpecification(id);
+        return await _eventRepository.FirstOrDefaultAsync(spec, cancellationToken);
+    }
 }

@@ -3,11 +3,13 @@ using EventService.Domain.EventAggregate.ValueObjects;
 
 namespace EventService.Application.Persistence.Specifications;
 
-public class EventByIdSpec : BaseSpecification<Event>
+public class EventParticipantsByEventIdSpecification : BaseSpecification<Event>
 {
-    public EventByIdSpec(EventId eventId)
+    public EventParticipantsByEventIdSpecification(EventId eventId)
         : base(e => e.Id == eventId)
     {
+        AddInclude(e => e.Participants);
         ApplyNoTracking();
+        ApplySplitQuery();
     }
 }

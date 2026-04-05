@@ -39,7 +39,7 @@ public class GetEventByIdQueryHandler
                 eventType.Name, 
                 eventType.Description, 
                 eventType.Icon)
-            : new EventTypeDto("unknown", "Unknown", null, null);
+            : new EventTypeDto("unknown", "unknown", null, null);
 
         var eventDto = new EventDto(
             @event.Id.Value.ToString(),

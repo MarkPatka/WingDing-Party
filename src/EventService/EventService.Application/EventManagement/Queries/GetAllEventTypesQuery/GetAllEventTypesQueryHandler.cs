@@ -22,7 +22,7 @@ public class GetAllEventTypesQueryHandler
         var eventTypes = await _eventTypeService.GetAllEventTypesAsync(
             request.PageNumber, request.PageSize, cancellationToken);
 
-        if (eventTypes == null)
+        if (!eventTypes.Any())
             throw new EntityNotFoundException("EventTypes not found");
 
         var eventTypeDtos = eventTypes.Select(et => new EventTypeDto(

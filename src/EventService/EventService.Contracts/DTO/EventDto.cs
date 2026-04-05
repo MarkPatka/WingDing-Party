@@ -1,6 +1,4 @@
-﻿using EventService.Domain.EventAggregate.Entities;
-
-namespace EventService.Contracts.DTO;
+﻿namespace EventService.Contracts.DTO;
 
 public sealed record EventDto(
     string Id,
