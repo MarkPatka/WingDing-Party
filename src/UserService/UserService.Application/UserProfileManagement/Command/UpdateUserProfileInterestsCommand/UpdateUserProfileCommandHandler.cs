@@ -1,4 +1,5 @@
 using MediatR;
+using UserService.Application.Common.Exceptions;
 using UserService.Application.Services;
 using UserService.Application.UserProfileManagement.Common;
 using UserService.Domain.UserProfileAggregate;

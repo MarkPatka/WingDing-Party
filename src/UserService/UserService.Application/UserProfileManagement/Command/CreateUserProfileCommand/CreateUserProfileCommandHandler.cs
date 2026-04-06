@@ -1,4 +1,5 @@
 using MediatR;
+using UserService.Application.Common.Exceptions;
 using UserService.Application.Persistence;
 using UserService.Application.Services;
 using UserService.Application.UserProfileManagement.Common;
@@ -35,7 +36,7 @@ public class CreateUserProfileCommandHandler : IRequestHandler<CreateUserProfile
             request.Interests,
             request.BirthDate);
 
-        await _userProfileService.InsertAsync(userProfile);
+        await _userProfileService.InsertAsync(userProfile, cancellationToken);
         await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
         return new CreateUserProfileResult(

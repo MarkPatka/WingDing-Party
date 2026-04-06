@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation"/>
-        <PackageReference Include="MediatR"/>
-        <PackageReference Include="Mapster.DependencyInjection"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
+        <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <PackageReference Include="MediatR" Version="14.1.0" />
+        <PackageReference Include="Mapster.DependencyInjection" Version="10.0.6" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.5" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj"/>
+        <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
     </ItemGroup>
 
 </Project>
