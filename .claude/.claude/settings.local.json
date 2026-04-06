@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"D:\\\\Repositories\\\\WingDingRepository\\\\WingDing-Party\\\\src\\\\AuthService\"\" && ls -la \"D:RepositoriesWingDingRepositoryWingDing-PartysrcClubService\"\")",
+      "Bash(ls -la \"D:\\\\Repositories\\\\WingDingRepository\\\\WingDing-Party\\\\src\\\\EventService\"\" && ls -la \"D:RepositoriesWingDingRepositoryWingDing-PartysrcUserService\"\")"
+    ]
+  }
+}

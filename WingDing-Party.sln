@@ -5,10 +5,10 @@ VisualStudioVersion = 17.14.36915.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluton items", "Soluton items", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
 	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
 		.gitignore = .gitignore
-		docker-compose.yaml = docker-compose.yaml
 	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -70,6 +70,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Debug|x64.Build.0 = Debug|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Debug|x86.Build.0 = Debug|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Release|x64.Build.0 = Release|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}.Release|x86.Build.0 = Release|Any CPU
 		{9FDF85B4-FD0B-5564-0CA5-18307D97201B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9FDF85B4-FD0B-5564-0CA5-18307D97201B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FDF85B4-FD0B-5564-0CA5-18307D97201B}.Debug|x64.ActiveCfg = Debug|Any CPU

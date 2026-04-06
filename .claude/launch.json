@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "AuthService.Api",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/AuthService/AuthService.Api/AuthService.Api.csproj", "--launch-profile", "http"],
+      "port": 5228
+    },
+    {
+      "name": "ClubService.Api",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/ClubService/ClubService.Api/ClubService.Api.csproj", "--launch-profile", "http"],
+      "port": 5187
+    },
+    {
+      "name": "EventService.Api",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/EventService/EventService.Api/EventService.Api.csproj", "--launch-profile", "http"],
+      "port": 5187
+    },
+    {
+      "name": "UserService.Api",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/UserService/UserService.Api/UserService.Api.csproj", "--launch-profile", "http"],
+      "port": 5187
+    }
+  ]
+}
