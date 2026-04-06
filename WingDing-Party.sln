@@ -3,16 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36915.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluton items", "Soluton items", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
 		docker-compose.yaml = docker-compose.yaml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database-init-scripts", "database-init-scripts", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
-	ProjectSection(SolutionItems) = preProject
-		database-init-scripts\01-initial-script.sql = database-init-scripts\01-initial-script.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
@@ -320,7 +315,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8} = {754FC069-D67B-A9D7-50A1-8D1CA196D8F1}
 		{9FDF85B4-FD0B-5564-0CA5-18307D97201B} = {4CF4740B-BC9C-432E-9CFB-076AC9F42AA7}
 		{B0BD6ACB-DC6A-B021-366C-597D94D62C83} = {4CF4740B-BC9C-432E-9CFB-076AC9F42AA7}
 		{2A79280E-CA1E-8B09-51ED-AF5A39F8C570} = {4CF4740B-BC9C-432E-9CFB-076AC9F42AA7}
