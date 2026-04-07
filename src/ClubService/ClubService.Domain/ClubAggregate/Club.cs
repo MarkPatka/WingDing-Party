@@ -1,4 +1,5 @@
 using ClubService.Domain.ClubAggregate.DomainEvents;
+using ClubService.Domain.ClubAggregate.Entities;
 using ClubService.Domain.ClubAggregate.ValueObjects;
 using ClubService.Domain.Common.Abstract;
 

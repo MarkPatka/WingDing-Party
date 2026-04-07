@@ -5,23 +5,27 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
 		<NoWarn>1591</NoWarn>
+		<UserSecretsId>7d455118-12ac-4881-b2f6-eb6ca5db23bc</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DotNetEnv"/>
-        <PackageReference Include="Mapster"/>
-        <PackageReference Include="MediatR"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
-        <PackageReference Include="Swashbuckle.AspNetCore"/>
-        <PackageReference Include="Serilog"/>
-        <PackageReference Include="Serilog.AspNetCore"/>
-        <PackageReference Include="Serilog.Sinks.File"/>
+        <PackageReference Include="DotNetEnv" />
+        <PackageReference Include="Mapster" />
+        <PackageReference Include="MediatR" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
+        <PackageReference Include="Serilog" />
+        <PackageReference Include="Serilog.AspNetCore" />
+        <PackageReference Include="Serilog.Sinks.File" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ClubService.Application\ClubService.Application.csproj"/>
-        <ProjectReference Include="..\ClubService.Contracts\ClubService.Contracts.csproj"/>
-        <ProjectReference Include="..\ClubService.Infrastructure\ClubService.Infrastructure.csproj"/>
+        <ProjectReference Include="..\ClubService.Application\ClubService.Application.csproj" />
+        <ProjectReference Include="..\ClubService.Contracts\ClubService.Contracts.csproj" />
+        <ProjectReference Include="..\ClubService.Infrastructure\ClubService.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

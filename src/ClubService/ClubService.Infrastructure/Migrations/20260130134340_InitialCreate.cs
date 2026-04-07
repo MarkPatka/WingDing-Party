@@ -30,24 +30,6 @@ namespace ClubService.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserProfiles",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DisplayName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Bio = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    AvatarUri = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Interests = table.Column<string[]>(type: "text[]", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserProfiles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ClubMembers",
                 columns: table => new
                 {
@@ -65,17 +47,6 @@ namespace ClubService.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserProfiles_Id",
-                table: "UserProfiles",
-                column: "Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserProfiles_Interests",
-                table: "UserProfiles",
-                column: "Interests")
-                .Annotation("Npgsql:IndexMethod", "gin");
         }
 
         /// <inheritdoc />
@@ -83,9 +54,6 @@ namespace ClubService.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ClubMembers");
-
-            migrationBuilder.DropTable(
-                name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "Clubs");

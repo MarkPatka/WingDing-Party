@@ -1,11 +1,15 @@
-﻿using ClubService.Application.Common.Configuration;
+﻿using System.Reflection;
+using ClubService.Application.Common.Configuration;
 using ClubService.Application.Persistence;
 using ClubService.Application.Services;
 using ClubService.Domain.ClubAggregate;
 using ClubService.Domain.ClubAggregate.ValueObjects;
 using ClubService.Infrastructure.Messaging;
+using ClubService.Infrastructure.Messaging.Mapping;
 using ClubService.Infrastructure.Persistence;
 using ClubService.Infrastructure.Persistence.Outbox;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +22,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
+        //services.AddMappings();
         services.RegisterRepositories();
         services.RegisterDbContext();
         services.BackgroundServices();
@@ -36,6 +41,15 @@ public static class DependencyInjection
     {
         services.AddScoped<IClubService, ClubService.Infrastructure.Services.ClubService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        return services;
+    }
+
+    public static IServiceCollection AddMappings(this IServiceCollection services)
+    {
+        var config = new TypeAdapterConfig();
+        config.Scan(Assembly.GetExecutingAssembly());
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
         return services;
     }
 
