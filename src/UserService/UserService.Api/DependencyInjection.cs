@@ -27,7 +27,7 @@ public static class DependencyInjection
     private static IServiceCollection AddConfiguration(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        LoadEnvironmentVariables();
+        // LoadEnvironmentVariables();
 
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -92,6 +92,9 @@ public static class DependencyInjection
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
             .MinimumLevel.Override("System", LogEventLevel.Warning)
+            .WriteTo.Console(
+                outputTemplate: "{Timestamp:HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+                restrictedToMinimumLevel: LogEventLevel.Information)
             .WriteTo.Logger(l =>
             {
                 l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information)

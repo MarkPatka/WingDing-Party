@@ -1,13 +1,14 @@
-﻿using System.Reflection;
-using ClubService.Infrastructure.Messaging.Mapping;
+﻿using ClubService.Infrastructure.Messaging.Mapping;
 using Mapster;
 using MapsterMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Reflection;
 using UserService.Application.Common.Configuration;
 using UserService.Application.Persistence;
 using UserService.Application.Services;
@@ -83,7 +84,9 @@ public static class DependencyInjection
         {
             var dbSettings = provider
                 .GetRequiredService<IOptions<EventsDatabaseOptions>>().Value;
+
             options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+
         }, ServiceLifetime.Scoped);
 
         return services;

@@ -48,13 +48,13 @@ public class OutboxProcessorBackgroundService : BackgroundService
                         .BeginTransactionAsync(stoppingToken);
                     var messages = await dbContext.Set<OutboxMessage>()
                         .FromSqlRaw(@"
-        SELECT *
-        FROM ""OutboxMessages""
-        WHERE ""ProcessedOnUtc"" IS NULL
-          AND ""Retries"" < {0}
-        ORDER BY ""OccurredOnUtc""
-        FOR UPDATE SKIP LOCKED
-        LIMIT 20", MaxRetries)
+                            SELECT *
+                            FROM ""OutboxMessages""
+                            WHERE ""ProcessedOnUtc"" IS NULL
+                              AND ""Retries"" < {0}
+                            ORDER BY ""OccurredOnUtc""
+                            FOR UPDATE SKIP LOCKED
+                            LIMIT 20", MaxRetries)
                         .ToListAsync(stoppingToken);
 
                     foreach (var message in messages)

@@ -2,64 +2,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UserService.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace UserService.Infrastructure.Migrations
+namespace UserService.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(UserServiceDbContext))]
-    [Migration("20260212090837_AddOutboxMessagesTable")]
-    partial class AddOutboxMessagesTable
+    partial class UserServiceDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.2")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("UserService.Domain.ClubAggregate.Club", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(2048)
-                        .HasColumnType("character varying(2048)");
-
-                    b.PrimitiveCollection<string[]>("Interests")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<bool>("IsPublic")
-                        .HasColumnType("bool");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<Guid>("Owner")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clubs", (string)null);
-                });
 
             modelBuilder.Entity("UserService.Domain.UserProfileAggregate.UserProfile", b =>
                 {
@@ -115,14 +76,14 @@ namespace UserService.Infrastructure.Migrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime>("OccurredOnUtc")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Payload")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("ProcessedOnUtc")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Retries")
                         .ValueGeneratedOnAdd()
@@ -139,30 +100,6 @@ namespace UserService.Infrastructure.Migrations
                     b.HasIndex("ProcessedOnUtc", "OccurredOnUtc");
 
                     b.ToTable("OutboxMessages", (string)null);
-                });
-
-            modelBuilder.Entity("UserService.Domain.ClubAggregate.Club", b =>
-                {
-                    b.OwnsMany("UserService.Domain.ClubAggregate.ClubMember", "ClubMembers", b1 =>
-                        {
-                            b1.Property<Guid>("ClubId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<DateTime>("JoinedAt")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.HasKey("ClubId", "UserId");
-
-                            b1.ToTable("ClubMembers", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("ClubId");
-                        });
-
-                    b.Navigation("ClubMembers");
                 });
 #pragma warning restore 612, 618
         }
