@@ -3,5 +3,8 @@ using MediatR;
 
 namespace EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 
-public record GetAllUserEventsQuery(Guid OrganizerId, int PageNumber, int PageSize) 
+public record GetAllUserEventsQuery(
+    Guid UserId, 
+    int PageNumber = 1, 
+    int PageSize = 20) 
     : IRequest<GetAllUserEventsResult>;

@@ -23,6 +23,7 @@ var app = builder.Build();
     app.UseHttpsRedirection();
     app.UseExceptionHandler();
     app.MapControllers();
+
     app.Run();
 }
 

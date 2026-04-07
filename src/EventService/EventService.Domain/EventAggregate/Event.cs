@@ -9,15 +9,13 @@ namespace EventService.Domain;
 
 public sealed class Event : AggregateRoot<EventId>
 {
-    //private readonly List<Review> _reviews = [];
     private readonly List<Participant> _participants = [];
-
     public IReadOnlyCollection<Participant> Participants => _participants.AsReadOnly();
-    //public IReadOnlyCollection<Review> Reviews => _reviews.AsReadOnly();
 
     public string Title         { get; private set; } = string.Empty;
     public string Description   { get; private set; } = string.Empty;
-    public EventType EventType  { get; private set; } = null!;
+    public EventTypeId EventTypeId { get; private set; } = null!;
+    public EventType EventType { get; private set; } = null!;
     public Location Location    { get; private set; } = null!;
     public DateTime StartDate   { get; private set; }
     public DateTime EndDate     { get; private set; }
@@ -39,7 +37,7 @@ public sealed class Event : AggregateRoot<EventId>
         EventId id,
         string title,
         string description,
-        EventType eventType,
+        EventTypeId eventTypeId,
         Location location,
         DateTime startDate,
         DateTime endDate,
@@ -54,7 +52,7 @@ public sealed class Event : AggregateRoot<EventId>
     {
         Title = title;
         Description = description;
-        EventType = eventType;
+        EventTypeId = eventTypeId;
         Location = location;
         StartDate = startDate;
         EndDate = endDate;
@@ -69,7 +67,7 @@ public sealed class Event : AggregateRoot<EventId>
     public static Event Create(
         string title,
         string description,
-        EventType eventType,
+        EventTypeId eventTypeId,
         Location location,
         DateTime startDate,
         DateTime endDate,
@@ -93,7 +91,7 @@ public sealed class Event : AggregateRoot<EventId>
             EventId.CreateUnique(),
             title,
             description,
-            eventType,
+            eventTypeId,
             location,
             startDate,
             endDate,
@@ -108,14 +106,76 @@ public sealed class Event : AggregateRoot<EventId>
         return @event;
     }
 
-    public void Update()
+    public void Update(
+        string? title,
+        string? description,
+        Location? location,
+        DateTime? startDate,
+        DateTime? endDate,
+        int? maxParticipants
+        )
     {
-        if (Status != EventStatus.Draft && Status != EventStatus.Active)
-            throw new InvalidOperationException("Only draft and active events can be updated");
+        if (Status == EventStatus.Deleted)
+            throw new InvalidOperationException("Cannot update deleted events");
+
+        if (startDate.HasValue && endDate.HasValue && startDate.Value > endDate.Value)
+            throw new InvalidOperationException("EndDate must be after StartDate");
+
+        if (maxParticipants.HasValue)
+        {
+             if (maxParticipants <= 0)
+                throw new InvalidOperationException("Max participants must be greater 0");
+             SetMaxParticipants(maxParticipants.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(title))
+            SetTitle(title);
+
+        if (!string.IsNullOrWhiteSpace(description))
+            SetDescription(description);
+
+        if (location! != null!)
+            SetLocation(location);
+
+        if (startDate.HasValue)
+            SetStartDate(startDate.Value);
+
+        if (endDate.HasValue)
+            SetEndDate(endDate.Value);
 
         UpdatedAt = DateTime.UtcNow;
 
-        AddDomainEvent(new EventUpdated(Id, DateTime.UtcNow));
+        AddDomainEvent(new EventUpdated(Id, UpdatedAt.Value));
+    }
+
+    private void SetMaxParticipants(int maxParticipants)
+    {
+        MaxParticipants = maxParticipants;
+    }
+
+    private void SetStartDate(DateTime startDate)
+    {
+        StartDate = startDate;
+    }
+
+    private void SetEndDate(DateTime endDate)
+    {
+        EndDate = endDate;
+    }
+
+    private void SetLocation(Location? location)
+    {
+        Location = location!;
+    }
+
+    private void SetDescription(string description)
+    {
+        Description = description;
+    }
+
+    private void SetTitle(string title)
+    {
+        Title = title;
     }
 
     public void Publish()
@@ -126,7 +186,7 @@ public sealed class Event : AggregateRoot<EventId>
         Status = EventStatus.Active;
         UpdatedAt = DateTime.UtcNow;
 
-        AddDomainEvent(new EventPublished(Id, DateTime.UtcNow));
+        AddDomainEvent(new EventPublished(Id, UpdatedAt.Value));
     }
 
     public void Cancell()
@@ -137,10 +197,10 @@ public sealed class Event : AggregateRoot<EventId>
         Status = EventStatus.Cancelled;
         UpdatedAt = DateTime.UtcNow;
 
-        AddDomainEvent(new EventCancelled(Id, DateTime.UtcNow));
+        AddDomainEvent(new EventCancelled(Id, UpdatedAt.Value));
     }
 
-    public void Delete()
+    public void MarkAsDeleted()
     {
         if (Status != EventStatus.Draft && Status != EventStatus.Cancelled)
             throw new InvalidOperationException(
@@ -149,7 +209,7 @@ public sealed class Event : AggregateRoot<EventId>
         Status = EventStatus.Deleted;
         UpdatedAt = DateTime.UtcNow;
 
-        AddDomainEvent(new EventDeleted(Id, DateTime.UtcNow));
+        AddDomainEvent(new EventDeleted(Id, UpdatedAt.Value));
     }
 
     public Participant RegisterParticipant(UserId userId, string name)

@@ -9,9 +9,7 @@ public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
     public Expression<Func<TEntity, bool>>? Criteria { get; private set; }
     public List<Expression<Func<TEntity, object>>> Includes { get; } = [];
     public List<string> IncludeStrings { get; } = [];
-
-    public Expression<Func<TEntity, object>>? OrderBy { get; private set; }
-    public Expression<Func<TEntity, object>>? OrderByDescending { get; private set; }
+    public List<(Expression<Func<TEntity, object>> Expression, bool IsDescending)> OrderExpressions { get; } = [];
     public Expression<Func<TEntity, object>>? GroupBy { get; private set; }
 
     public int Take { get; private set; }
@@ -56,16 +54,21 @@ public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
         IncludeStrings.Add(includeString);
 
     protected virtual void ApplyOrderBy(Expression<Func<TEntity, object>> orderByExpression) =>
-        OrderBy = orderByExpression;
+        OrderExpressions.Add((orderByExpression, false));
 
     protected virtual void ApplyOrderByDescending(Expression<Func<TEntity, object>> orderByDescExpression) =>
-        OrderByDescending = orderByDescExpression;
+        OrderExpressions.Add((orderByDescExpression, true));
 
     protected virtual void ApplyPaging(int skip, int take)
     {
         Skip = skip;
         Take = take;
         IsPagingEnabled = true;
+    }
+
+    public void ClearPaging()
+    {
+        IsPagingEnabled = false;
     }
 
     protected virtual void ApplyGroupBy(Expression<Func<TEntity, object>> groupByExpression) =>

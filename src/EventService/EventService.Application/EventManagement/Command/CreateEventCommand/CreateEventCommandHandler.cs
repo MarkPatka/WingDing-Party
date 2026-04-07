@@ -1,4 +1,6 @@
-﻿using EventService.Application.EventManagement.Common;
+﻿using EventService.Application.Common.Errors;
+using EventService.Application.Common.Exceptions;
+using EventService.Application.EventManagement.Common;
 using EventService.Application.Persistence;
 using EventService.Application.Services;
 using EventService.Domain;
@@ -12,13 +14,16 @@ public class CreateEventCommandHandler
     : IRequestHandler<CreateEventCommand, CreateEventResult>
 {
     private readonly IEventService _eventService;
+    private readonly IEventTypeService _eventTypeService;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateEventCommandHandler(
         IEventService eventService,
+        IEventTypeService eventTypeService,
         IUnitOfWork unitOfWork)
     {
         _eventService = eventService;
+        _eventTypeService = eventTypeService;
         _unitOfWork = unitOfWork;
     }
 
@@ -26,22 +31,35 @@ public class CreateEventCommandHandler
         CreateEventCommand request,
         CancellationToken cancellationToken)
     {
-        // check if not exists
         var eventExists = await _eventService
-            .CheckEventNotExists(request.Title, UserId.Create(request.OrganizerId), cancellationToken); /// NEW 
+            .CheckEventNotExists(
+                request.Title, 
+                UserId.Create(request.OrganizerId), 
+                cancellationToken);
 
         if (eventExists)
-            throw new Exception($"Event already exists");
+            throw new InvalidOperationException("Event already exists");
 
-        // create
+        EventType eventType;
+
+        if (request.EventTypeId.HasValue)
+        {
+            eventType = await _eventTypeService
+            .GetEventTypeByIdAsync(
+                EventTypeId.Create(request.EventTypeId.Value), cancellationToken)
+            ?? throw new EntityNotFoundException(
+                $"EventType:{request.EventTypeId} not found");
+        }
+        else
+        {
+            eventType = await _eventTypeService.GetDefaultEventTypeAsync(cancellationToken)
+            ?? throw new EntityNotFoundException("Default EventType not found");
+        }
+
         var newEvent = Event.Create(
             request.Title,
             request.Description!,
-            eventType: EventType.CreateNew(
-                    Guid.NewGuid(),
-                    "DotNext",
-                    "Conference",
-                    "Persisted_Icon_In_MiniO_Storage"),
+            eventTypeId: eventType.Id,
             request.Location!,
             request.StartDate,
             request.EndDate,
@@ -51,12 +69,10 @@ public class CreateEventCommandHandler
             TimeProvider.System.GetUtcNow().DateTime
         );
 
-        // add
         await _eventService.CreateEventAsync(newEvent, cancellationToken);
 
         await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        // return result
         return new CreateEventResult(
                     newEvent.Id.Value,
                     newEvent.CreatedAt,

@@ -1,8 +1,4 @@
-﻿using EventService.Domain.EventAggregate.Enumerations;
-using EventService.Domain.EventAggregate.Entities;
-using EventService.Domain.EventAggregate.ValueObjects;
-
-namespace EventService.Application.EventManagement.Common;
+﻿namespace EventService.Application.EventManagement.Common;
 
 public record CreateEventResult(
         Guid EventId,

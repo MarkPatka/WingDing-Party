@@ -13,7 +13,6 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
     public void Configure(EntityTypeBuilder<Event> builder)
     {
         ConfigureEventsTable(builder);
-        ConfigureEventTypes(builder);
         ConfigureLocation(builder);
         ConfigureParticipantTable(builder);
     }
@@ -49,6 +48,18 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
             .HasMaxLength(100)
             .IsRequired();
 
+        builder.Property(e => e.EventTypeId)
+            .HasColumnName("EventTypeId")
+            .HasConversion(
+                id => id.Value,
+                value =>  EventTypeId.Create(value))
+            .IsRequired();
+
+        builder.HasOne(e => e.EventType)
+            .WithMany()
+            .HasForeignKey(e => e.EventTypeId)
+            .OnDelete(DeleteBehavior.Restrict); // Не удаляем EventType
+
         builder.Property(e => e.Status)
             .HasConversion(
                 status => status.Name,
@@ -83,6 +94,9 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
         builder.Property<byte[]>("RowVersion")
             .IsRowVersion();
 
+        builder.HasIndex(e => e.EventTypeId)
+            .HasDatabaseName("IX_Events_EventTypeId");
+
         builder.HasIndex(e => e.OrganizerId)
             .HasDatabaseName("IX_Events_OrganizerId");
 
@@ -97,32 +111,6 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
 
         builder.HasIndex(e => new { e.OrganizerId, e.Status })
             .HasDatabaseName("IX_Events_OrganizerId_Status");
-    }
-    private static void ConfigureEventTypes(EntityTypeBuilder<Event> builder)
-    {
-        builder.OwnsOne(e => e.EventType, et =>
-        {
-            et.Property(x => x.Id)
-                .HasColumnName("EventTypeId")
-                .ValueGeneratedNever()
-                .HasConversion(
-                    id => id.Value,
-                    value => EventTypeId.Create(value))
-                .IsRequired();
-
-            et.Property(x => x.Name)
-                .HasColumnName("EventTypeName")
-                .HasMaxLength(100)
-                .IsRequired();
-
-            et.Property(x => x.Description)
-                .HasColumnName("EventTypeDescription")
-                .HasMaxLength(500);
-
-            et.Property(x => x.Icon)
-                .HasColumnName("EventTypeIcon")
-                .HasMaxLength(200);
-        });
     }
     private static void ConfigureLocation(EntityTypeBuilder<Event> builder)
     {

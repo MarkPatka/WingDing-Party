@@ -2,9 +2,8 @@
 
 public sealed record GetEventsByTextAndFiltersRequest(
     string Text,
-    string? EventType,
     string? City,
     DateTime? DateFrom,
     DateTime? DateTo,
-    int PageNumber,
-    int PageSize);
+    int PageNumber = 1,
+    int PageSize = 20);

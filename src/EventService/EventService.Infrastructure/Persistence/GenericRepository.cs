@@ -64,8 +64,7 @@ public class GenericRepository<TEntity, TId>
         ISpecification<TEntity> specification,
         CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(specification)
-            .FirstOrDefaultAsync(cancellationToken);
+        return await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
     }
 
     public virtual async Task<IReadOnlyList<TEntity>> ListAsync(
@@ -126,12 +125,13 @@ public class GenericRepository<TEntity, TId>
         return entities;
     }
 
-    public virtual Task UpdateAsync(
+    public virtual async Task<TEntity> UpdateAsync(
         TEntity entity,
         CancellationToken cancellationToken = default)
-    {
-        Context.Entry(entity).State = EntityState.Modified;
-        return Task.CompletedTask;
+    {        
+        // Context.Entry(entity).State = EntityState.Modified;
+        DbSet.Update(entity);
+        return entity;
     }
 
     public virtual Task UpdateRangeAsync(

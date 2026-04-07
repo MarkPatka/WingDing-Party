@@ -5,9 +5,8 @@ namespace EventService.Application.EventManagement.Queries.GetEventsByTextAndFil
 
 public record GetEventsByTextAndFiltersQuery(
     string Text,
-    string? EventType,
     string? City,
     DateTime? DateFrom,
     DateTime? DateTo,
-    int PageNumber,
-    int PageSize) : IRequest<GetEventsByTextAndFiltersResult>;
+    int PageNumber = 1,
+    int PageSize = 20) : IRequest<GetEventsByTextAndFiltersResult>;

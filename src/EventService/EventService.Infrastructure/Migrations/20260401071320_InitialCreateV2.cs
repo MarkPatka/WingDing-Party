@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateV2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,9 +20,6 @@ namespace EventService.Infrastructure.Migrations
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    EventTypeName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    EventTypeDescription = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    EventTypeIcon = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     EventTypeId = table.Column<Guid>(type: "uuid", nullable: false),
                     LocationAddress = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     LocationCity = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -57,6 +54,21 @@ namespace EventService.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EventStatuses", x => x.EventStatusId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventTypes",
+                columns: table => new
+                {
+                    EventTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    Icon = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    IsDefault = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventTypes", x => x.EventTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,6 +128,42 @@ namespace EventService.Infrastructure.Migrations
                     { 3, "Отменил участие", "Cancelled" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "EventTypes",
+                columns: new[] { "EventTypeId", "Name", "Description", "IsDefault" },
+                values: new object[,]
+                {
+                    {
+                        Guid.NewGuid(),
+                        "Концерт",
+                        "Живые музыкальные выступления",
+                        false
+                    },
+                    {
+                        Guid.Parse("11111111-1111-1111-1111-111111111111"),  // ✅ Фиксированный Default ID!
+                        "Без категории",
+                        "Тип события по умолчанию",
+                        true  // ✅ IsDefault = true (единственный!)
+                    },
+                    {
+                        Guid.NewGuid(),
+                        "Конференция",
+                        "Бизнес-конференции и семинары",
+                        false
+                    },
+                    {
+                        Guid.NewGuid(),
+                        "Мастер-класс",
+                        "Обучающие мастер-классы",
+                        false
+                    }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_EventTypeId",
+                table: "Events",
+                column: "EventTypeId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Events_OrganizerId",
                 table: "Events",
@@ -142,6 +190,19 @@ namespace EventService.Infrastructure.Migrations
                 columns: new[] { "Status", "StartDate" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_EventTypes_IsDefault",
+                table: "EventTypes",
+                column: "IsDefault",
+                unique: true,
+                filter: "\"IsDefault\" = true");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventTypes_Name",
+                table: "EventTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Participants_EventId_UserId",
                 table: "Participants",
                 columns: new[] { "EventId", "UserId" },
@@ -163,6 +224,9 @@ namespace EventService.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "EventStatuses");
+
+            migrationBuilder.DropTable(
+                name: "EventTypes");
 
             migrationBuilder.DropTable(
                 name: "Participants");
