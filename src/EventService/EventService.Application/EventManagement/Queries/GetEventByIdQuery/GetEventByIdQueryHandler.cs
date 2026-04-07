@@ -11,14 +11,11 @@ public class GetEventByIdQueryHandler
     : IRequestHandler<GetEventByIdQuery, GetEventByIdResult>
 {
     private readonly IEventService _eventService;
-    private readonly IEventTypeService _eventTypeService;
 
     public GetEventByIdQueryHandler(
-        IEventService eventService,
-        IEventTypeService eventTypeService)
+        IEventService eventService)
     {
         _eventService = eventService;
-        _eventTypeService = eventTypeService;
     }
 
     public async Task<GetEventByIdResult> Handle(
@@ -30,22 +27,17 @@ public class GetEventByIdQueryHandler
         if (@event is null)
             throw new EntityNotFoundException($"Event {request.EventId} not found");
 
-        var eventType = await _eventTypeService.GetEventTypeByIdAsync(
-            @event.EventTypeId, cancellationToken);
-
-        var eventTypeDto = eventType is not null
-            ? new EventTypeDto(
-                eventType.Id.Value.ToString(), 
-                eventType.Name, 
-                eventType.Description, 
-                eventType.Icon)
-            : new EventTypeDto("unknown", "unknown", null, null);
-
         var eventDto = new EventDto(
             @event.Id.Value.ToString(),
             @event.Title,
             @event.Description,
-            eventTypeDto,
+            @event.EventType is not null
+                ? new EventTypeDto(
+                    @event.EventType.Id.Value.ToString(),
+                    @event.EventType.Name,
+                    @event.EventType.Description,
+                    @event.EventType.Icon)
+                : new EventTypeDto("unknown", "unknown", null, null),
             @event.Status.Name,
             new LocationDto(
                 @event.Location.Address,

@@ -8,6 +8,8 @@ public class EventByIdSpec : BaseSpecification<Event>
     public EventByIdSpec(EventId eventId)
         : base(e => e.Id == eventId)
     {
+        AddInclude(e => e.EventType);
         ApplyNoTracking();
+        ApplySplitQuery();
     }
 }

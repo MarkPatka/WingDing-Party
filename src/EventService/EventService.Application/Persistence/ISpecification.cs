@@ -9,9 +9,6 @@ public interface ISpecification<TEntity>
     List<Expression<Func<TEntity, object>>> Includes { get; }
     List<string> IncludeStrings { get; }
     List<(Expression<Func<TEntity, object>> Expression, bool IsDescending)> OrderExpressions { get; }
-
-    //Expression<Func<TEntity, object>>? OrderBy { get; }
-    //Expression<Func<TEntity, object>>? OrderByDescending { get; }
     Expression<Func<TEntity, object>>? GroupBy { get; }
 
     int Take { get; }

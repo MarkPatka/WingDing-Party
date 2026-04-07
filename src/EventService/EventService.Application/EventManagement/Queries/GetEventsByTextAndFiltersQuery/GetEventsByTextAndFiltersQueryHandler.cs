@@ -10,14 +10,11 @@ public class GetEventsByTextAndFiltersQueryHandler
     : IRequestHandler<GetEventsByTextAndFiltersQuery, GetEventsByTextAndFiltersResult>
 {
     private readonly IEventService _eventService;
-    private readonly IEventTypeService _eventTypeService;
 
     public GetEventsByTextAndFiltersQueryHandler(
-        IEventService service,
-        IEventTypeService eventTypeService)
+        IEventService service)
     {
         _eventService = service;
-        _eventTypeService = eventTypeService;
     }
 
     public async Task<GetEventsByTextAndFiltersResult> Handle(
@@ -36,26 +33,17 @@ public class GetEventsByTextAndFiltersQueryHandler
             throw new EntityNotFoundException(
                 $"Events by text '{request.Text}' not found");
 
-        var eventTypes = new EventTypeDto?[pagedEvents.Items.Count];
-        for (int i = 0; i < pagedEvents.Items.Count; i++)
-        {
-            var eventType = await _eventTypeService.GetEventTypeByIdAsync(
-                pagedEvents.Items[i].EventTypeId, cancellationToken);
-
-            eventTypes[i] = eventType is not null
-                ? new EventTypeDto(
-                    eventType.Id.Value.ToString(),
-                    eventType.Name,
-                    eventType.Description,
-                    eventType.Icon)
-                : null;
-        }
-
-        var eventDtos = pagedEvents.Items.Zip(eventTypes, (e, et) => new EventDto(
+        var eventDtos = pagedEvents.Items.Select(e => new EventDto(
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            et! ?? new EventTypeDto("unknown", "unknown", null, null),
+            e.EventType is not null
+                ? new EventTypeDto(
+                    e.EventType.Id.Value.ToString(),
+                    e.EventType.Name,
+                    e.EventType.Description,
+                    e.EventType.Icon)
+                : new EventTypeDto("unknown", "unknown", null, null),
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,

@@ -23,13 +23,6 @@ public class EventTypeService : IEventTypeService
         return eventType;
     }
 
-    public async Task<bool> EventTypeIdExistsAsync(
-        EventTypeId id, CancellationToken cancellationToken = default)
-    {
-        var spec = new EventTypeByIdSpecification(id);
-        return await _eventTypeRepository.AnyAsync(spec, cancellationToken);
-    }
-
     public async Task<IReadOnlyList<EventType>> GetAllEventTypesAsync(
         int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {

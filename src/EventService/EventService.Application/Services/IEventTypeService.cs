@@ -15,9 +15,6 @@ public interface IEventTypeService
         EventType eventType,
         CancellationToken cancellationToken = default);
 
-    Task<bool> EventTypeIdExistsAsync(
-        EventTypeId id, CancellationToken cancellationToken = default);
-
     Task<EventType?> GetDefaultEventTypeAsync(
         CancellationToken cancellationToken = default);
 

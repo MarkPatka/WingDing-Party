@@ -15,6 +15,7 @@ public sealed class Event : AggregateRoot<EventId>
     public string Title         { get; private set; } = string.Empty;
     public string Description   { get; private set; } = string.Empty;
     public EventTypeId EventTypeId { get; private set; } = null!;
+    public EventType EventType { get; private set; } = null!;
     public Location Location    { get; private set; } = null!;
     public DateTime StartDate   { get; private set; }
     public DateTime EndDate     { get; private set; }

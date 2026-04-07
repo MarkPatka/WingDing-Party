@@ -10,14 +10,11 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
     : IRequestHandler<GetTopRatedEventsByStartDateWithLimitQuery, GetTopRatedEventsByStartDateWithLimitResult>
 {
     private readonly IEventService _eventService;
-    private readonly IEventTypeService _eventTypeService;
 
     public GetTopRatedEventsByStartDateWithLimitQueryHandler(
-        IEventService eventService,
-        IEventTypeService eventTypeService)
+        IEventService eventService)
     {
         _eventService = eventService;
-        _eventTypeService = eventTypeService;
     }
 
     public async Task<GetTopRatedEventsByStartDateWithLimitResult> Handle(
@@ -29,26 +26,17 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
         if (!events.Any())
             throw new EntityNotFoundException("Events not found");
 
-        var eventTypes = new EventTypeDto?[events.Count];
-        for (int i = 0; i < events.Count; i++)
-        {
-            var eventType = await _eventTypeService.GetEventTypeByIdAsync(
-                events[i].EventTypeId, cancellationToken);
-
-            eventTypes[i] = eventType is not null
-                ? new EventTypeDto(
-                    eventType.Id.Value.ToString(),
-                    eventType.Name,
-                    eventType.Description,
-                    eventType.Icon)
-                : null;
-        }
-
-        var eventDtos = events.Zip(eventTypes, (e, et) => new EventDto(
+        var eventDtos = events.Select(e => new EventDto(
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            et! ?? new EventTypeDto("unknown", "unknown", null, null),
+            e.EventType is not null
+                ? new EventTypeDto(
+                    e.EventType.Id.Value.ToString(),
+                    e.EventType.Name,
+                    e.EventType.Description,
+                    e.EventType.Icon)
+                : new EventTypeDto("unknown", "unknown", null, null),
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,

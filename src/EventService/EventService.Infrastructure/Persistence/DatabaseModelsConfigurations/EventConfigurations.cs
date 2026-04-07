@@ -55,6 +55,11 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
                 value =>  EventTypeId.Create(value))
             .IsRequired();
 
+        builder.HasOne(e => e.EventType)
+            .WithMany()
+            .HasForeignKey(e => e.EventTypeId)
+            .OnDelete(DeleteBehavior.Restrict); // Не удаляем EventType
+
         builder.Property(e => e.Status)
             .HasConversion(
                 status => status.Name,

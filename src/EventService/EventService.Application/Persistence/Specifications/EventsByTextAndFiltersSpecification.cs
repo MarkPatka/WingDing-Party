@@ -12,6 +12,8 @@ public class EventsByTextAndFiltersSpecification : BaseSpecification<Event>
         int pageNumber,
         int pageSize) : base()
     {
+        AddInclude(e => e.EventType);
+
         AddOrCriteriasIntoAndGroup(
             e => e.Title.ToLower().Contains(text.ToLower()),
             e => e.Description.ToLower().Contains(text.ToLower()));
@@ -33,5 +35,6 @@ public class EventsByTextAndFiltersSpecification : BaseSpecification<Event>
             take: pageSize);
 
         ApplyNoTracking();
+        ApplySplitQuery();
     }
 }
