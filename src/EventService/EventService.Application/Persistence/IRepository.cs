@@ -1,5 +1,4 @@
 ﻿using EventService.Domain.Common.Abstract;
-using System.Linq.Expressions;
 
 namespace EventService.Application.Persistence;
 
@@ -15,7 +14,7 @@ public interface IRepository<TEntity, in TId> : IReadRepository<TEntity, TId>
         IEnumerable<TEntity> entities,
         CancellationToken cancellationToken = default);
 
-    public Task UpdateAsync(
+    public Task<TEntity> UpdateAsync(
         TEntity entity,
         CancellationToken cancellationToken = default);
 

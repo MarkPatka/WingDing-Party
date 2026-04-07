@@ -19,12 +19,19 @@ public abstract class ValueObject : IEquatable<ValueObject>
 
     public static bool operator ==(ValueObject left, ValueObject right)
     {
+        if (ReferenceEquals(left, right)) // Null-safe check
+            return true;
+
+        if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+            return false;
+
         return left.Equals(right);
     }
 
     public static bool operator !=(ValueObject left, ValueObject right)
     {
-        return !left.Equals(right);
+        //return !left.Equals(right);
+        return !(left == right); // Null-safe check
     }
 
     public override int GetHashCode()

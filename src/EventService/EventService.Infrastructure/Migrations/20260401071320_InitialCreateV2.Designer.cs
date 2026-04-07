@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventService.Infrastructure.Migrations
 {
     [DbContext(typeof(EventServiceDbContext))]
-    [Migration("20260305000828_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260401071320_InitialCreateV2")]
+    partial class InitialCreateV2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.3")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -45,6 +45,10 @@ namespace EventService.Infrastructure.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("EventTypeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("EventTypeId");
 
                     b.Property<int>("MaxParticipants")
                         .HasColumnType("integer");
@@ -85,6 +89,9 @@ namespace EventService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EventTypeId")
+                        .HasDatabaseName("IX_Events_EventTypeId");
+
                     b.HasIndex("OrganizerId")
                         .HasDatabaseName("IX_Events_OrganizerId");
 
@@ -101,6 +108,43 @@ namespace EventService.Infrastructure.Migrations
                         .HasDatabaseName("IX_Events_Status_StartDate");
 
                     b.ToTable("Events", (string)null);
+                });
+
+            modelBuilder.Entity("EventService.Domain.EventAggregate.Entities.EventType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("EventTypeId");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Icon")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<bool>("IsDefault")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDefault")
+                        .IsUnique()
+                        .HasFilter("\"IsDefault\" = true");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_EventTypes_Name");
+
+                    b.ToTable("EventTypes", (string)null);
                 });
 
             modelBuilder.Entity("EventService.Domain.EventAggregate.Enumerations.EventStatus", b =>
@@ -197,39 +241,6 @@ namespace EventService.Infrastructure.Migrations
 
             modelBuilder.Entity("EventService.Domain.Event", b =>
                 {
-                    b.OwnsOne("EventService.Domain.EventAggregate.Entities.EventType", "EventType", b1 =>
-                        {
-                            b1.Property<Guid>("EventId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Description")
-                                .HasMaxLength(500)
-                                .HasColumnType("character varying(500)")
-                                .HasColumnName("EventTypeDescription");
-
-                            b1.Property<string>("Icon")
-                                .HasMaxLength(200)
-                                .HasColumnType("character varying(200)")
-                                .HasColumnName("EventTypeIcon");
-
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid")
-                                .HasColumnName("EventTypeId");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("EventTypeName");
-
-                            b1.HasKey("EventId");
-
-                            b1.ToTable("Events");
-
-                            b1.WithOwner()
-                                .HasForeignKey("EventId");
-                        });
-
                     b.OwnsMany("EventService.Domain.EventAggregate.Entities.Participant", "Participants", b1 =>
                         {
                             b1.Property<Guid>("Id")
@@ -313,9 +324,6 @@ namespace EventService.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("EventId");
                         });
-
-                    b.Navigation("EventType")
-                        .IsRequired();
 
                     b.Navigation("Location")
                         .IsRequired();

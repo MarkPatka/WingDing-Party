@@ -7,6 +7,8 @@ public class TopRatedEventsByStartDateWithLimitSpecification : BaseSpecification
 {
     public TopRatedEventsByStartDateWithLimitSpecification(DateTime startDate, int limit)
     {
+        AddInclude(e => e.EventType);
+
         AddAndCriteria(e => e.StartDate >= startDate);
         AddAndCriteria(e => e.Status == EventStatus.Active);
 
@@ -15,5 +17,6 @@ public class TopRatedEventsByStartDateWithLimitSpecification : BaseSpecification
         ApplyPaging(skip: 0, take: limit);
 
         ApplyNoTracking();
+        ApplySplitQuery();
     }
 }
