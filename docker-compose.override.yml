@@ -7,7 +7,6 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_MULTIPLE_DATABASES: ${USER_POSTGRES_DB:-userdb},${AUTH_POSTGRES_DB:-authdb},${EVENT_POSTGRES_DB:-eventdb},${CLUB_POSTGRES_DB:-clubdb}
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "${POSTGRES_PORT:-5432}:5432"

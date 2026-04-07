@@ -5,6 +5,7 @@ using EventService.Domain;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Infrastructure.Persistence;
 using EventService.Infrastructure.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -70,4 +71,11 @@ public static class DependencyInjection
         return services;
     }
 
+    public static IApplicationBuilder ApplyMigrations(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<EventServiceDbContext>();
+        context.Database.Migrate();
+        return app;
+    }
 }

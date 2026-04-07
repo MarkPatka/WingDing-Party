@@ -4,6 +4,7 @@ using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -60,7 +61,7 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventDispatcher, KafkaIntegrationEventDispatcher>();
 
         services.AddOptions<Dictionary<string, KafkaOptions>>()
-            .Bind(configuration.GetSection("KafkaOptions"))
+            .Bind(configuration.GetSection(nameof(KafkaOptions)))
             .ValidateOnStart();
         return services;
     }
@@ -86,5 +87,13 @@ public static class DependencyInjection
         }, ServiceLifetime.Scoped);
 
         return services;
+    }
+
+    public static IApplicationBuilder ApplyMigrations(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<UserServiceDbContext>();
+        context.Database.Migrate();
+        return app;
     }
 }
