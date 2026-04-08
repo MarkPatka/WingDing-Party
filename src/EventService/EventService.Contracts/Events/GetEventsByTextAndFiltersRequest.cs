@@ -2,7 +2,6 @@
 
 public sealed record GetEventsByTextAndFiltersRequest(
     string Text,
-    string? EventType,
     string? City,
     DateTime? DateFrom,
     DateTime? DateTo,

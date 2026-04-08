@@ -1,9 +1,9 @@
-﻿using EventService.Application.EventManagement.Common;
-using MediatR;
+﻿using EventService.Application.Common.Exceptions;
+using EventService.Application.EventManagement.Common;
 using EventService.Application.Services;
-using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Contracts.DTO;
-using EventService.Application.Common.Exceptions;
+using EventService.Domain.EventAggregate.ValueObjects;
+using MediatR;
 
 namespace EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 
@@ -12,7 +12,8 @@ public class GetAllUserEventsQueryHandler
 {
     private readonly IEventService _eventService;
 
-    public GetAllUserEventsQueryHandler(IEventService service)
+    public GetAllUserEventsQueryHandler(
+        IEventService service)
     {
         _eventService = service;
     }
@@ -26,7 +27,7 @@ public class GetAllUserEventsQueryHandler
             request.PageSize,
             cancellationToken);
 
-        if (events == null)
+        if (!events.Any())
             throw new EntityNotFoundException(
                 $"Events by OrganizerId {request.UserId} not found");
 
@@ -34,7 +35,13 @@ public class GetAllUserEventsQueryHandler
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            e.EventType.Name,
+            e.EventType is not null
+                ? new EventTypeDto(
+                    e.EventType.Id.Value.ToString(),
+                    e.EventType.Name,
+                    e.EventType.Description,
+                    e.EventType.Icon)
+                : new EventTypeDto("unknown", "unknown", null, null),
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,

@@ -8,18 +8,20 @@
 	</PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration"/>
-        <PackageReference Include="Microsoft.Extensions.Options"/>
-        <PackageReference Include="Confluent.Kafka"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" />
+        <PackageReference Include="Microsoft.Extensions.Options" />
+        <PackageReference Include="Confluent.Kafka" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+        <PackageReference Include="Mapster" />
     </ItemGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\ClubService.Application\ClubService.Application.csproj"/>
-        <ProjectReference Include="..\ClubService.Domain\ClubService.Domain.csproj"/>
+        <ProjectReference Include="..\ClubService.Application\ClubService.Application.csproj" />
+        <ProjectReference Include="..\ClubService.Domain\ClubService.Domain.csproj" />
     </ItemGroup>
 </Project>

@@ -5,7 +5,6 @@ namespace EventService.Application.EventManagement.Queries.GetEventsByTextAndFil
 
 public record GetEventsByTextAndFiltersQuery(
     string Text,
-    string? EventType,
     string? City,
     DateTime? DateFrom,
     DateTime? DateTo,

@@ -6,21 +6,17 @@ public class EventsByTextAndFiltersSpecification : BaseSpecification<Event>
 {
     public EventsByTextAndFiltersSpecification(
         string text,
-        string? eventType,
         string? city,
         DateTime? dateFrom,
         DateTime? dateTo,
         int pageNumber,
         int pageSize) : base()
     {
+        AddInclude(e => e.EventType);
+
         AddOrCriteriasIntoAndGroup(
             e => e.Title.ToLower().Contains(text.ToLower()),
             e => e.Description.ToLower().Contains(text.ToLower()));
-
-        if (!string.IsNullOrWhiteSpace(eventType))
-            AddOrCriteriasIntoAndGroup(
-                e => e.EventType.Name.ToLower().Contains(eventType.ToLower()),
-                e => e.EventType.Description!.ToLower().Contains(eventType.ToLower()));
 
         if (!string.IsNullOrWhiteSpace(city))
             AddAndCriteria(e => e.Location.City.ToLower().Contains(city.ToLower()));
@@ -39,5 +35,6 @@ public class EventsByTextAndFiltersSpecification : BaseSpecification<Event>
             take: pageSize);
 
         ApplyNoTracking();
+        ApplySplitQuery();
     }
 }

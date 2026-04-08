@@ -6,6 +6,9 @@
 #logs
 logs/
 
+# claude
+.claude/
+
 # dotenv files
 .env
 .env.local

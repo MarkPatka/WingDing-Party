@@ -1,6 +1,5 @@
 ﻿using EventService.Domain;
 using EventService.Domain.Common.Abstract;
-using EventService.Domain.EventAggregate.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -10,8 +9,6 @@ namespace EventService.Infrastructure.Persistence
         : DbContext(options)
     {
         public DbSet<Event> Events { get; set; } = null!;
-        public DbSet<EventStatus> EventStatuses { get; set; }
-        public DbSet<ParticipantStatus> ParticipantStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

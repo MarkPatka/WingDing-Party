@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using System.Text.Json;
 using ClubService.Application.IntegrationEvents;
-using ClubService.Application.IntegrationEvents.Mappers;
 using ClubService.Application.Persistence;
 using ClubService.Domain.Common.Abstract;
 using ClubService.Infrastructure.Persistence.Outbox;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
@@ -15,18 +15,22 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly UserServiceDbContext _context;
     private readonly ILogger<UnitOfWork> _logger;
+    private readonly IMapper _mapper;
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
 
     public UnitOfWork(
         UserServiceDbContext context,
+        IMapper mapper,
         ILogger<UnitOfWork> logger)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(mapper);
 
         _context = context;
         _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -171,19 +175,18 @@ public class UnitOfWork : IUnitOfWork
             .ToList();
 
         _logger.LogInformation("Dispatching {Count} domain events", domainEvents.Count);
-        
+
         var integrationEvents = domainEvents
-            .Select(de => IntegrationEventMapper.Map(de))
-            .Where(ie => ie != null)
-            .Cast<IIntegrationEvent>()
+            .Select(de => _mapper.Map<IDomainEvent, IIntegrationEvent>(de))
             .ToList();
-        
+
         foreach (var ie in integrationEvents)
         {
             var payload = JsonSerializer.Serialize(ie);
             var message = new OutboxMessage(ie, payload, ie.GetType().Name!);
             await _context.OutboxMessages.AddAsync(message, cancellationToken);
         }
+
         domainEntities.ForEach(e => e.ClearDomainEvents());
 
 

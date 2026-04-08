@@ -12,7 +12,8 @@ public class GetEventByIdQueryHandler
 {
     private readonly IEventService _eventService;
 
-    public GetEventByIdQueryHandler(IEventService eventService)
+    public GetEventByIdQueryHandler(
+        IEventService eventService)
     {
         _eventService = eventService;
     }
@@ -30,7 +31,13 @@ public class GetEventByIdQueryHandler
             @event.Id.Value.ToString(),
             @event.Title,
             @event.Description,
-            @event.EventType.Name,
+            @event.EventType is not null
+                ? new EventTypeDto(
+                    @event.EventType.Id.Value.ToString(),
+                    @event.EventType.Name,
+                    @event.EventType.Description,
+                    @event.EventType.Icon)
+                : new EventTypeDto("unknown", "unknown", null, null),
             @event.Status.Name,
             new LocationDto(
                 @event.Location.Address,

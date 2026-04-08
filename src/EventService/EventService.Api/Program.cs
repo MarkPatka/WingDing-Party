@@ -19,9 +19,11 @@ var app = builder.Build();
         app.UseSwaggerUI();
     }
 
+    app.ApplyMigrations();
     app.UseHttpsRedirection();
     app.UseExceptionHandler();
     app.MapControllers();
+
     app.Run();
 }
 

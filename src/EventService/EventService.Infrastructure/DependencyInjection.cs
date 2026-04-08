@@ -2,9 +2,11 @@
 using EventService.Application.Persistence;
 using EventService.Application.Services;
 using EventService.Domain;
+using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Infrastructure.Persistence;
 using EventService.Infrastructure.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -26,11 +28,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services
-            .AddTransient<IConfigurationService, ConfigurationService>();
+        services.AddTransient<IConfigurationService, ConfigurationService>();
         
-        services
-            .AddScoped<IEventService, Services.EventService>();
+        services.AddScoped<IEventService, Services.EventService>();
+
+        services.AddScoped<IEventTypeService, EventTypeService>();
 
         return services;
     }
@@ -40,7 +42,10 @@ public static class DependencyInjection
 
         services
             .AddScoped<IUnitOfWork, UnitOfWork>()
-            .AddScoped<IRepository<Event, EventId>, GenericRepository<Event, EventId>>()
+            .AddScoped<IRepository<Event, EventId>, 
+                GenericRepository<Event, EventId>>()
+            .AddScoped<IRepository<EventType, EventTypeId>, 
+                GenericRepository<EventType, EventTypeId>>()
             ;
 
         return services;
@@ -70,4 +75,11 @@ public static class DependencyInjection
         return services;
     }
 
+    public static IApplicationBuilder ApplyMigrations(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<EventServiceDbContext>();
+        context.Database.Migrate();
+        return app;
+    }
 }

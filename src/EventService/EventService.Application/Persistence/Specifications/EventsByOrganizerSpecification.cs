@@ -8,6 +8,7 @@ public class EventsByOrganizerSpec : BaseSpecification<Event>
     public EventsByOrganizerSpec(UserId organizerId, int pageNumber, int pageSize)
     {
         AddAndCriteria(e => e.OrganizerId == organizerId);
+        AddInclude(e => e.EventType);
         ApplyOrderByDescending(e => e.CreatedAt);
 
         // Page 1, Size 10 → Skip 0, Take 10
@@ -18,5 +19,6 @@ public class EventsByOrganizerSpec : BaseSpecification<Event>
             take: pageSize);
 
         ApplyNoTracking();
+        ApplySplitQuery();
     }
 }

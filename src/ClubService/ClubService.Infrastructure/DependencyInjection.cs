@@ -1,11 +1,16 @@
-﻿using ClubService.Application.Common.Configuration;
+﻿using System.Reflection;
+using ClubService.Application.Common.Configuration;
 using ClubService.Application.Persistence;
 using ClubService.Application.Services;
 using ClubService.Domain.ClubAggregate;
 using ClubService.Domain.ClubAggregate.ValueObjects;
 using ClubService.Infrastructure.Messaging;
+using ClubService.Infrastructure.Messaging.Mapping;
 using ClubService.Infrastructure.Persistence;
 using ClubService.Infrastructure.Persistence.Outbox;
+using Mapster;
+using MapsterMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +23,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
+        services.AddMappings();
         services.RegisterRepositories();
         services.RegisterDbContext();
         services.BackgroundServices();
@@ -39,6 +45,15 @@ public static class DependencyInjection
         return services;
     }
 
+    public static IServiceCollection AddMappings(this IServiceCollection services)
+    {
+        var config = new TypeAdapterConfig();
+        config.Scan(Assembly.GetExecutingAssembly());
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
+        return services;
+    }
+
     private static IServiceCollection BackgroundServices(this IServiceCollection services)
     {
         services.AddHostedService<OutboxProcessorBackgroundService>();
@@ -53,7 +68,7 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventDispatcher, KafkaIntegrationEventDispatcher>();
 
         services.AddOptions<Dictionary<string, KafkaOptions>>()
-            .Bind(configuration.GetSection("KafkaOptions"))
+            .Bind(configuration.GetSection(nameof(KafkaOptions)))
             .ValidateOnStart();
         return services;
     }
@@ -70,5 +85,13 @@ public static class DependencyInjection
         }, ServiceLifetime.Scoped);
 
         return services;
+    }
+
+    public static IApplicationBuilder ApplyMigrations(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<UserServiceDbContext>();
+        context.Database.Migrate();
+        return app;
     }
 }

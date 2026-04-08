@@ -60,17 +60,8 @@ public class EventService : IEventService
         return @event;
     }
 
-    public async Task<bool> DeleteEventAsync(
-        Event @event, 
-        CancellationToken cancellationToken)
-    {
-        await _eventRepository.DeleteAsync(@event, cancellationToken);
-        return true;
-    }
-
     public async Task<PagedResult<Event>> GetEventsByTextAndFiltersAsync(
         string text, 
-        string? eventType, 
         string? city, 
         DateTime? dateFrom, 
         DateTime? dateTo, 
@@ -79,10 +70,10 @@ public class EventService : IEventService
         CancellationToken cancellationToken = default)
     {
         var listSpec = new EventsByTextAndFiltersSpecification(
-            text, eventType, city, dateFrom, dateTo, pageNumber, pageSize);
+            text, city, dateFrom, dateTo, pageNumber, pageSize);
 
         var countSpec = new EventsByTextAndFiltersSpecification(
-            text, eventType, city, dateFrom, dateTo, pageNumber, pageSize);
+            text, city, dateFrom, dateTo, pageNumber, pageSize);
         countSpec.ClearPaging(); // подсчет общего количества событий без пагинации
 
         var events = await _eventRepository.ListAsync(listSpec, cancellationToken);
@@ -98,5 +89,12 @@ public class EventService : IEventService
     {
         var spec = new TopRatedEventsByStartDateWithLimitSpecification(startDate, limit);
         return await _eventRepository.ListAsync(spec, cancellationToken);
+    }
+
+    public async Task<Event?> GetEventParticipantsAsync(
+        EventId id, CancellationToken cancellationToken = default)
+    {
+        var spec = new EventParticipantsByEventIdSpecification(id);
+        return await _eventRepository.FirstOrDefaultAsync(spec, cancellationToken);
     }
 }

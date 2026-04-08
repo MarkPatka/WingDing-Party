@@ -11,7 +11,8 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
 {
     private readonly IEventService _eventService;
 
-    public GetTopRatedEventsByStartDateWithLimitQueryHandler(IEventService eventService)
+    public GetTopRatedEventsByStartDateWithLimitQueryHandler(
+        IEventService eventService)
     {
         _eventService = eventService;
     }
@@ -22,14 +23,20 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
         var events = await _eventService.GetTopRatedEventsByStartDateWithLimitAsync(
             request.StartDate, request.Limit, cancellationToken);
 
-        if (events == null)
+        if (!events.Any())
             throw new EntityNotFoundException("Events not found");
 
         var eventDtos = events.Select(e => new EventDto(
             e.Id.Value.ToString(),
             e.Title,
             e.Description,
-            e.EventType.Name,
+            e.EventType is not null
+                ? new EventTypeDto(
+                    e.EventType.Id.Value.ToString(),
+                    e.EventType.Name,
+                    e.EventType.Description,
+                    e.EventType.Icon)
+                : new EventTypeDto("unknown", "unknown", null, null),
             e.Status.Name,
             new LocationDto(
                 e.Location.Address,
@@ -37,7 +44,8 @@ public class GetTopRatedEventsByStartDateWithLimitQueryHandler
                 e.Location.Country),
             e.StartDate,
             e.EndDate,
-            e.MaxParticipants));
+            e.MaxParticipants
+            ));
 
         return new GetTopRatedEventsByStartDateWithLimitResult(eventDtos);
     }
