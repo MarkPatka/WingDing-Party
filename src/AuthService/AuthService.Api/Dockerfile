@@ -4,19 +4,21 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS base
 USER $APP_UID
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 5200
+EXPOSE 5201
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Directory.Packages.props", "."]
-COPY ["src/AuthService/AuthService.Api/AuthService.Api.csproj", "src/AuthService/AuthService.Api/"]
-RUN dotnet restore "./src/AuthService/AuthService.Api/AuthService.Api.csproj"
-COPY . .
-WORKDIR "/src/src/AuthService/AuthService.Api"
+COPY ["Directory.Packages.props", "./"]
+COPY ["src/AuthService/AuthService.Api/AuthService.Api.csproj", "AuthService.Api/"]
+RUN dotnet restore "AuthService.Api/AuthService.Api.csproj"
+
+COPY src/AuthService/ .
+
+WORKDIR "AuthService.Api"
 RUN dotnet build "AuthService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

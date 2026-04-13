@@ -12,15 +12,17 @@ EXPOSE 5301
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Directory.Packages.props", "."]
-COPY ["src/EventService/EventService.Api/EventService.Api.csproj", "src/EventService/EventService.Api/"]
-COPY ["src/EventService/EventService.Application/EventService.Application.csproj", "src/EventService/EventService.Application/"]
-COPY ["src/EventService/EventService.Contracts/EventService.Contracts.csproj", "src/EventService/EventService.Contracts/"]
-COPY ["src/EventService/EventService.Domain/EventService.Domain.csproj", "src/EventService/EventService.Domain/"]
-COPY ["src/EventService/EventService.Infrastructure/EventService.Infrastructure.csproj", "src/EventService/EventService.Infrastructure/"]
-RUN dotnet restore "./src/EventService/EventService.Api/EventService.Api.csproj"
-COPY . .
-WORKDIR "/src/EventService/EventService.Api"
+COPY ["Directory.Packages.props", "./"]
+COPY ["src/EventService/EventService.Api/EventService.Api.csproj", "EventService.Api/"]
+COPY ["src/EventService/EventService.Application/EventService.Application.csproj", "EventService.Application/"]
+COPY ["src/EventService/EventService.Domain/EventService.Domain.csproj", "EventService.Domain/"]
+COPY ["src/EventService/EventService.Contracts/EventService.Contracts.csproj", "EventService.Contracts/"]
+COPY ["src/EventService/EventService.Infrastructure/EventService.Infrastructure.csproj", "EventService.Infrastructure/"]
+RUN dotnet restore "EventService.Api/EventService.Api.csproj"
+
+COPY src/EventService/ .
+
+WORKDIR "EventService.Api"
 RUN dotnet build "EventService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

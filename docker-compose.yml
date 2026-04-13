@@ -55,7 +55,7 @@ services:
     image: ${DOCKER_REGISTRY-}eventserviceapi
     build:
       context: .
-      dockerfile: EventService.Api/Dockerfile
+      dockerfile: src/EventService/EventService.Api/Dockerfile
     container_name: event_api
     restart: unless-stopped
     environment:
