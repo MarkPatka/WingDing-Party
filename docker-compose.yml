@@ -1,5 +1,4 @@
 services:
-
   user-service:
     image: ${DOCKER_REGISTRY-}userserviceapi
     build:
