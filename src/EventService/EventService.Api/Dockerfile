@@ -13,20 +13,23 @@ EXPOSE 5301
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["EventService.Api/EventService.Api.csproj", "EventService.Api/"]
-COPY ["EventService.Application/EventService.Application.csproj", "EventService.Application/"]
-COPY ["EventService.Domain/EventService.Domain.csproj", "EventService.Domain/"]
-COPY ["EventService.Contracts/EventService.Contracts.csproj", "EventService.Contracts/"]
-COPY ["EventService.Infrastructure/EventService.Infrastructure.csproj", "EventService.Infrastructure/"]
-RUN dotnet restore "./EventService.Api/EventService.Api.csproj"
-COPY . .
-WORKDIR "/src/EventService.Api"
-RUN dotnet build "./EventService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY ["Directory.Packages.props", "./"]
+COPY ["src/EventService/EventService.Api/EventService.Api.csproj", "EventService.Api/"]
+COPY ["src/EventService/EventService.Application/EventService.Application.csproj", "EventService.Application/"]
+COPY ["src/EventService/EventService.Domain/EventService.Domain.csproj", "EventService.Domain/"]
+COPY ["src/EventService/EventService.Contracts/EventService.Contracts.csproj", "EventService.Contracts/"]
+COPY ["src/EventService/EventService.Infrastructure/EventService.Infrastructure.csproj", "EventService.Infrastructure/"]
+RUN dotnet restore "EventService.Api/EventService.Api.csproj"
+
+COPY src/EventService/ .
+
+WORKDIR "EventService.Api"
+RUN dotnet build "EventService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./EventService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "EventService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Этот этап используется в рабочей среде или при запуске из VS в обычном режиме (по умолчанию, когда конфигурация отладки не используется)
 FROM base AS final
