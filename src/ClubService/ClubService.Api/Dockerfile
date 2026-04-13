@@ -13,8 +13,6 @@ EXPOSE 5401
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/ClubService/Directory.Packages.props", "src/ClubService/"]
-COPY ["src/ClubService/Directory.Build.props", "src/ClubService/"]
 COPY ["src/ClubService/ClubService.Api/ClubService.Api.csproj", "src/ClubService/ClubService.Api/"]
 COPY ["src/ClubService/ClubService.Application/ClubService.Application.csproj", "src/ClubService/ClubService.Application/"]
 COPY ["src/ClubService/ClubService.Domain/ClubService.Domain.csproj", "src/ClubService/ClubService.Domain/"]

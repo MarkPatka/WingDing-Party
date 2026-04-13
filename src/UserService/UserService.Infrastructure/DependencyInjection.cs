@@ -18,6 +18,7 @@ using UserService.Infrastructure.Messaging;
 using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Persistence.Outbox;
 using UserService.Infrastructure.Services;
+using UserService.Infrastructure.Storage;
 
 namespace UserService.Infrastructure;
 
@@ -28,6 +29,7 @@ public static class DependencyInjection
         services.AddServices();
         services.AddMappings();
         services.RegisterRepositories();
+        services.RegisterStorages();
         services.RegisterDbContext();
         services.BackgroundServices();
         services.MessagingServices(configuration);
@@ -38,6 +40,12 @@ public static class DependencyInjection
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
         services.AddScoped<IRepository<UserProfile, UserId>, GenericRepository<UserProfile, UserId>>();
+        return services;
+    }
+
+    private static IServiceCollection RegisterStorages(this IServiceCollection services)
+    {
+        services.AddScoped<IFileStorage, MinioStorage>();
         return services;
     }
 
@@ -66,7 +74,7 @@ public static class DependencyInjection
             .ValidateOnStart();
         return services;
     }
-    
+
     public static IServiceCollection AddMappings(this IServiceCollection services)
     {
         var config = new TypeAdapterConfig();
@@ -85,8 +93,7 @@ public static class DependencyInjection
             var dbSettings = provider
                 .GetRequiredService<IOptions<EventsDatabaseOptions>>().Value;
 
-            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
-
+            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
         }, ServiceLifetime.Scoped);
 
         return services;
