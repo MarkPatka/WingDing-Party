@@ -134,7 +134,7 @@ public class DeadLetterQueueProducer : IDeadLetterQueueProducer
                 result.Partition.Value,
                 result.Offset.Value,
                 originalTopic,
-                messageKey);
+                dlqKey);
         }
         catch (ProduceException<string, string> ex)
         {
