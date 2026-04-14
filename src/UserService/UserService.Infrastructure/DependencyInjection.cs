@@ -29,7 +29,7 @@ public static class DependencyInjection
         services.AddServices();
         services.AddMappings();
         services.RegisterRepositories();
-        services.RegisterStorages();
+        services.RegisterStorages(configuration);
         services.RegisterDbContext();
         services.BackgroundServices();
         services.MessagingServices(configuration);
@@ -43,9 +43,10 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection RegisterStorages(this IServiceCollection services)
+    private static IServiceCollection RegisterStorages(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IFileStorage, MinioStorage>();
+        services.AddSingleton<IMinioBucketManager, MinioBucketManager>();
+        services.AddSingleton<IFileStorage, MinioFileStorage>();
         return services;
     }
 

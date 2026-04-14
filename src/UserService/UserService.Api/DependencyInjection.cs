@@ -44,13 +44,15 @@ public static class DependencyInjection
     private static IServiceCollection BindConfigurations(this IServiceCollection services,
         ConfigurationManager configuration)
     {
+        // bind minio settings
+        services.Configure<FileStorageOptions>(configuration.GetSection(FileStorageOptions.SectionName));
+
         // bind kafka settings
         services.AddOptions<Dictionary<string, KafkaOptions>>()
             .Bind(configuration.GetSection(KafkaOptions.SectionName));
 
         // bind api settings
-        services.Configure<ApiOptions>(
-            configuration.GetSection(ApiOptions.SectionName));
+        services.Configure<ApiOptions>(configuration.GetSection(ApiOptions.SectionName));
 
         // bind .env
         services.Configure<EventsDatabaseOptions>(options => configuration.Bind(options));
@@ -61,7 +63,7 @@ public static class DependencyInjection
             .ValidateOnStart();
 
         services.AddOptions<EventsDatabaseOptions>()
-            .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
+            .Validate(x => !string.IsNullOrEmpty(x.DB_CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
         return services;

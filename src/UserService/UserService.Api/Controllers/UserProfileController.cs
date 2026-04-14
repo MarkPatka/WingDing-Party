@@ -3,6 +3,7 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Api.Models.Request;
+using UserService.Application.Common.Configuration;
 using UserService.Application.Services;
 using UserService.Application.UserProfileManagement.Command.CreateUserProfileCommand;
 using UserService.Application.UserProfileManagement.Command.UpdateUserProfileCommand;
@@ -20,13 +21,16 @@ public class UserProfileController : ControllerBase
     private readonly ISender _sender;
     private readonly IMapper _mapper;
     private readonly IFileStorage _fileStorage;
+    private readonly FileStorageOptions _fileStorageOptions;
 
 
-    public UserProfileController(IFileStorage fileStorage, ISender sender, IMapper mapper)
+    public UserProfileController(IFileStorage fileStorage, ISender sender, IMapper mapper,
+        FileStorageOptions fileStorageOptions)
     {
-        _fileStorage = fileStorage;
         _sender = sender;
         _mapper = mapper;
+        _fileStorage = fileStorage;
+        _fileStorageOptions = fileStorageOptions;
     }
 
     [HttpGet]
@@ -52,7 +56,7 @@ public class UserProfileController : ControllerBase
             form.AvatarUri = await _fileStorage.SaveAsync(
                 stream,
                 form.Avatar.FileName,
-                "",
+                _fileStorageOptions.AvatarBucket,
                 form.Avatar.ContentType,
                 HttpContext.RequestAborted);
         }
