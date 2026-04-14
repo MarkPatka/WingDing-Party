@@ -114,3 +114,5 @@ volumes:
     driver: local
   kafka_data:
     driver: local
+  redis_data:
+    driver: local

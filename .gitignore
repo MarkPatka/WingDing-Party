@@ -3,6 +3,13 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Docker containers data
+.containers/
+.containers/**/*.db
+.containers/**/*.trace.db
+
+
+
 #logs
 logs/
 
@@ -490,3 +497,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+*.swo
