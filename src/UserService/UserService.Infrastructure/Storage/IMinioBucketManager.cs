@@ -2,5 +2,6 @@ namespace UserService.Infrastructure.Storage;
 
 public interface IMinioBucketManager
 {
-    Task EnsureBucketExistsAsync(string bucket, CancellationToken cancellationToken = default);
+    Task EnsurePathExistsAsync(string path, CancellationToken ct = default);
+    Task MakeBucketPublicAsync(string bucket, CancellationToken ct = default);
 }

@@ -2,6 +2,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using UserService.Api.Models.Request;
 using UserService.Application.Common.Configuration;
 using UserService.Application.Services;
@@ -21,11 +22,11 @@ public class UserProfileController : ControllerBase
     private readonly ISender _sender;
     private readonly IMapper _mapper;
     private readonly IFileStorage _fileStorage;
-    private readonly FileStorageOptions _fileStorageOptions;
+    private readonly IOptionsMonitor<FileStorageOptions> _fileStorageOptions;
 
 
     public UserProfileController(IFileStorage fileStorage, ISender sender, IMapper mapper,
-        FileStorageOptions fileStorageOptions)
+        IOptionsMonitor<FileStorageOptions> fileStorageOptions)
     {
         _sender = sender;
         _mapper = mapper;
@@ -49,20 +50,18 @@ public class UserProfileController : ControllerBase
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> CreateUserProfile([FromForm] CreateUserProfileForm form)
     {
-        Uri? avatarUri = null;
         if (form.Avatar != null)
         {
             using var stream = form.Avatar.OpenReadStream();
             form.AvatarUri = await _fileStorage.SaveAsync(
                 stream,
                 form.Avatar.FileName,
-                _fileStorageOptions.AvatarBucket,
+                _fileStorageOptions.CurrentValue.AvatarBucket,
                 form.Avatar.ContentType,
                 HttpContext.RequestAborted);
         }
 
-        var request = form.Adapt<CreateUserProfileRequest>();
-
+        var request = _mapper.Map<CreateUserProfileRequest>(form);
         var command = _mapper.Map<CreateUserProfileCommand>(request);
 
         var result = await _sender.Send(command);
@@ -72,8 +71,8 @@ public class UserProfileController : ControllerBase
         return Ok(response);
     }
 
-
     [HttpPut]
+    //TODO сделать аватары здесь
     public async Task<IActionResult> UpdateUserProfile([FromBody] UpdateUserProfileRequest request)
     {
         var command = _mapper.Map<UpdateUserProfileCommand>(request);

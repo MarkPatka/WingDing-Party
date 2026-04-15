@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using UserService.Api.Models.Request;
 using UserService.Application.UserProfileManagement.Command.CreateUserProfileCommand;
 using UserService.Application.UserProfileManagement.Command.UpdateUserProfileCommand;
 using UserService.Application.UserProfileManagement.Command.UpdateUserProfileInterestsCommand;
@@ -16,9 +17,33 @@ public class UserProfileMappingConfiguration : IRegister
         config.NewConfig<GetUserProfileRequest, GetUserProfileQuery>();
         config.NewConfig<GetUserProfileResult, GetUserProfileResponse>();
 
-        config.NewConfig<CreateUserProfileRequest, CreateUserProfileCommand>();
-        config.NewConfig<CreateUserProfileResult, CreateUserProfileResponse>();
+        config.NewConfig<CreateUserProfileForm, CreateUserProfileRequest>()
+            .MapWith(src => new CreateUserProfileRequest(
+                src.DisplayName,
+                src.Bio,
+                src.AvatarUri,
+                src.Interests,
+                src.BirthDate));
         
+        config.NewConfig<CreateUserProfileRequest, CreateUserProfileCommand>()
+            .MapWith(src => new CreateUserProfileCommand(
+                src.DisplayName,
+                src.Bio,
+                src.Avatar,
+                src.Interests,
+                src.BirthDate));
+        
+        config.NewConfig<CreateUserProfileResult, CreateUserProfileResponse>()
+            .MapWith(src => new CreateUserProfileResponse(
+                src.Id,
+                src.DisplayName,
+                src.Bio,
+                src.AvatarUri,
+                src.Interests,
+                src.BirthDate));
+        
+        //config.NewConfig<CreateUserProfileResult, CreateUserProfileResponse>();
+
         config.NewConfig<UpdateUserProfileRequest, UpdateUserProfileCommand>();
         config.NewConfig<UpdateUserProfileResult, UpdateUserProfileResponse>();
 

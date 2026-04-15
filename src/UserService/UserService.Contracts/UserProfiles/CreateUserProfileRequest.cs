@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace UserService.Contracts.UserProfiles;
 
 public record CreateUserProfileRequest(
