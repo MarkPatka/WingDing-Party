@@ -72,14 +72,28 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpPut]
+    [Consumes("multipart/form-data")]
     //TODO сделать аватары здесь
-    public async Task<IActionResult> UpdateUserProfile([FromBody] UpdateUserProfileRequest request)
+    public async Task<IActionResult> UpdateUserProfile([FromForm] UpdateUserProfileForm form)
     {
+        if (form.Avatar != null)
+        {
+            using var stream = form.Avatar.OpenReadStream();
+            form.AvatarUri = await _fileStorage.SaveAsync(
+                stream,
+                form.Avatar.FileName,
+                _fileStorageOptions.CurrentValue.AvatarBucket,
+                form.Avatar.ContentType,
+                HttpContext.RequestAborted);
+        }
+
+        var request = _mapper.Map<UpdateUserProfileRequest>(form);
+        
         var command = _mapper.Map<UpdateUserProfileCommand>(request);
 
         var result = await _sender.Send(command);
-
-        var response = _mapper.Map<UpdateUserProfileResult>(result);
+        
+        var response = _mapper.Map<UpdateUserProfileResponse>(result);
 
         return Ok(response);
     }

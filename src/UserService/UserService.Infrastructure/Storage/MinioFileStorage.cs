@@ -41,8 +41,8 @@ public sealed class MinioFileStorage : IFileStorage
         var bucket = parts[0];
 
         await _bucketManager.MakeBucketPublicAsync(bucket, cancellationToken);
-
-        fileName = string.Join('/', parts.Skip(1)) + fileName;
+        
+        fileName = string.Join('/', parts.Skip(1)) + '/' + Guid.NewGuid() + '/' + fileName;
 
         try
         {
