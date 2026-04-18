@@ -4,7 +4,7 @@
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": "Host=localhost; Database=user_service; Username=postgres; Password=postgres;",
+        "DB_CONNECTION_STRING": "Host=localhost; Database=userdb; Username=postgres; Password=postgres;",
         "MINIO_PORT": 9000,
         "MINIO_LOGIN": "minio",
         "MINIO_PASSWORD": "minio"

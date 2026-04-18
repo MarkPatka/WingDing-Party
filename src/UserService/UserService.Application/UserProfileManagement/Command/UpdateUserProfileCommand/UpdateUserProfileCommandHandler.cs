@@ -13,9 +13,10 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
     private readonly IUserProfileService _userProfileService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateUserProfileCommandHandler(IUserProfileService userProfileService)
+    public UpdateUserProfileCommandHandler(IUserProfileService userProfileService, IUnitOfWork unitOfWork)
     {
         _userProfileService = userProfileService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<UpdateUserProfileResult> Handle(UpdateUserProfileCommand request,

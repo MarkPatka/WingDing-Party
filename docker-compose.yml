@@ -114,7 +114,8 @@ volumes:
     driver: local
   kafka_data:
     driver: local
-  redis_data:
-    driver: local
+<<<<<<<<< Temporary merge branch 1
   minio_data:
+    driver: local
+  redis_data:
     driver: local

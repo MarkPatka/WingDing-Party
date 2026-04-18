@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using Mapster;
-using MapsterMapper;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
+using UserService.Api.Mapping;
 using UserService.Api.Middleware.GlobalErrorHandler;
 using UserService.Application.Common.Configuration;
 
@@ -16,7 +14,6 @@ public static class DependencyInjection
     {
         services
             .AddLogging()
-            .AddMappings()
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddConfiguration(configuration)
@@ -75,16 +72,6 @@ public static class DependencyInjection
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
-        return services;
-    }
-
-    public static IServiceCollection AddMappings(this IServiceCollection services)
-    {
-        var config = TypeAdapterConfig.GlobalSettings;
-        config.Scan(Assembly.GetExecutingAssembly());
-
-        services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
         return services;
     }
 
