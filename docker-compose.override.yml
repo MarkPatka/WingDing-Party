@@ -9,7 +9,6 @@ services:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
     volumes:
-      - ./.containers/identity:/opt/keycloak/data/
       - ./.files/wingding-realm-export.json:/opt/keycloak/data/import/realm.json
     ports:
       - "${KEYCLOAK_PORT:-18080}:8080"
