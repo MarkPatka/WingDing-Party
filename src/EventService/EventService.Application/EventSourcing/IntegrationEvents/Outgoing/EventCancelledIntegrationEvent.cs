@@ -1,8 +1,6 @@
-﻿using EventService.Application.EventSourcing;
+﻿namespace EventService.Application.EventSourcing.IntegrationEvents.Outgoing;
 
-namespace EventService.Infrastructure.EventSourcing.EventContracts;
-
-public sealed record EventCancelledIntegrationEvent : IntergrationEvent
+public sealed record EventCancelledIntegrationEvent : IntegrationEvent
 {
     public Guid EventId { get; init; }
     public DateTime CancelledAt { get; init; }

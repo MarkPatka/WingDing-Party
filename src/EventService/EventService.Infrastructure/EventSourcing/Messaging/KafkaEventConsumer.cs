@@ -1,9 +1,6 @@
 ﻿using Confluent.Kafka;
 using EventService.Application.Common.Configuration;
-using EventService.Application.EventManagement.Command.CreateEventCommand;
 using EventService.Application.EventSourcing;
-using EventService.Domain.EventAggregate.DomainEvents;
-using EventService.Infrastructure.EventSourcing.Extensions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -122,10 +119,10 @@ public class KafkaEventConsumer : BackgroundService, IEventConsumer
                 result.Partition,
                 result.Offset.Value);
 
-            var domainEvent = envelope.MapToDomainEvent();
-            var command = envelope.MapToCommand(); // DomainEvent -> Command
+            //var domainEvent = envelope.MapToDomainEvent();
+            //var command = envelope.MapToCommand(); // DomainEvent -> Command
 
-            await mediator.Send(command, cancellationToken);
+            //await mediator.Send(command, cancellationToken);
 
             _logger.LogInformation(
                 "Successfully processed {EventType}", envelope.EventType);

@@ -2,7 +2,7 @@
 
 namespace EventService.Infrastructure.EventSourcing.EventContracts;
 
-public sealed record EventUpdatedIntegrationEvent : IntergrationEvent
+public sealed record EventUpdatedIntegrationEvent : IntegrationEvent
 {
     public Guid EventId { get; init; }
     public DateTime UpdatedAt { get; init; }

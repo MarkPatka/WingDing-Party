@@ -1,8 +1,6 @@
-﻿using EventService.Application.EventSourcing;
+﻿namespace EventService.Application.EventSourcing.IntegrationEvents.Outgoing;
 
-namespace EventService.Infrastructure.EventSourcing.EventContracts;
-
-public sealed record EventCreatedIntegrationEvent : IntergrationEvent
+public sealed record EventCreatedIntegrationEvent : IntegrationEvent
 {
     public Guid EventId { get; init; }
     public DateTime CreatedAt { get; init; }
