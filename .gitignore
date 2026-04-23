@@ -498,3 +498,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 *.swo
+/.github/copilot-instructions.md
