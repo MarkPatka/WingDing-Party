@@ -8,7 +8,8 @@
 .containers/**/*.db
 .containers/**/*.trace.db
 
-
+# copilot
+copilot-instructions.md
 
 #logs
 logs/
