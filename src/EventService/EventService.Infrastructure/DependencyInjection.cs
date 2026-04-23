@@ -1,13 +1,18 @@
 ﻿using EventService.Application.Common.Configuration;
+using EventService.Application.EventSourcing;
+using EventService.Application.EventSourcing.IntegrationEventHandlers;
+using EventService.Application.EventSourcing.IntegrationEvents.Incoming;
 using EventService.Application.Persistence;
 using EventService.Application.Services;
 using EventService.Domain;
 using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
+using EventService.Infrastructure.EventSourcing.Messaging;
 using EventService.Infrastructure.Persistence;
 using EventService.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -15,12 +20,14 @@ namespace EventService.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddServices()
             .RegisterDbContext()
             .RegisterRepositories()
+            .AddMessaging(configuration)
             ;
         return services;
     }
@@ -33,6 +40,29 @@ public static class DependencyInjection
         services.AddScoped<IEventService, Services.EventService>();
 
         services.AddScoped<IEventTypeService, EventTypeService>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddMessaging(
+        this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<KafkaOptions>()
+            .Bind(configuration.GetSection(KafkaOptions.SectionName))
+            .ValidateOnStart();
+
+        services.AddSingleton<IEventProducer, KafkaEventProducer>();
+        services.AddSingleton<IDeadLetterQueueProducer, DeadLetterQueueProducer>();
+
+        services.AddSingleton<IIntegrationEventTypeRegistry, IntegrationEventTypeRegistry>();
+        services.AddSingleton<IIntegrationEventDispatcher, IntegrationEventDispatcher>();
+        services.AddSingleton<IEventConsumer, KafkaEventConsumer>();
+
+        // Integration event handlers
+        services.AddScoped<IIntegrationEventHandler<UserProfileUpdatedIntegrationEvent>,
+            UserProfileUpdatedIntegrationEventHandler>();
+
+        services.AddHostedService<KafkaEventConsumerBackgroundService>();
 
         return services;
     }
