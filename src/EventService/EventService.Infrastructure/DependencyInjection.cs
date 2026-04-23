@@ -54,6 +54,8 @@ public static class DependencyInjection
         services.AddSingleton<IEventProducer, KafkaEventProducer>();
         services.AddSingleton<IDeadLetterQueueProducer, DeadLetterQueueProducer>();
 
+        services.AddSingleton<IIntegrationEventPublisher, KafkaIntegrationEventPublisher>();
+
         services.AddSingleton<IIntegrationEventTypeRegistry, IntegrationEventTypeRegistry>();
         services.AddSingleton<IIntegrationEventDispatcher, IntegrationEventDispatcher>();
         services.AddSingleton<IEventConsumer, KafkaEventConsumer>();

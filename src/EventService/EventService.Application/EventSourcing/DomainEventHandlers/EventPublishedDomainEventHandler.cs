@@ -1,10 +1,9 @@
-﻿using EventService.Application.EventSourcing;
-using EventService.Application.EventSourcing.IntegrationEvents.Outgoing;
+﻿using EventService.Application.EventSourcing.IntegrationEvents.Outgoing;
 using EventService.Domain.EventAggregate.DomainEvents;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace EventService.Infrastructure.EventSourcing.EventHandlers;
+namespace EventService.Application.EventSourcing.DomainEventHandlers;
 
 public sealed class EventPublishedDomainEventHandler
     : INotificationHandler<EventPublished>
