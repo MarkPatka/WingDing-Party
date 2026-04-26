@@ -45,15 +45,15 @@ internal sealed class GlobalExceptionHandler(
         {
             IServiceError serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage,
                 serviceException.StackTrace),
-            
+
             EntityNotFoundException => (StatusCodes.Status404NotFound,
                 exception.Message,
                 string.Empty),
-            
+
             AlreadyDoneException => (StatusCodes.Status502BadGateway,
                 exception.Message,
                 string.Empty),
-            
+
             _ => (StatusCodes.Status500InternalServerError,
                 environment.IsDevelopment() ? exception.Message : "an error occured",
                 environment.IsDevelopment() ? exception.StackTrace : string.Empty)

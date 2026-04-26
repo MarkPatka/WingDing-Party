@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ClubService.Application.ClubManagement.Command.CreateClubCommand;
 
-public class CreateClubCommandValidator : AbstractValidator<ClubService.Application.ClubManagement.Command.CreateClubCommand.CreateClubCommand>
+public class CreateClubCommandValidator : AbstractValidator<CreateClubCommand>
 {
     public CreateClubCommandValidator()
     {
