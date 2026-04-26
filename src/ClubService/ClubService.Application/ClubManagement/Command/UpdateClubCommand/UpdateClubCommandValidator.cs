@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ClubService.Application.ClubManagement.Command.UpdateClubCommand;
 
-public class UpdateClubCommandValidator : AbstractValidator<ClubService.Application.ClubManagement.Command.UpdateClubCommand.UpdateClubCommand>
+public class UpdateClubCommandValidator : AbstractValidator<UpdateClubCommand>
 {
     public UpdateClubCommandValidator()
     {

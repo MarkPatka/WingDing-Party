@@ -10,6 +10,7 @@
         <PackageReference Include="FluentValidation" />
         <PackageReference Include="MediatR" />
         <PackageReference Include="Mapster.DependencyInjection" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     </ItemGroup>
