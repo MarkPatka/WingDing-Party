@@ -3,6 +3,14 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Docker containers data
+.containers/
+.containers/**/*.db
+.containers/**/*.trace.db
+
+# copilot
+copilot-instructions.md
+
 #logs
 logs/
 
@@ -490,3 +498,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+*.swo
+/.github/copilot-instructions.md

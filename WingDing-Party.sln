@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soluton items", "Soluton items", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.github\workflows\build.yml = .github\workflows\build.yml
+		Directory.Packages.props = Directory.Packages.props
+		.files\wingding-realm-export.json = .files\wingding-realm-export.json
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}"

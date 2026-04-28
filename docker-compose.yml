@@ -1,5 +1,4 @@
 services:
-
   user-service:
     image: ${DOCKER_REGISTRY-}userserviceapi
     build:
@@ -55,8 +54,8 @@ services:
   event-service:
     image: ${DOCKER_REGISTRY-}eventserviceapi
     build:
-      context: src/EventService
-      dockerfile: EventService.Api/Dockerfile
+      context: .
+      dockerfile: src/EventService/EventService.Api/Dockerfile
     container_name: event_api
     restart: unless-stopped
     environment:
@@ -114,4 +113,6 @@ volumes:
   pgadmin_data:
     driver: local
   kafka_data:
+    driver: local
+  redis_data:
     driver: local
