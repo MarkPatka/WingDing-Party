@@ -1,4 +1,4 @@
-﻿﻿using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using UserService.Application.Persistence;
 using UserService.Domain.Common.Abstract;

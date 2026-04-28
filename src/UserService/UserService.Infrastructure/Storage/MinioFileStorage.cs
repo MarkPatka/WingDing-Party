@@ -35,14 +35,22 @@ public sealed class MinioFileStorage : IFileStorage
             throw new ArgumentNullException(nameof(path));
         }
 
+        path = path.Trim('/');
+
         await _bucketManager.EnsurePathExistsAsync(path, cancellationToken);
 
         var parts = path.Split('/');
         var bucket = parts[0];
 
         await _bucketManager.MakeBucketPublicAsync(bucket, cancellationToken);
-        
-        fileName = string.Join('/', parts.Skip(1)) + '/' + Guid.NewGuid() + '/' + fileName;
+
+        fileName = string.Join('/',
+                new []
+                    {
+                        path.Replace(bucket, String.Empty).Trim('/'), Guid.NewGuid().ToString(), fileName
+                    }
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+            );
 
         try
         {
@@ -73,11 +81,19 @@ public sealed class MinioFileStorage : IFileStorage
     {
         var (bucket, objectName) = Parse(fileUri);
 
-        await _client.RemoveObjectAsync(
-            new RemoveObjectArgs()
-                .WithBucket(bucket)
-                .WithObject(objectName),
-            cancellationToken);
+        try
+        {
+            await _client.RemoveObjectAsync(
+                new RemoveObjectArgs()
+                    .WithBucket(bucket)
+                    .WithObject(objectName),
+                cancellationToken);
+        }
+        catch (Exception e)
+        {
+            throw new FileStorageException(
+                $"Exception occured while delleting file {objectName} from backet {bucket} due to {e.Message}");
+        }
     }
 
     private static (string Bucket, string ObjectName) Parse(Uri uri)

@@ -135,4 +135,6 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-minio}
     volumes:
       - minio_data:/data
+    networks:
+      - wingding_network
     restart: unless-stopped

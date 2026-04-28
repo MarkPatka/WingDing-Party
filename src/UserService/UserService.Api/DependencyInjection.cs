@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
-using UserService.Api.Mapping;
 using UserService.Api.Middleware.GlobalErrorHandler;
 using UserService.Application.Common.Configuration;
 
@@ -24,7 +22,7 @@ public static class DependencyInjection
     private static IServiceCollection AddConfiguration(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // LoadEnvironmentVariables();
+        LoadEnvironmentVariables();
 
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -33,8 +31,7 @@ public static class DependencyInjection
             .AddUserSecrets<Program>();
 
         services.BindConfigurations(configuration);
-
-
+        
         return services;
     }
 

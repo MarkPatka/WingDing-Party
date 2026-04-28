@@ -1,4 +1,5 @@
 using System.Reactive.Linq;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Minio;
 using Minio.ApiEndpoints;
@@ -12,10 +13,12 @@ namespace UserService.Infrastructure.Storage;
 public class MinioBucketManager : IMinioBucketManager
 {
     private readonly IMinioClient _client;
+    private readonly ILogger<MinioBucketManager> _logger;
 
-    public MinioBucketManager(IMinioClient client)
+    public MinioBucketManager(IMinioClient client, ILogger<MinioBucketManager> logger)
     {
         _client = client;
+        _logger = logger;
     }
 
     public async Task EnsurePathExistsAsync(string path, CancellationToken ct = default)
@@ -37,13 +40,11 @@ public class MinioBucketManager : IMinioBucketManager
                     ct);
             }
         }
-        catch (BucketNotFoundException)
-        {
-        }
         catch (Exception e)
         {
-            throw new FileStorageException(
-                $"Exception occured while creating bucket {bucket} due to {e.Message}");
+            var mes = $"Exception occured while creating bucket {bucket} due to {e.Message}";
+            _logger.LogError(mes);
+            throw new FileStorageException(mes);
         }
 
         if (string.IsNullOrEmpty(folder))
@@ -65,8 +66,9 @@ public class MinioBucketManager : IMinioBucketManager
         }
         catch (Exception e)
         {
-            throw new FileStorageException(
-                $"Exception occured while verifying folder {folder} in bucket {bucket} due to {e.Message}");
+            var mes = $"Exception occured while verifying folder {folder} in bucket {bucket} due to {e.Message}";
+            _logger.LogError(mes);
+            throw new FileStorageException(mes);
         }
 
         try
@@ -82,8 +84,9 @@ public class MinioBucketManager : IMinioBucketManager
         }
         catch (Exception e)
         {
-            throw new FileStorageException(
-                $"Exception occured while create folder {folder} in bucket {bucket} due to {e.Message}");
+            var mes = $"Exception occured while create folder {folder} in bucket {bucket} due to {e.Message}";
+            _logger.LogError(mes);
+            throw new FileStorageException(mes);
         }
     }
 
@@ -112,8 +115,9 @@ public class MinioBucketManager : IMinioBucketManager
         }
         catch (Exception e)
         {
-            throw new FileStorageException(
-                $"Exception occured while create folder {bucket} in bucket {bucket} due to {e.Message}");
+            var mes = $"Exception occured while create folder {bucket} in bucket {bucket} due to {e.Message}";
+            _logger.LogError(mes);
+            throw new FileStorageException(mes);
         }
     }
 }

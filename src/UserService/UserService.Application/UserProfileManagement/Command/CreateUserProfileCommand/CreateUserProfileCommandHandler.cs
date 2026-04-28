@@ -4,7 +4,6 @@ using UserService.Application.Persistence;
 using UserService.Application.Services;
 using UserService.Application.UserProfileManagement.Common;
 using UserService.Domain.UserProfileAggregate;
-using UserService.Domain.UserProfileAggregate.ValueObjects;
 
 namespace UserService.Application.UserProfileManagement.Command.CreateUserProfileCommand;
 
@@ -12,6 +11,7 @@ public class CreateUserProfileCommandHandler : IRequestHandler<CreateUserProfile
 {
     private readonly IUserProfileService _userProfileService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IFileStorage _fileStorage;
 
     public CreateUserProfileCommandHandler(IUserProfileService userProfileService, IUnitOfWork unitOfWork)
     {
@@ -43,7 +43,8 @@ public class CreateUserProfileCommandHandler : IRequestHandler<CreateUserProfile
             userProfile.Id.Value,
             userProfile.DisplayName,
             userProfile.Bio,
-            userProfile.AvatarUri,
+            //TODO
+            userProfile.Avatars.Items.FirstOrDefault(),
             userProfile.Interests,
             userProfile.BirthDate);
     }

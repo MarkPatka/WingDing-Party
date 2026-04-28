@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace UserService.Api.Models.Request;

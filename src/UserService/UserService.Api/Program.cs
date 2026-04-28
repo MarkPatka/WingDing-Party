@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
         .AddPresentation(builder.Configuration)
-        .AddMappings(typeof(UserProfileMappingConfiguration).Assembly,
+        .AddMappings(
+            typeof(UserProfileMappingConfiguration).Assembly,
             typeof(UserIntegrationMappingConfiguration).Assembly)
         .AddApplication()
         .AddInfrastructure(builder.Configuration)

@@ -11,7 +11,7 @@ using UserService.Domain.UserProfileAggregate.Entities;
 
 namespace UserService.Api.Mapping;
 
-public class UserProfileMappingConfiguration : IRegister
+public class AvatarMappingConfiguration : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
