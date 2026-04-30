@@ -23,6 +23,7 @@ public class Avatar : Entity<AvatarId>
         IsActive = isActive;
         IsDefault = isDefault;
         CreatedAt = createdAt;
+        UpdatedAt = createdAt;
     }
 
     public static Avatar Create(AvatarId value, UserId userId, bool isDefault, bool isActive, DateTime createdAt)

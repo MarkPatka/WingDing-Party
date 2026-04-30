@@ -6,7 +6,7 @@ public class CreateAvatarCommandValidator : AbstractValidator<CreateAvatarComman
 {
     public CreateAvatarCommandValidator()
     {
-        RuleFor(x => x.AvatarStream).NotEmpty();
+        RuleFor(x => x.AvatarStream).NotEmpty().WithMessage("Avatar must be not empty");
         RuleFor(x => x.UserId).NotEmpty();
     }
 }

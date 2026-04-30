@@ -23,6 +23,7 @@ public class AvatarCollection
     {
         if (_items.Any(a => a.Id == avatar.Id)) return false;
         _items.Add(avatar);
+        SetDefault(avatar.Id, avatar.IsDefault);
         return true;
     }
 
@@ -62,11 +63,6 @@ public class AvatarCollection
         {
             if (!avatar.IsDefault) return;
             avatar.Update(false, avatar.IsActive);
-            return;
-        }
-
-        if (avatar.IsDefault)
-        {
             return;
         }
 

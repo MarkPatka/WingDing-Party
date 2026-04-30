@@ -60,7 +60,7 @@ public class UserProfileConfigurations : IEntityTypeConfiguration<UserProfile>
 
             a.WithOwner().HasForeignKey("UserId");
 
-            a.HasKey("UserId");
+            a.HasKey("Id");
         });
     }
 }

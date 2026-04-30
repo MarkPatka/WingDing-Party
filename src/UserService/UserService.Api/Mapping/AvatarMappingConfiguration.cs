@@ -37,6 +37,12 @@ public class AvatarMappingConfiguration : IRegister
                 src.IsDefault,
                 src.IsActive));
 
-        config.NewConfig<CreateAvatarResult, CreateAvatarResponse>();
+        config.NewConfig<CreateAvatarResult, CreateAvatarResponse>()
+            .MapWith(src => new CreateAvatarResponse(
+                src.UserId,
+                src.Avatar,
+                src.IsDefault,
+                src.IsActive
+            ));
     }
 }

@@ -25,13 +25,10 @@ public class AvatarController : ControllerBase
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> CreateAvatarProfile([FromForm] CreateAvatarForm form)
     {
-        if (form.Avatar is not null)
-        {
-            using var stream = form.Avatar.OpenReadStream();
-            form.AvatarStream = stream;
-            form.FileName = form.Avatar.FileName;
-            form.ContentType = form.Avatar.ContentType;
-        }
+        using var stream = form.Avatar != null ? form.Avatar.OpenReadStream() : null;
+        form.AvatarStream = stream;
+        form.FileName = form.Avatar != null ? form.Avatar.FileName : string.Empty;
+        form.ContentType = form.Avatar != null ? form.Avatar.ContentType : string.Empty;
 
         var request = _mapper.Map<CreateAvatarRequest>(form);
 
@@ -39,7 +36,7 @@ public class AvatarController : ControllerBase
 
         var result = await _sender.Send(command);
 
-        var response = _mapper.Map<CreateUserProfileResponse>(result);
+        var response = _mapper.Map<CreateAvatarResponse>(result);
 
         return Ok(response);
     }

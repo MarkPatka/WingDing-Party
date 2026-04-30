@@ -63,6 +63,8 @@ public class CreateAvatarCommandHandler : IRequestHandler<CreateAvatarCommand, C
             {
                 throw new AvatarException("Avatar wasn't removed ", ex);
             }
+
+            throw;
         }
 
         await _userProfileService.UpdateAsync(userProfile, cancellationToken);
