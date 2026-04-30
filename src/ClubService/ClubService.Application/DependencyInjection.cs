@@ -1,6 +1,7 @@
 ﻿using ClubService.Application.Common.Behaviors;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using MediatR;
+using FluentValidation;
 
 namespace ClubService.Application;
 
@@ -10,6 +11,8 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg => 
             cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+        
+        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
         
         services.AddTransient(
             typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

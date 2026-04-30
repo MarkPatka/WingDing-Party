@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace ClubService.Application.ClubManagement.Command.DeleteClubCommand;
 
-public class DeleteClubCommandValidator : AbstractValidator<ClubService.Application.ClubManagement.Command.DeleteClubCommand.DeleteClubCommand>
+public class DeleteClubCommandValidator : AbstractValidator<DeleteClubCommand>
 {
     public DeleteClubCommandValidator()
     {
