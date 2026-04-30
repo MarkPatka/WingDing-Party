@@ -34,7 +34,7 @@ public sealed class MinioFileStorage : IFileStorage
         {
             throw new ArgumentNullException(nameof(path));
         }
-
+        
         path = path.Trim('/');
 
         await _bucketManager.EnsurePathExistsAsync(path, cancellationToken);

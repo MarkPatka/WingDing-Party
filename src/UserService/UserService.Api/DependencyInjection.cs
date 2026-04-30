@@ -31,7 +31,7 @@ public static class DependencyInjection
             .AddUserSecrets<Program>();
 
         services.BindConfigurations(configuration);
-        
+
         return services;
     }
 

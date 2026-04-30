@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using UserService.Domain.Common.Exceptions;
 using UserService.Domain.UserProfileAggregate.ValueObjects;
 
@@ -7,10 +8,16 @@ public class AvatarCollection
 {
     private readonly List<Avatar> _items;
 
-    public AvatarCollection(IEnumerable<Avatar>? items = null) =>
-        _items = items?.ToList() ?? new List<Avatar>();
+    private AvatarCollection()
+    {
+    }
 
-    public IReadOnlyList<Avatar> Items => _items.AsReadOnly();
+    public AvatarCollection(List<Avatar>? items = null)
+    {
+        _items = items;
+    }
+
+    [NotMapped] public IReadOnlyList<Avatar> Items => _items.AsReadOnly();
 
     public bool Add(Avatar avatar)
     {
@@ -60,7 +67,7 @@ public class AvatarCollection
 
         if (avatar.IsDefault)
         {
-            return;   
+            return;
         }
 
         foreach (var a in _items)

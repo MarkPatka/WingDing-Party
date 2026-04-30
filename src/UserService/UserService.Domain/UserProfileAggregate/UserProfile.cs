@@ -1,4 +1,5 @@
-﻿using UserService.Domain.Common.Abstract;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using UserService.Domain.Common.Abstract;
 using UserService.Domain.UserProfileAggregate.DomainEvents;
 using UserService.Domain.UserProfileAggregate.Entities;
 using UserService.Domain.UserProfileAggregate.ValueObjects;
@@ -10,7 +11,11 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
     private List<string> _interests = new();
     public string DisplayName { get; private set; } = string.Empty;
     public string Bio { get; private set; } = string.Empty;
-    public AvatarCollection Avatars { get; private set; } = new ();
+
+    private List<Avatar> _avatars = new();
+
+    [NotMapped] public AvatarCollection Avatars => new AvatarCollection(_avatars);
+
     public IReadOnlyList<string> Interests => _interests;
     public DateTime? BirthDate { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -36,7 +41,7 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
         Bio = bio;
 
         if (avatarUri is not null)
-            Avatars.Add(Avatar.Create(AvatarId.Create(avatarUri)));
+            Avatars.Add(Avatar.Create(AvatarId.Create(avatarUri), id));
 
         _interests = interests.ToList();
         BirthDate = birthDate;

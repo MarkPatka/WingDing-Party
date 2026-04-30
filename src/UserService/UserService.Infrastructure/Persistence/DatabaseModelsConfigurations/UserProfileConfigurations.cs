@@ -41,7 +41,8 @@ public class UserProfileConfigurations : IEntityTypeConfiguration<UserProfile>
     private void ConfigureAvatarTable(EntityTypeBuilder<UserProfile> builder)
     {
         builder.ToTable("UserProfiles");
-        builder.OwnsMany(c => c.Avatars, a =>
+
+        builder.OwnsMany<Avatar>("_avatars", a =>
         {
             a.ToTable("Avatars");
 

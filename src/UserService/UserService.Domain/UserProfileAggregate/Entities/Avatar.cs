@@ -16,23 +16,24 @@ public class Avatar : Entity<AvatarId>
     {
     }
 
-    private Avatar(AvatarId value, bool isDefault, bool isActive, DateTime createdAt)
+    private Avatar(AvatarId value, UserId userId, bool isDefault, bool isActive, DateTime createdAt)
     {
         Id = value;
+        UserId = userId;
         IsActive = isActive;
         IsDefault = isDefault;
         CreatedAt = createdAt;
     }
 
-    public static Avatar Create(AvatarId value, bool isDefault, bool isActive, DateTime createdAt)
+    public static Avatar Create(AvatarId value, UserId userId, bool isDefault, bool isActive, DateTime createdAt)
     {
-        Avatar avatar = new(value, isDefault, isActive, createdAt);
+        Avatar avatar = new(value, userId, isDefault, isActive, createdAt);
         return avatar;
     }
 
-    public static Avatar Create(AvatarId value)
+    public static Avatar Create(AvatarId value, UserId userId)
     {
-        Avatar avatar = new(value, true, true, DateTime.UtcNow);
+        Avatar avatar = new(value, userId, true, true, DateTime.UtcNow);
         return avatar;
     }
 

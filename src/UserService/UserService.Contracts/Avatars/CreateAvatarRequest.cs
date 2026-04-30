@@ -1,6 +1,9 @@
 namespace UserService.Contracts.Avatars;
 
 public record CreateAvatarRequest(
-    Uri? Avatar,
+    Stream AvatarStream,
+    string FileName,
+    string ContentType,
+    Guid UserId,
     bool IsDefault,
     bool IsActive);

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ClubService.Application.Common.Behaviors;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ClubService.Application;
 
@@ -8,6 +10,10 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg => 
             cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+        
+        services.AddTransient(
+            typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        
         return services;
     }
 }

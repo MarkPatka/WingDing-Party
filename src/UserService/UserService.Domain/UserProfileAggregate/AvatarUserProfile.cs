@@ -5,9 +5,11 @@ namespace UserService.Domain.UserProfileAggregate;
 
 public sealed partial class UserProfile
 {
-    public void AddAvatar(Uri avatarUri, bool isActive, bool isDefault)
+    public void AddAvatar(Uri avatarUri, UserId userId, bool isActive, bool isDefault)
     {
-        Avatars.Add(Avatar.Create(AvatarId.Create(avatarUri)));
+        Avatars.Add(
+            Avatar.Create(AvatarId.Create(avatarUri), userId, isActive, isDefault, DateTime.UtcNow)
+        );
         UpdatedAt = DateTime.UtcNow;
     }
 

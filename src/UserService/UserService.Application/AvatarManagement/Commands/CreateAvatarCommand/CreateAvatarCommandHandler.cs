@@ -18,11 +18,12 @@ public class CreateAvatarCommandHandler : IRequestHandler<CreateAvatarCommand, C
     private readonly IOptionsMonitor<FileStorageOptions> _fileStorageOptions;
 
     public CreateAvatarCommandHandler(IUserProfileService userProfileService, IUnitOfWork unitOfWork,
-        IFileStorage fileStorage)
+        IFileStorage fileStorage, IOptionsMonitor<FileStorageOptions> fileStorageOptions)
     {
         _userProfileService = userProfileService;
         _unitOfWork = unitOfWork;
         _fileStorage = fileStorage;
+        _fileStorageOptions = fileStorageOptions;
     }
 
     public async Task<CreateAvatarResult> Handle(CreateAvatarCommand request,
@@ -30,9 +31,9 @@ public class CreateAvatarCommandHandler : IRequestHandler<CreateAvatarCommand, C
     {
         UserProfile? userProfile = await _userProfileService.GetUserProfileByIdAsync(UserId.Create(request.UserId));
 
-        if (userProfile != null)
+        if (userProfile == null)
         {
-            throw new EntityAlreadyExistsException("UserProfile already exists");
+            throw new EntityNotFoundException("UserProfile not found");
         }
 
         var avatarUri = await _fileStorage.SaveAsync(
@@ -46,7 +47,7 @@ public class CreateAvatarCommandHandler : IRequestHandler<CreateAvatarCommand, C
             throw new ArgumentNullException("Avatar wasn't uploaded");
         }
 
-        userProfile.AddAvatar(avatarUri, request.IsActive, request.IsDefault);
+        userProfile.AddAvatar(avatarUri, UserId.Create(request.UserId), request.IsActive, request.IsDefault);
         try
         {
             await _userProfileService.UpdateAsync(userProfile, cancellationToken);

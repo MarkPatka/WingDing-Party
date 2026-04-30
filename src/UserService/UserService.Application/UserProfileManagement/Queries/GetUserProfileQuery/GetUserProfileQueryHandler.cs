@@ -32,7 +32,7 @@ public class GetUserProfileQueryHandler
             new GetUserProfileResult(
                 userProfile.DisplayName,
                 userProfile.Bio,
-                userProfile.Avatars,
+                userProfile.Avatars.Items,
                 userProfile.Interests,
                 userProfile.BirthDate
             ));
