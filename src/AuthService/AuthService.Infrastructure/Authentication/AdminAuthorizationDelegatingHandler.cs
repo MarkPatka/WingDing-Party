@@ -1,4 +1,5 @@
 ﻿using AuthService.Infrastructure.Common.Configuration;
+using AuthService.Infrastructure.Common.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
