@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Mapster;
 using MapsterMapper;
-using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
 using UserService.Api.Middleware.GlobalErrorHandler;
@@ -53,14 +52,14 @@ public static class DependencyInjection
             configuration.GetSection(ApiOptions.SectionName));
 
         // bind .env
-        services.Configure<EventsDatabaseOptions>(options => configuration.Bind(options));
+        services.Configure<UserDatabaseOptions>(options => configuration.Bind(options));
 
         // validate settings
         services.AddOptions<ApiOptions>()
             .Validate(x => x.Port > 0, "API Port must be greater than 0")
             .ValidateOnStart();
 
-        services.AddOptions<EventsDatabaseOptions>()
+        services.AddOptions<UserDatabaseOptions>()
             .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
