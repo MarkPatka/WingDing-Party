@@ -1,8 +1,8 @@
 ﻿namespace ClubService.Application.Common.Configuration;
 
-public class EventsDatabaseOptions
+public class ClubsDatabaseOptions
 {
-    public const string SectionName = nameof(EventsDatabaseOptions);
+    public const string SectionName = nameof(ClubsDatabaseOptions);
 
     public string POSTGRES_DB { get; set; } = null!;
     public int POSTGRES_PORT { get; set; } = 5432;

@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using ClubService.Api.Middleware.GlobalErrorHandler;
-using ClubService.Application.Common.Configuration;
+﻿using AuthService.Infrastructure.Common.Configuration;
 using Mapster;
 using MapsterMapper;
 using Serilog;
 using Serilog.Events;
+using System.Reflection;
 
-namespace ClubService.Api;
+namespace AuthService.Api;
 
 public static class DependencyInjection
 {
@@ -17,6 +16,7 @@ public static class DependencyInjection
             .AddLogging()
             .AddMappings()
             .AddEndpointsApiExplorer()
+            .AddOpenApi()
             .AddSwaggerGen()
             .AddConfiguration(configuration)
             .AddErrorHandler();
@@ -26,7 +26,7 @@ public static class DependencyInjection
     private static IServiceCollection AddConfiguration(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        LoadEnvironmentVariables();
+        // LoadEnvironmentVariables();
 
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -43,25 +43,12 @@ public static class DependencyInjection
     private static IServiceCollection BindConfigurations(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // bind kafka settings
-        services.AddOptions<Dictionary<string, KafkaOptions>>()
-            .Bind(configuration.GetSection(KafkaOptions.SectionName));
-
-        // bind api settings
-        services.Configure<ApiOptions>(
-            configuration.GetSection(ApiOptions.SectionName));
-
         // bind .env
-        services.Configure<ClubsDatabaseOptions>(options => configuration.Bind(options));
-
+        services.Configure<AuthDatabaseOptions>(configuration.Bind);
+        services.Configure<AuthenticationOptions>(configuration.Bind); 
+        services.Configure<KeycloakOptions>(configuration.Bind);
+        
         // validate settings
-        services.AddOptions<ApiOptions>()
-            .Validate(x => x.Port > 0, "API Port must be greater than 0")
-            .ValidateOnStart();
-
-        services.AddOptions<ClubsDatabaseOptions>()
-            .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
-            .ValidateOnStart();
 
         return services;
     }
@@ -69,8 +56,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddErrorHandler(this IServiceCollection services)
     {
-        services.AddExceptionHandler<ValidationExceptionHandler>();
-        services.AddExceptionHandler<GlobalExceptionHandler>();
+        //services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
         return services;
@@ -130,22 +116,4 @@ public static class DependencyInjection
         return services;
     }
 
-    private static void LoadEnvironmentVariables()
-    {
-        var envPath = Path.Combine(
-            Directory.GetCurrentDirectory(), "..", ".env");
-
-        if (File.Exists(envPath))
-        {
-            Log.Information("Loading environment variables from: {EnvPath}", envPath);
-
-            DotNetEnv.Env.Load(envPath);
-
-            Log.Information("Environment variables loaded successfully");
-        }
-        else
-        {
-            Log.Warning(".env file not found at: {EnvPath}", envPath);
-        }
-    }
 }

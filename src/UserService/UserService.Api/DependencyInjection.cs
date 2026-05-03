@@ -32,6 +32,7 @@ public static class DependencyInjection
 
         services.BindConfigurations(configuration);
 
+
         return services;
     }
 
@@ -49,15 +50,15 @@ public static class DependencyInjection
         services.Configure<ApiOptions>(configuration.GetSection(ApiOptions.SectionName));
 
         // bind .env
-        services.Configure<EventsDatabaseOptions>(options => configuration.Bind(options));
+        services.Configure<UserDatabaseOptions>(options => configuration.Bind(options));
 
         // validate settings
         services.AddOptions<ApiOptions>()
             .Validate(x => x.Port > 0, "API Port must be greater than 0")
             .ValidateOnStart();
 
-        services.AddOptions<EventsDatabaseOptions>()
-            .Validate(x => !string.IsNullOrEmpty(x.DB_CONNECTION_STRING), "Connection string is required")
+        services.AddOptions<UserDatabaseOptions>()
+            .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
         return services;

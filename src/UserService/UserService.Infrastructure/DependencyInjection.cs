@@ -96,7 +96,7 @@ public static class DependencyInjection
         services.AddDbContextFactory<UserServiceDbContext>((provider, options) =>
         {
             var dbSettings = provider
-                .GetRequiredService<IOptions<EventsDatabaseOptions>>().Value;
+                .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
 
             options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
 
