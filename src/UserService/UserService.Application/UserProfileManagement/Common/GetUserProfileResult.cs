@@ -1,11 +1,11 @@
-using UserService.Domain.UserProfileAggregate.Entities;
-
 namespace UserService.Application.UserProfileManagement.Common;
 
 public record GetUserProfileResult(
     string DisplayName,
     string Bio,
-    IReadOnlyList<Avatar> Avatars,
     IReadOnlyList<string> Interests,
-    DateTime? BirthDate
+    DateTime? BirthDate,
+    IReadOnlyList<GetUserProfileAvatarResult> Avatars
 );
+
+public record GetUserProfileAvatarResult(Guid AvatarId, Uri AvatarUri, bool IsDefault, bool IsActive);

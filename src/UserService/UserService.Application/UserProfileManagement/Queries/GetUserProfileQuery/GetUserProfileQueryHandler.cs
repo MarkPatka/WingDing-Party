@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using UserService.Application.Common.Exceptions;
-using UserService.Application.Persistence;
 using UserService.Application.Services;
 using UserService.Application.UserProfileManagement.Common;
 using UserService.Domain.UserProfileAggregate;
@@ -28,13 +27,17 @@ public class GetUserProfileQueryHandler
             throw new EntityNotFoundException("UserProfile doesn't exist");
         }
 
+        var avatars = userProfile.GetAvatars().Select(c =>
+                new GetUserProfileAvatarResult(c.Id.Value, c.AvatarPath.Value, c.IsDefault, c.IsActive)).ToList()
+            .AsReadOnly();
+
         return await Task.FromResult(
             new GetUserProfileResult(
                 userProfile.DisplayName,
                 userProfile.Bio,
-                userProfile.Avatars.Items,
                 userProfile.Interests,
-                userProfile.BirthDate
+                userProfile.BirthDate,
+                avatars
             ));
     }
 }

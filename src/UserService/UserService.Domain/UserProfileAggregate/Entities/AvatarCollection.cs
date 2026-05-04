@@ -17,8 +17,6 @@ public class AvatarCollection
         _items = items;
     }
 
-    [NotMapped] public IReadOnlyList<Avatar> Items => _items.AsReadOnly();
-
     public void Add(Avatar avatar)
     {
         if (_items.Any(a => a.Id == avatar.Id))
@@ -30,6 +28,11 @@ public class AvatarCollection
         SetDefault(avatar.Id, avatar.IsDefault);
     }
 
+    public IReadOnlyList<Avatar> GetAvatars()
+    {
+        return _items.AsReadOnly();
+    }
+    
     public Avatar? GetById(AvatarId avatarId)
     {
         return _items.FirstOrDefault(x => x.Id == avatarId);
@@ -56,17 +59,6 @@ public class AvatarCollection
         }
 
         _items.Remove(avatar);
-    }
-
-    public void SetActive(AvatarId id, bool isActive)
-    {
-        var avatar = _items.SingleOrDefault(a => a.Id == id);
-        if (avatar == null)
-        {
-            throw new AvatarNotFoundException("Avatar not found");
-        }
-
-        avatar.Update(avatar.IsDefault, isActive);
     }
 
     public void SetDefault(AvatarId id, bool isDefault)

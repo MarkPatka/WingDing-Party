@@ -15,6 +15,11 @@ public sealed partial class UserProfile
         return avatar.Id;
     }
 
+    public IReadOnlyCollection<Avatar> GetAvatars()
+    {
+        return Avatars.GetAvatars();
+    }
+    
     public Avatar? GetAvatarById(AvatarId avatarId)
     {
         return Avatars.GetById(avatarId);
