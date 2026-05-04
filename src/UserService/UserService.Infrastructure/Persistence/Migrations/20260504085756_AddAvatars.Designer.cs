@@ -12,7 +12,7 @@ using UserService.Infrastructure.Persistence;
 namespace UserService.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(UserServiceDbContext))]
-    [Migration("20260427165507_AddAvatars")]
+    [Migration("20260504085756_AddAvatars")]
     partial class AddAvatars
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace UserService.Infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -103,13 +103,17 @@ namespace UserService.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("UserService.Domain.UserProfileAggregate.UserProfile", b =>
                 {
-                    b.OwnsMany("UserService.Domain.UserProfileAggregate.Entities.Avatar", "Avatars", b1 =>
+                    b.OwnsMany("UserService.Domain.UserProfileAggregate.Entities.Avatar", "_avatars", b1 =>
                         {
-                            b1.Property<Guid>("UserId")
+                            b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<string>("Id")
+                            b1.Property<string>("AvatarPath")
+                                .IsRequired()
                                 .HasColumnType("text");
+
+                            b1.Property<DateTime>("CreatedAt")
+                                .HasColumnType("timestamp with time zone");
 
                             b1.Property<bool>("IsActive")
                                 .ValueGeneratedOnAdd()
@@ -121,7 +125,15 @@ namespace UserService.Infrastructure.Persistence.Migrations
                                 .HasColumnType("boolean")
                                 .HasDefaultValue(false);
 
-                            b1.HasKey("UserId");
+                            b1.Property<DateTime>("UpdatedAt")
+                                .HasColumnType("timestamp with time zone");
+
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("UserId");
 
                             b1.ToTable("Avatars", (string)null);
 
@@ -129,7 +141,7 @@ namespace UserService.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.Navigation("Avatars");
+                    b.Navigation("_avatars");
                 });
 #pragma warning restore 612, 618
         }

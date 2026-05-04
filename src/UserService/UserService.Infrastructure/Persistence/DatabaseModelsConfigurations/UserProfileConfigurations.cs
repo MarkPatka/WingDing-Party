@@ -46,6 +46,12 @@ public class UserProfileConfigurations : IEntityTypeConfiguration<UserProfile>
         {
             a.ToTable("Avatars");
 
+            a.Property<AvatarPath>(x => x.AvatarPath)
+                .HasConversion(
+                    id => id.Value,
+                    value => AvatarPath.Create(value))
+                .IsRequired();
+            
             a.Property(x => x.IsActive)
                 .HasColumnType("boolean").HasDefaultValue(false);
 

@@ -3,8 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Api.Models.Request;
 using UserService.Application.AvatarManagement.Commands.CreateAvatarCommand;
+using UserService.Application.AvatarManagement.Commands.DeleteAvatarCommand;
+using UserService.Application.AvatarManagement.Commands.UpdateAvatarCommand;
 using UserService.Contracts.Avatars;
-using UserService.Contracts.UserProfiles;
 
 namespace UserService.Api.Controllers;
 
@@ -37,6 +38,30 @@ public class AvatarController : ControllerBase
         var result = await _sender.Send(command);
 
         var response = _mapper.Map<CreateAvatarResponse>(result);
+
+        return Ok(response);
+    }
+    
+    [HttpPut]
+    public async Task<IActionResult> UpdateAvatarProfile([FromBody] UpdateAvatarRequest request)
+    {
+        var command = _mapper.Map<UpdateAvatarCommand>(request);
+
+        var result = await _sender.Send(command);
+
+        var response = _mapper.Map<UpdateAvatarResponse>(result);
+
+        return Ok(response);
+    }
+    
+    [HttpDelete]
+    public async Task<IActionResult> DeleteAvatarProfile([FromBody] DeleteAvatarRequest request)
+    {
+        var command = _mapper.Map<DeleteAvatarCommand>(request);
+
+        var result = await _sender.Send(command);
+
+        var response = _mapper.Map<DeleteAvatarResponse>(result);
 
         return Ok(response);
     }

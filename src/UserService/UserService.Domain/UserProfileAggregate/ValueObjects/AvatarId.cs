@@ -4,10 +4,11 @@ namespace UserService.Domain.UserProfileAggregate.ValueObjects;
 
 public sealed class AvatarId : ValueObject, IEntityId
 {
-    private AvatarId(Uri value) => Value = value;
-    public Uri Value { get; }
+    private AvatarId(Guid value) => Value = value;
+    public Guid Value { get; }
     object IEntityId.Value => Value;
-    public static AvatarId Create(Uri value) => new(value);
+    public static AvatarId Create(Guid value) => new(value);
+    public static AvatarId CreateUnique() => new(Guid.NewGuid());
 
     public override IEnumerable<object> GetEqualityComponents()
     {

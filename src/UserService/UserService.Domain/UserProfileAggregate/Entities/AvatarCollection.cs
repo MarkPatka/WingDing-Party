@@ -19,15 +19,34 @@ public class AvatarCollection
 
     [NotMapped] public IReadOnlyList<Avatar> Items => _items.AsReadOnly();
 
-    public bool Add(Avatar avatar)
+    public void Add(Avatar avatar)
     {
-        if (_items.Any(a => a.Id == avatar.Id)) return false;
+        if (_items.Any(a => a.Id == avatar.Id))
+        {
+            throw new AvatarAlreadyExistsException($"Avatar with id {avatar.Id} already exists.");
+        }
+
         _items.Add(avatar);
         SetDefault(avatar.Id, avatar.IsDefault);
-        return true;
     }
 
-    public bool Remove(AvatarId id)
+    public Avatar? GetById(AvatarId avatarId)
+    {
+        return _items.FirstOrDefault(x => x.Id == avatarId);
+    }
+
+    public void Update(Avatar avatar)
+    {
+        if (!_items.Any(a => a.Id == avatar.Id))
+        {
+            throw new AvatarNotFoundException($"Avatar with id {avatar.Id} does not exist.");
+        }
+
+        _items[_items.IndexOf(avatar)] = avatar;
+        SetDefault(avatar.Id, avatar.IsDefault);
+    }
+
+    public void Remove(AvatarId id)
     {
         var avatar = _items.SingleOrDefault(a => a.Id == id);
 
@@ -37,7 +56,6 @@ public class AvatarCollection
         }
 
         _items.Remove(avatar);
-        return true;
     }
 
     public void SetActive(AvatarId id, bool isActive)
@@ -70,10 +88,10 @@ public class AvatarCollection
         {
             if (a.Id != id && a.IsDefault)
             {
-                a.Update(false, a.IsActive);
+                a.Update(a.IsActive, false);
             }
         }
 
-        avatar.Update(isDefault, true);
+        avatar.Update(true, isDefault);
     }
 }

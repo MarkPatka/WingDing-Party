@@ -32,7 +32,6 @@ public class CreateUserProfileCommandHandler : IRequestHandler<CreateUserProfile
         userProfile = UserProfile.Create(
             request.DisplayName,
             request.Bio,
-            request.AvatarUri,
             request.Interests,
             request.BirthDate);
 
@@ -43,8 +42,6 @@ public class CreateUserProfileCommandHandler : IRequestHandler<CreateUserProfile
             userProfile.Id.Value,
             userProfile.DisplayName,
             userProfile.Bio,
-            //TODO
-            userProfile.Avatars.Items.FirstOrDefault(),
             userProfile.Interests,
             userProfile.BirthDate);
     }

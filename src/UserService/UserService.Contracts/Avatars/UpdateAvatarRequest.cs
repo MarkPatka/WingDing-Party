@@ -1,7 +1,7 @@
 namespace UserService.Contracts.Avatars;
 
 public record UpdateAvatarRequest(
-    Uri? Avatar,
-    string UserId,
+    Guid AvatarId,
+    Guid UserId,
     bool IsDefault,
     bool IsActive);

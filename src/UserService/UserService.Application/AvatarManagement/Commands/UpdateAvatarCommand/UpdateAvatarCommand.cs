@@ -1,13 +1,11 @@
 using MediatR;
 using UserService.Application.AvatarManagement.Common;
 
-namespace UserService.Application.AvatarManagement.Commands.CreateAvatarCommand;
+namespace UserService.Application.AvatarManagement.Commands.UpdateAvatarCommand;
 
 public record UpdateAvatarCommand(
-    Stream AvatarStream,
-    string FileName,
-    string ContentType,
+    Guid AvatarId,
     Guid UserId,
     bool IsDefault,
     bool IsActive)
-    : IRequest<CreateAvatarResult>;
+    : IRequest<UpdateAvatarResult>;

@@ -9,10 +9,11 @@ namespace UserService.Domain.UserProfileAggregate;
 public sealed partial class UserProfile : AggregateRoot<UserId>
 {
     private List<string> _interests = new();
+    
+    private List<Avatar> _avatars = new();
+    
     public string DisplayName { get; private set; } = string.Empty;
     public string Bio { get; private set; } = string.Empty;
-
-    private List<Avatar> _avatars = new();
 
     [NotMapped] public AvatarCollection Avatars => new AvatarCollection(_avatars);
 
@@ -29,7 +30,6 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
         UserId id,
         string displayName,
         string bio,
-        Uri? avatarUri,
         IReadOnlyList<string> interests,
         DateTime? birthDate,
         DateTime createdAt,
@@ -39,10 +39,6 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
     {
         DisplayName = displayName;
         Bio = bio;
-
-        if (avatarUri is not null)
-            Avatars.Add(Avatar.Create(AvatarId.Create(avatarUri), id));
-
         _interests = interests.ToList();
         BirthDate = birthDate;
         CreatedAt = createdAt;
@@ -52,7 +48,6 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
     public static UserProfile Create(
         string displayName,
         string bio,
-        Uri? avatarUri,
         IReadOnlyList<string> interests,
         DateTime? birthDate)
     {
@@ -60,7 +55,6 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
             UserId.CreateUnique(),
             displayName,
             bio,
-            avatarUri,
             interests,
             birthDate,
             DateTime.UtcNow,
@@ -77,7 +71,6 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
     {
         SetBirthDate(birthDate);
         SetInterests(interests);
-        //SetAvatarUri(avatarUri);
         SetBio(bio);
         SetDisplayName(displayName);
     }

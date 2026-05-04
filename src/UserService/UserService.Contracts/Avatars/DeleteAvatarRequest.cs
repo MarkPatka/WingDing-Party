@@ -1,5 +1,5 @@
 namespace UserService.Contracts.Avatars;
 
 public record DeleteAvatarRequest(
-    Uri? Avatar,
+    Guid AvatarId,
     Guid UserId);

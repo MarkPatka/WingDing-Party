@@ -47,31 +47,33 @@ public class CreateAvatarCommandHandler : IRequestHandler<CreateAvatarCommand, C
             throw new ArgumentNullException("Avatar wasn't uploaded");
         }
 
-        userProfile.AddAvatar(avatarUri, UserId.Create(request.UserId), request.IsActive, request.IsDefault);
+        var avatarId =
+            userProfile.AddAvatar(avatarUri, UserId.Create(request.UserId), request.IsActive, request.IsDefault);
         try
         {
             await _userProfileService.UpdateAsync(userProfile, cancellationToken);
             await _unitOfWork.SaveEntitiesAsync(cancellationToken);
         }
-        catch
+        catch (Exception exSaved)
         {
             try
             {
                 _fileStorage.DeleteAsync(avatarUri);
             }
-            catch (Exception ex)
+            catch (Exception exStorage)
             {
-                throw new AvatarException("Avatar wasn't removed ", ex);
+                throw new AvatarException("Avatar wasn't removed ", exStorage);
             }
 
-            throw;
+            throw new AvatarException("Avatar wasn't saved ", exSaved);
         }
 
         await _userProfileService.UpdateAsync(userProfile, cancellationToken);
         await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
         return new CreateAvatarResult(
-            userProfile.Id.Value,
+            avatarId.Value,
+            request.UserId,
             avatarUri,
             request.IsDefault,
             request.IsActive

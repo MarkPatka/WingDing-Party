@@ -86,7 +86,7 @@ public sealed class MinioFileStorage : IFileStorage
             await _client.RemoveObjectAsync(
                 new RemoveObjectArgs()
                     .WithBucket(bucket)
-                    .WithObject(objectName),
+                    .WithObject(Uri.UnescapeDataString(objectName)),
                 cancellationToken);
         }
         catch (Exception e)

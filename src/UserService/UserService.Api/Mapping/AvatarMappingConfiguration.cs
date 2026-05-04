@@ -1,6 +1,8 @@
 ﻿using Mapster;
 using UserService.Api.Models.Request;
 using UserService.Application.AvatarManagement.Commands.CreateAvatarCommand;
+using UserService.Application.AvatarManagement.Commands.DeleteAvatarCommand;
+using UserService.Application.AvatarManagement.Commands.UpdateAvatarCommand;
 using UserService.Application.AvatarManagement.Common;
 using UserService.Application.UserProfileManagement.Command.CreateUserProfileCommand;
 using UserService.Application.UserProfileManagement.Command.UpdateUserProfileCommand;
@@ -39,10 +41,17 @@ public class AvatarMappingConfiguration : IRegister
 
         config.NewConfig<CreateAvatarResult, CreateAvatarResponse>()
             .MapWith(src => new CreateAvatarResponse(
+                src.Id,
                 src.UserId,
                 src.Avatar,
                 src.IsDefault,
                 src.IsActive
             ));
+
+        config.NewConfig<UpdateAvatarRequest, UpdateAvatarCommand>();
+        config.NewConfig<UpdateAvatarResult, UpdateAvatarResponse>();
+        
+        config.NewConfig<DeleteAvatarRequest, DeleteAvatarCommand>();
+        config.NewConfig<DeleteAvatarResult, DeleteAvatarResponse>();
     }
 }
