@@ -72,14 +72,14 @@ namespace UserService.Infrastructure.Persistence.Migrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime>("OccurredOnUtc")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Payload")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("ProcessedOnUtc")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Retries")
                         .ValueGeneratedOnAdd()
@@ -110,7 +110,7 @@ namespace UserService.Infrastructure.Persistence.Migrations
                                 .HasColumnType("text");
 
                             b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("timestamp with time zone");
+                                .HasColumnType("timestamp without time zone");
 
                             b1.Property<bool>("IsActive")
                                 .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace UserService.Infrastructure.Persistence.Migrations
                                 .HasDefaultValue(false);
 
                             b1.Property<DateTime>("UpdatedAt")
-                                .HasColumnType("timestamp with time zone");
+                                .HasColumnType("timestamp without time zone");
 
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
