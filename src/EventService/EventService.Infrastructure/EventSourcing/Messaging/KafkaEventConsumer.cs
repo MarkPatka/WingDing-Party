@@ -54,6 +54,26 @@ public sealed class KafkaEventConsumer : IEventConsumer
 
     public void Initialize()
     {
+        var topics = _options.ConsumeEventsTopics;
+
+        _logger.LogInformation(
+            "Subscribe input → BootstrapServers='{Servers}', GroupId='{Group}', " +
+            "Topics count={Count}, Topics=[{Topics}]",
+            _options.BootstrapServers,
+            _options.ConsumerGroupId,
+            topics?.Length ?? -1,
+            topics is null
+                ? "<NULL>"
+                : string.Join(", ", topics.Select(t => $"'{t ?? "<NULL>"}'")));
+
+        if (topics is null || topics.Length == 0)
+            throw new InvalidOperationException(
+                "ConsumeEventsTopic is null/empty — configuration binding failed.");
+
+        if (topics.Any(string.IsNullOrWhiteSpace))
+            throw new InvalidOperationException("ConsumeEventsTopic contains empty entries.");
+
+
         var config = new ConsumerConfig
         {
             BootstrapServers = _options.BootstrapServers,
@@ -66,9 +86,6 @@ public sealed class KafkaEventConsumer : IEventConsumer
             EnablePartitionEof = true
         };
 
-        if (string.IsNullOrWhiteSpace(_options.ConsumerGroupId))
-            throw new InvalidOperationException("ConsumerGroupId is required");
-
         _consumer = new ConsumerBuilder<string, string>(config)
             .SetErrorHandler((_, e) => 
                 _logger.LogError("Consumer error: {Reason}", e.Reason))
@@ -80,12 +97,12 @@ public sealed class KafkaEventConsumer : IEventConsumer
                     string.Join(",", ps)))
             .Build();
 
-        _consumer.Subscribe(_options.ConsumeEventsTopic);
+        _consumer.Subscribe(_options.ConsumeEventsTopics);
 
         _logger.LogInformation(
             "Consumer ready. Group={Group}, Topics=[{Topics}]",
             _options.ConsumerGroupId,
-            string.Join(", ", _options.ConsumeEventsTopic));
+            string.Join(", ", _options.ConsumeEventsTopics));
     }
 
     public async Task ConsumeMessageAsync(CancellationToken stoppingToken)

@@ -11,6 +11,12 @@ public class UserIntegrationMappingConfiguration : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<IDomainEvent, IIntegrationEvent>()
-            .Include<UserProfileCreatedEvent, UserProfileCreatedIntegrationEvent>();
+            .Include<UserProfileCreatedEvent, UserProfileCreatedIntegrationEvent>()
+            .Include<UserProfileUpdatedEvent, UserProfileUpdatedIntegrationEvent>();
+
+        config.NewConfig<UserProfileUpdatedEvent, UserProfileUpdatedIntegrationEvent>()
+            .Map(dest => dest.UserId,           src => src.UserId.Value)
+            .Map(dest => dest.DisplayName,      src => src.DisplayName)
+            .Map(dest => dest.OccurredOnUtc,    src => src.UpdatedAt);
     }
 }

@@ -6,11 +6,18 @@ using Microsoft.Extensions.Options;
 using UserService.Application.Common.Configuration;
 using UserService.Application.IntegrationEvents;
 using UserService.Infrastructure.Messaging.Extensions;
+using System.Text.Json.Serialization;
 
 namespace UserService.Infrastructure.Messaging;
 
 public class KafkaIntegrationEventDispatcher : IIntegrationEventDispatcher
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+
     private readonly ILogger<KafkaIntegrationEventDispatcher> _logger;
     private readonly IOptionsMonitor<Dictionary<string, KafkaOptions>> _options;
     private readonly IKafkaProducerFactory _producerFactory;
@@ -41,7 +48,16 @@ public class KafkaIntegrationEventDispatcher : IIntegrationEventDispatcher
         }
 
         var producer = _producerFactory.GetProducer(aggregate);
-        var payload = JsonSerializer.Serialize(integrationEvent);
+        //var payload = JsonSerializer.Serialize(integrationEvent);
+
+        // serialize for concrete type
+        var concreteType = integrationEvent.GetType();
+        var node = JsonSerializer.SerializeToNode(
+            integrationEvent, concreteType, JsonOptions)?.AsObject()
+            ?? throw new InvalidOperationException("Failed to serialize");
+
+        // eventType as first field
+        var payload = node.ToJsonString(JsonOptions);
 
         await producer.ProduceAsync(topic,
             new Message<string, string> { Key = integrationEvent.Id.ToString(), Value = payload },
