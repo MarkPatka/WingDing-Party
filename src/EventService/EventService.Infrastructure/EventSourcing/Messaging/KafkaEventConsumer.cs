@@ -66,6 +66,9 @@ public sealed class KafkaEventConsumer : IEventConsumer
             EnablePartitionEof = true
         };
 
+        if (string.IsNullOrWhiteSpace(_options.ConsumerGroupId))
+            throw new InvalidOperationException("ConsumerGroupId is required");
+
         _consumer = new ConsumerBuilder<string, string>(config)
             .SetErrorHandler((_, e) => 
                 _logger.LogError("Consumer error: {Reason}", e.Reason))

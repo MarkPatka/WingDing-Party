@@ -20,7 +20,12 @@ var app = builder.Build();
     }
 
     app.ApplyMigrations();
-    app.UseHttpsRedirection();
+
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseHttpsRedirection();
+    }
+
     app.UseExceptionHandler();
     app.MapControllers();
 
