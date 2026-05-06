@@ -48,8 +48,8 @@ public class UserProfileConfigurations : IEntityTypeConfiguration<UserProfile>
 
             a.Property<AvatarPath>(x => x.AvatarPath)
                 .HasConversion(
-                    id => id.Value,
-                    value => AvatarPath.Create(value))
+                    id => id.Value.ToString(),
+                    value => AvatarPath.Create(new Uri(value)))
                 .IsRequired();
             
             a.Property(x => x.IsActive)

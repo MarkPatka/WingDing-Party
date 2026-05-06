@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="AvatarManagement\Queries\**" />
+      <EmbeddedResource Remove="AvatarManagement\Queries\**" />
+      <None Remove="AvatarManagement\Queries\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="FluentValidation" />
         <PackageReference Include="MediatR" />
         <PackageReference Include="Mapster.DependencyInjection" />
@@ -17,10 +23,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="AvatarManagement\Queries\" />
     </ItemGroup>
 
 </Project>

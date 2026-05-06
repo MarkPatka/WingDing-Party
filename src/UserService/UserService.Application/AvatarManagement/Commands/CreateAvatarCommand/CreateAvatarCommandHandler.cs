@@ -58,7 +58,7 @@ public class CreateAvatarCommandHandler : IRequestHandler<CreateAvatarCommand, C
         {
             try
             {
-                _fileStorage.DeleteAsync(avatarUri);
+                await _fileStorage.DeleteAsync(avatarUri, cancellationToken);
             }
             catch (Exception exStorage)
             {
@@ -67,9 +67,6 @@ public class CreateAvatarCommandHandler : IRequestHandler<CreateAvatarCommand, C
 
             throw new AvatarException("Avatar wasn't saved ", exSaved);
         }
-
-        await _userProfileService.UpdateAsync(userProfile, cancellationToken);
-        await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
         return new CreateAvatarResult(
             avatarId.Value,

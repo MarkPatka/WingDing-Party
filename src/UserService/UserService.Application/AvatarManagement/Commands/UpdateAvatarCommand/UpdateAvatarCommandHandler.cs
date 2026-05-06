@@ -53,9 +53,6 @@ public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, U
             throw new AvatarException("Avatar wasn't saved ", ex);
         }
 
-        await _userProfileService.UpdateAsync(userProfile, cancellationToken);
-        await _unitOfWork.SaveEntitiesAsync(cancellationToken);
-
         return new UpdateAvatarResult(
             avatar.Id.Value,
             request.UserId,
