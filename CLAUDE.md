@@ -8,21 +8,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Knowledge Graph
 
-В репозитории может существовать граф знаний в `graphify-out/`:
+Каждый сервис может иметь граф знаний. Граф строится командой `/graphify src/<ServiceName>` и сохраняется в `graphify-out/` в корне репозитория. **Один граф за раз** — при смене сервиса нужно пересобрать.
 
-- `graphify-out/graph.json` — машиночитаемый граф (узлы, рёбра, сообщества)
-- `graphify-out/GRAPH_REPORT.md` — отчёт: god nodes, неожиданные связи, предложенные вопросы
-- `graphify-out/graph.html` — интерактивная визуализация
-
-**Перед тем как читать файлы исходного кода**, проверь наличие графа:
+Перед работой с любым сервисом проверь, актуален ли граф:
 
 ```powershell
-Test-Path graphify-out/graph.json
+# Узнать, какой сервис покрыт текущим графом
+Get-Content graphify-out/manifest.json | Select-String "source"
 ```
 
-Если граф существует — используй его для навигации по архитектуре, поиска зависимостей и понимания структуры. Это экономит контекст: вместо чтения десятков файлов достаточно запросить нужный узел или путь в графе. Обращайся к исходникам только для деталей реализации, которых нет в графе.
+Если граф покрывает нужный сервис — используй его для навигации вместо чтения исходников. Обращайся к исходникам только для деталей реализации, которых нет в графе.
 
-Граф можно пересобрать или обновить командой `/graphify src/<ServiceName>` (incremental: `/graphify src/<ServiceName> --update`).
+Инструкции по использованию графа для конкретного сервиса — в `src/<ServiceName>/CLAUDE.md`.
 
 ## Commands
 
@@ -33,10 +30,10 @@ Test-Path graphify-out/graph.json
 dotnet build WingDing-Party.sln
 
 # Собрать один сервис
-dotnet build src/AuthService/AuthService.sln
+dotnet build src/<ServiceName>/<ServiceName>.sln
 
 # Запустить сервис локально
-dotnet run --project src/AuthService/AuthService.Api
+dotnet run --project src/<ServiceName>/<ServiceName>.Api
 
 # Запустить инфраструктуру (Keycloak, Postgres, Redis, Kafka, pgAdmin)
 docker compose up -d
@@ -48,15 +45,15 @@ docker compose up postgres redis keycloak -d
 ### EF Core Migrations
 
 ```powershell
-# Создать миграцию (пример для AuthService)
+# Создать миграцию
 dotnet ef migrations add <MigrationName> `
-  --project src/AuthService/AuthService.Infrastructure `
-  --startup-project src/AuthService/AuthService.Api
+  --project src/<ServiceName>/<ServiceName>.Infrastructure `
+  --startup-project src/<ServiceName>/<ServiceName>.Api
 
 # Применить миграции вручную
 dotnet ef database update `
-  --project src/AuthService/AuthService.Infrastructure `
-  --startup-project src/AuthService/AuthService.Api
+  --project src/<ServiceName>/<ServiceName>.Infrastructure `
+  --startup-project src/<ServiceName>/<ServiceName>.Api
 ```
 
 Миграции применяются **автоматически** при запуске через `app.ApplyMigrations()` в `Program.cs`.
@@ -120,34 +117,15 @@ builder.Services
     .AddApplication();                        // Application layer
 ```
 
-### Авторизация (permission-based)
-
-Система разрешений поверх стандартного ASP.NET Core Authorization:
-
-1. **`[HasPermission("events:create")]`** — атрибут на endpoint (создаёт динамическую policy)
-2. **`PermissionAuthorizationPolicyProvider`** — превращает имя permission в policy
-3. **`PermissionAuthorizationHandler`** — проверяет claim `permission` у пользователя
-4. **`CustomClaimsTransformation`** — после валидации JWT, обогащает ClaimsPrincipal данными из нашей БД: заменяет Keycloak `sub` на внутренний `User.Id`, добавляет роли из PostgreSQL
-5. **`AuthorizationService`** — запрашивает роли/permissions из БД, кеширует в Redis (TTL 5 мин, ключ `auth:roles-{identityId}`)
-
-Разрешения определены как static readonly поля в `Permission : Enumeration` (например, `Permission.EventsCreate`).
-
-### Интеграция с Keycloak
-
-- **`IAuthenticationService`** / `AuthenticationService` — регистрация пользователя через Keycloak Admin API (`/admin/realms/wingding-party/users`)
-- **`IJwtService`** / `JwtService` — получение JWT токена через ROPG Flow (`/realms/wingding-party/protocol/openid-connect/token`)
-- **`AdminAuthorizationDelegatingHandler`** — автоматически добавляет Bearer-токен admin-клиента к исходящим запросам к Admin API
-- JWT Bearer настраивается через `JwtBearerOptionsSetup` (читает `Authentication` секцию из конфига)
-
 ### Конфигурация
 
-Конфиг-классы биндятся на root configuration (не на секцию), то есть переменные окружения (`CONNECTION_STRING`, `REDIS_CONNECTION_STRING`) маппируются напрямую. Секции `Authentication` и `Keycloak` биндятся явно через `configuration.GetSection(...)`.
+Конфиг-классы биндятся на root configuration (не на секцию), то есть переменные окружения маппируются напрямую. Порядок источников: `appsettings.json` → `appsettings.Development.json` → Environment Variables → User Secrets.
 
-Порядок источников: `appsettings.json` → `appsettings.Development.json` → Environment Variables → User Secrets.
+Сервис-специфичные секции конфигурации описаны в `src/<ServiceName>/CLAUDE.md`.
 
 ### Логирование
 
-Serilog с раздельными файловыми синками:
+Serilog с раздельными файловыми синками (настраивается в `appsettings.json` каждого сервиса):
 - `../logs/Information/log-*.txt`
 - `../logs/Warning/log-*.txt`
 - `../logs/Error/log-*.txt`
