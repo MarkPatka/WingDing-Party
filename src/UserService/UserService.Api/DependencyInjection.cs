@@ -24,7 +24,7 @@ public static class DependencyInjection
     private static IServiceCollection AddConfiguration(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // LoadEnvironmentVariables();
+        LoadEnvironmentVariables();
 
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -52,14 +52,14 @@ public static class DependencyInjection
         services.Configure<ApiOptions>(configuration.GetSection(ApiOptions.SectionName));
 
         // bind .env
-        services.Configure<EventsDatabaseOptions>(options => configuration.Bind(options));
+        services.Configure<UserDatabaseOptions>(options => configuration.Bind(options));
 
         // validate settings
         services.AddOptions<ApiOptions>()
             .Validate(x => x.Port > 0, "API Port must be greater than 0")
             .ValidateOnStart();
 
-        services.AddOptions<EventsDatabaseOptions>()
+        services.AddOptions<UserDatabaseOptions>()
             .Validate(x => !string.IsNullOrEmpty(x.DB_CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
@@ -69,6 +69,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddErrorHandler(this IServiceCollection services)
     {
+        services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 

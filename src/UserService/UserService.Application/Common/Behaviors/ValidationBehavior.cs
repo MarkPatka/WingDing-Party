@@ -15,8 +15,8 @@ public class ValidationBehavior<TRequest, TResponse>
     }
 
     public async Task<TResponse> Handle(
-        TRequest request, 
-        RequestHandlerDelegate<TResponse> next, 
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         if (_validator is null)
@@ -48,6 +48,7 @@ public class ValidationBehavior<TRequest, TResponse>
                 System.Net.HttpStatusCode.Conflict,
                 errors);
         }
+
         return await next(cancellationToken);
     }
 }
