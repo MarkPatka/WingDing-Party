@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
-using UserService.Api.Mapping;
 using UserService.Api.Middleware.GlobalErrorHandler;
 using UserService.Application.Common.Configuration;
 

@@ -5,9 +5,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DB_CONNECTION_STRING": "Host=localhost; Database=userdb; Username=postgres; Password=postgres;",
-        "MINIO_PORT": 9000,
-        "MINIO_LOGIN": "minio",
-        "MINIO_PASSWORD": "minio"
+        "FILESTORAGE__ENDPOINT": "localhost:9000",
+        "FILESTORAGE__ACCESSKEY": "minio",
+        "FILESTORAGE__SECRETKEY": "minio1234",
+        "FILESTORAGE__AVATARBUCKET": "avatars",
+        "FILESTORAGE__WITHSSL": "false"
       },
       "dotnetRunMessages": true
     },

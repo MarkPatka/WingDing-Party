@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
         .AddPresentation(builder.Configuration)
-        .AddMappings(typeof(UserProfileMappingConfiguration).Assembly,
+        .AddMappings(
+            typeof(UserProfileMappingConfiguration).Assembly,
             typeof(UserIntegrationMappingConfiguration).Assembly)
         .AddApplication()
         .AddInfrastructure(builder.Configuration)
@@ -26,7 +27,9 @@ var app = builder.Build();
         app.UseSwaggerUI();
     }
 
-    app.ApplyMigrations();
+    //TODO разобраться с тем, что падают миграции
+    //app.ApplyMigrations();
+    
     app.UseHttpsRedirection();
     app.UseExceptionHandler();
     app.MapControllers();

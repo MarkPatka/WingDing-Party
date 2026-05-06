@@ -33,7 +33,6 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
         userProfile.Update(
             request.DisplayName,
             request.Bio,
-            request.AvatarUri,
             request.Interests,
             request.BirthDate
         );
@@ -43,7 +42,6 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
         return new UpdateUserProfileResult(
             userProfile.DisplayName,
             userProfile.Bio,
-            userProfile.AvatarUri,
             userProfile.Interests,
             userProfile.BirthDate);
     }

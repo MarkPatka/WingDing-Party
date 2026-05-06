@@ -7,6 +7,7 @@ using UserService.Application.UserProfileManagement.Common;
 using UserService.Application.UserProfileManagement.Queries.GetUserProfileInterestsQuery;
 using UserService.Application.UserProfileManagement.Queries.GetUserProfileQuery;
 using UserService.Contracts.UserProfiles;
+using UserService.Domain.UserProfileAggregate.Entities;
 
 namespace UserService.Api.Mapping;
 
@@ -16,14 +17,6 @@ public class UserProfileMappingConfiguration : IRegister
     {
         config.NewConfig<GetUserProfileRequest, GetUserProfileQuery>();
         config.NewConfig<GetUserProfileResult, GetUserProfileResponse>();
-
-        config.NewConfig<CreateUserProfileForm, CreateUserProfileRequest>()
-            .MapWith(src => new CreateUserProfileRequest(
-                src.DisplayName,
-                src.Bio,
-                src.AvatarUri,
-                src.Interests,
-                src.BirthDate));
 
         config.NewConfig<CreateUserProfileRequest, CreateUserProfileCommand>()
             .MapWith(src => new CreateUserProfileCommand(
@@ -38,16 +31,6 @@ public class UserProfileMappingConfiguration : IRegister
                 src.Id,
                 src.DisplayName,
                 src.Bio,
-                src.AvatarUri,
-                src.Interests,
-                src.BirthDate));
-
-        config.NewConfig<UpdateUserProfileForm, UpdateUserProfileRequest>()
-            .MapWith(src => new UpdateUserProfileRequest(
-                src.Id,
-                src.DisplayName,
-                src.Bio,
-                src.AvatarUri,
                 src.Interests,
                 src.BirthDate));
 
@@ -64,7 +47,6 @@ public class UserProfileMappingConfiguration : IRegister
             .MapWith(src => new UpdateUserProfileResponse(
                 src.DisplayName,
                 src.Bio,
-                src.AvatarUri,
                 src.Interests,
                 src.BirthDate));
 

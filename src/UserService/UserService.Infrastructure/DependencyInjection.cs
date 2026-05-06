@@ -84,8 +84,8 @@ public static class DependencyInjection
     private static IServiceCollection RegisterDbContext(this IServiceCollection services)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-        services.AddDbContextFactory<UserServiceDbContext>((provider, options) =>
+        
+        services.AddDbContext<UserServiceDbContext>((provider, options) =>
         {
             var dbSettings = provider
                 .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
@@ -93,6 +93,15 @@ public static class DependencyInjection
             options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
         }, ServiceLifetime.Scoped);
 
+        services.AddDbContextFactory<UserServiceDbContext>((provider, options) =>
+        {
+            var dbSettings = provider
+                .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
+
+            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+
+        }, ServiceLifetime.Scoped);
+     
         return services;
     }
 

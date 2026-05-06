@@ -1,11 +1,6 @@
-﻿using Mapster;
-using MapsterMapper;
+﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using UserService.Api.Models.Request;
-using UserService.Application.Common.Configuration;
-using UserService.Application.Services;
 using UserService.Application.UserProfileManagement.Command.CreateUserProfileCommand;
 using UserService.Application.UserProfileManagement.Command.UpdateUserProfileCommand;
 using UserService.Application.UserProfileManagement.Command.UpdateUserProfileInterestsCommand;
@@ -21,17 +16,12 @@ public class UserProfileController : ControllerBase
 {
     private readonly ISender _sender;
     private readonly IMapper _mapper;
-    private readonly IFileStorage _fileStorage;
-    private readonly IOptionsMonitor<FileStorageOptions> _fileStorageOptions;
 
 
-    public UserProfileController(IFileStorage fileStorage, ISender sender, IMapper mapper,
-        IOptionsMonitor<FileStorageOptions> fileStorageOptions)
+    public UserProfileController(ISender sender, IMapper mapper)
     {
         _sender = sender;
         _mapper = mapper;
-        _fileStorage = fileStorage;
-        _fileStorageOptions = fileStorageOptions;
     }
 
     [HttpGet]
@@ -48,20 +38,8 @@ public class UserProfileController : ControllerBase
 
     [HttpPost]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> CreateUserProfile([FromForm] CreateUserProfileForm form)
+    public async Task<IActionResult> CreateUserProfile([FromForm] CreateUserProfileRequest request)
     {
-        if (form.Avatar != null)
-        {
-            using var stream = form.Avatar.OpenReadStream();
-            form.AvatarUri = await _fileStorage.SaveAsync(
-                stream,
-                form.Avatar.FileName,
-                _fileStorageOptions.CurrentValue.AvatarBucket,
-                form.Avatar.ContentType,
-                HttpContext.RequestAborted);
-        }
-
-        var request = _mapper.Map<CreateUserProfileRequest>(form);
         var command = _mapper.Map<CreateUserProfileCommand>(request);
 
         var result = await _sender.Send(command);
@@ -73,26 +51,12 @@ public class UserProfileController : ControllerBase
 
     [HttpPut]
     [Consumes("multipart/form-data")]
-    //TODO сделать аватары здесь
-    public async Task<IActionResult> UpdateUserProfile([FromForm] UpdateUserProfileForm form)
+    public async Task<IActionResult> UpdateUserProfile([FromForm] UpdateUserProfileCommand request)
     {
-        if (form.Avatar != null)
-        {
-            using var stream = form.Avatar.OpenReadStream();
-            form.AvatarUri = await _fileStorage.SaveAsync(
-                stream,
-                form.Avatar.FileName,
-                _fileStorageOptions.CurrentValue.AvatarBucket,
-                form.Avatar.ContentType,
-                HttpContext.RequestAborted);
-        }
-
-        var request = _mapper.Map<UpdateUserProfileRequest>(form);
-        
         var command = _mapper.Map<UpdateUserProfileCommand>(request);
 
         var result = await _sender.Send(command);
-        
+
         var response = _mapper.Map<UpdateUserProfileResponse>(result);
 
         return Ok(response);

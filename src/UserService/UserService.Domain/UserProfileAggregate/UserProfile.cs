@@ -1,15 +1,22 @@
-﻿using UserService.Domain.Common.Abstract;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using UserService.Domain.Common.Abstract;
 using UserService.Domain.UserProfileAggregate.DomainEvents;
+using UserService.Domain.UserProfileAggregate.Entities;
 using UserService.Domain.UserProfileAggregate.ValueObjects;
 
 namespace UserService.Domain.UserProfileAggregate;
 
-public sealed class UserProfile : AggregateRoot<UserId>
+public sealed partial class UserProfile : AggregateRoot<UserId>
 {
     private List<string> _interests = new();
+    
+    private List<Avatar> _avatars = new();
+    
     public string DisplayName { get; private set; } = string.Empty;
     public string Bio { get; private set; } = string.Empty;
-    public Uri? AvatarUri { get; private set; }
+
+    [NotMapped] public AvatarCollection Avatars => new AvatarCollection(_avatars);
+
     public IReadOnlyList<string> Interests => _interests;
     public DateTime? BirthDate { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -23,7 +30,6 @@ public sealed class UserProfile : AggregateRoot<UserId>
         UserId id,
         string displayName,
         string bio,
-        Uri? avatarUri,
         IReadOnlyList<string> interests,
         DateTime? birthDate,
         DateTime createdAt,
@@ -33,7 +39,6 @@ public sealed class UserProfile : AggregateRoot<UserId>
     {
         DisplayName = displayName;
         Bio = bio;
-        AvatarUri = avatarUri;
         _interests = interests.ToList();
         BirthDate = birthDate;
         CreatedAt = createdAt;
@@ -43,7 +48,6 @@ public sealed class UserProfile : AggregateRoot<UserId>
     public static UserProfile Create(
         string displayName,
         string bio,
-        Uri? avatarUri,
         IReadOnlyList<string> interests,
         DateTime? birthDate)
     {
@@ -51,7 +55,6 @@ public sealed class UserProfile : AggregateRoot<UserId>
             UserId.CreateUnique(),
             displayName,
             bio,
-            avatarUri,
             interests,
             birthDate,
             DateTime.UtcNow,
@@ -63,13 +66,11 @@ public sealed class UserProfile : AggregateRoot<UserId>
     public void Update(
         string displayName,
         string bio,
-        Uri? avatarUri,
         IReadOnlyList<string> interests,
         DateTime? birthDate)
     {
         SetBirthDate(birthDate);
         SetInterests(interests);
-        SetAvatarUri(avatarUri);
         SetBio(bio);
         SetDisplayName(displayName);
     }
@@ -83,12 +84,6 @@ public sealed class UserProfile : AggregateRoot<UserId>
     private void SetInterests(IReadOnlyList<string> interests)
     {
         _interests = interests.ToList();
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    private void SetAvatarUri(Uri? avatarUri)
-    {
-        AvatarUri = avatarUri;
         UpdatedAt = DateTime.UtcNow;
     }
 
