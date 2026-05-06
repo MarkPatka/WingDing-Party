@@ -1,0 +1,250 @@
+{
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\DependencyInjection.cs": {
+    "mtime": 1777819739.999768,
+    "hash": "7ebc8c1f68b0b869a89c0ac0ab3d583b"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\Program.cs": {
+    "mtime": 1777820848.5031185,
+    "hash": "98344da0a44a41639ba4d6464868842c"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\obj\\Debug\\net10.0\\AuthService.Api.AssemblyInfo.cs": {
+    "mtime": 1777819745.181586,
+    "hash": "f2c04da9a547a6a1a188077efae46fa4"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\obj\\Debug\\net10.0\\AuthService.Api.GlobalUsings.g.cs": {
+    "mtime": 1775497797.8655167,
+    "hash": "5b3fdaae7b59d230d7d136eab049a98a"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\obj\\Debug\\net10.0\\AuthService.Api.MvcApplicationPartsAssemblyInfo.cs": {
+    "mtime": 1777820870.3392937,
+    "hash": "d4126212fdb8f60d730dbeff86b965b9"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Application\\DependencyInjection.cs": {
+    "mtime": 1777819740.0103538,
+    "hash": "eeeb8c612026e339c1a3e48dd2087d7e"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Application\\Common\\Interfaces\\IUserContext.cs": {
+    "mtime": 1777819740.0083544,
+    "hash": "69ea5bbc8c4b79f985f3b86976ce49bc"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Application\\obj\\Debug\\net10.0\\AuthService.Application.AssemblyInfo.cs": {
+    "mtime": 1777819741.5166721,
+    "hash": "9df909ac87446e24a596f2f0fec9900c"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Application\\obj\\Debug\\net10.0\\AuthService.Application.GlobalUsings.g.cs": {
+    "mtime": 1775497798.0465133,
+    "hash": "9706b2dbf69f7db452e8b0d5baf54dcf"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Application\\Services\\IAuthenticationService.cs": {
+    "mtime": 1777819740.0113542,
+    "hash": "717ecbd86e5c62659f340b45a5bf6bcf"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Application\\Services\\IJwtService.cs": {
+    "mtime": 1777819740.0113542,
+    "hash": "7136a424bd76b62f0bbfa15fb0428836"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Contracts\\obj\\Debug\\net10.0\\AuthService.Contracts.AssemblyInfo.cs": {
+    "mtime": 1777819740.6897843,
+    "hash": "9cd99ac690f9c15a28c6be74fbd7c398"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Contracts\\obj\\Debug\\net10.0\\AuthService.Contracts.GlobalUsings.g.cs": {
+    "mtime": 1775497797.9485135,
+    "hash": "9706b2dbf69f7db452e8b0d5baf54dcf"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\Common\\Abstractions\\Entity.cs": {
+    "mtime": 1776971443.4667337,
+    "hash": "3ddca3a9f4c0f76e211c253209db0dd0"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\Common\\Abstractions\\Enumeration.cs": {
+    "mtime": 1776971443.4677339,
+    "hash": "e53e9c44485446f01c1e779520339572"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\Common\\Abstractions\\ValueObject.cs": {
+    "mtime": 1776971443.4677339,
+    "hash": "a28e6bf84b515417b122f765a98a32ef"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\Entities\\Role.cs": {
+    "mtime": 1776971443.468734,
+    "hash": "7a8ab88a7439a41da812422e4aef4768"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\Entities\\User.cs": {
+    "mtime": 1776971443.468734,
+    "hash": "0da8fe1cc2b24b854b7ebefac00c3a34"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\Enumerations\\Permission.cs": {
+    "mtime": 1776971443.4697344,
+    "hash": "7ef73008f2c0e9152ef6fa1f848a6710"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\Enumerations\\RoleType.cs": {
+    "mtime": 1776971443.4697344,
+    "hash": "8a5277495d1ee5fde4b9a4e63bb3f4cd"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\obj\\Debug\\net10.0\\AuthService.Domain.AssemblyInfo.cs": {
+    "mtime": 1777819741.2264593,
+    "hash": "f5b3aecaccc460f9f0d2e8eb941a2971"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\obj\\Debug\\net10.0\\AuthService.Domain.GlobalUsings.g.cs": {
+    "mtime": 1775497798.107514,
+    "hash": "9706b2dbf69f7db452e8b0d5baf54dcf"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\ValueObjects\\RolePermission.cs": {
+    "mtime": 1777819740.012354,
+    "hash": "8add0c7a319d8b979e2ba5544e863b75"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\ValueObjects\\Ids\\RoleId.cs": {
+    "mtime": 1776971443.4707341,
+    "hash": "2554947a5024c08473626fb0d8764178"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\ValueObjects\\Ids\\UserId.cs": {
+    "mtime": 1776971443.4707341,
+    "hash": "4151cd7c60ff50f7c421bfd3e94e0541"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\DependencyInjection.cs": {
+    "mtime": 1777820893.5110242,
+    "hash": "999e6ee021f493d28330dc1f484d2fa8"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authentication\\AdminAuthorizationDelegatingHandler.cs": {
+    "mtime": 1777819740.0183563,
+    "hash": "3b8a725c9c37bc3e7bc816d34a0e2f39"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authentication\\JwtBearerOptionsSetup.cs": {
+    "mtime": 1777819740.0193555,
+    "hash": "b75e9e616c7f734b7cc3afa865e94b34"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authentication\\UserContext.cs": {
+    "mtime": 1777819740.0193555,
+    "hash": "e54f6137dcf5864652da9b0e0e84aa61"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authorization\\AuthorizationService.cs": {
+    "mtime": 1777819740.0230324,
+    "hash": "719c6ed5bd5f3f6860ab5b80f9c65381"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authorization\\CustomClaimsTransformation.cs": {
+    "mtime": 1777819740.02603,
+    "hash": "3fd39ed8267b19fbf3f96dba796030ae"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authorization\\HasPermissionAttribute.cs": {
+    "mtime": 1777819740.1411529,
+    "hash": "7193d87a12c0b792902b21458fd8b13a"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authorization\\PermissionAuthorizationHandler.cs": {
+    "mtime": 1777819740.1441553,
+    "hash": "e641a9acc2b6803ae563957cb32b7398"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authorization\\PermissionAuthorizationPolicyProvider.cs": {
+    "mtime": 1777819740.148157,
+    "hash": "2aadad225f968703931a6fd6bce4ad12"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authorization\\PermissionRequirement.cs": {
+    "mtime": 1777819740.1521566,
+    "hash": "681b5f45ace3593b040ac59fe921a2a5"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Authorization\\UserRolesREsponse.cs": {
+    "mtime": 1777819740.155221,
+    "hash": "5d18703daac98f0fe79b40f5aef1d166"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Configuration\\AuthDatabaseOptions.cs": {
+    "mtime": 1777819740.1562214,
+    "hash": "277829436e410d6a79bba65a88e693d5"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Configuration\\AuthenticationOptions.cs": {
+    "mtime": 1777819740.1562214,
+    "hash": "6c8f31b8e688dd81aef9039869d1c13a"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Configuration\\KeycloackOptions.cs": {
+    "mtime": 1777819740.1572225,
+    "hash": "0943562512398dd8c622da6aed9ba941"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Configuration\\RedisOptions.cs": {
+    "mtime": 1777820295.2088928,
+    "hash": "0db7316c2ca5c12fb37657f080a78fac"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Dto\\AuthenticationToken.cs": {
+    "mtime": 1777819740.1572225,
+    "hash": "9a9abe1f3610bc408da60f2cbc50f43d"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Dto\\CredentialRepresentationModel.cs": {
+    "mtime": 1777819740.1582208,
+    "hash": "35849f7effcf7244576585315860b8b2"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Dto\\UserRepresentationModel.cs": {
+    "mtime": 1777819740.1582208,
+    "hash": "8042b439cae5554a128bda470b3e25ce"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Common\\Extensions\\ClaimsPrincipalExtensions.cs": {
+    "mtime": 1777819740.15922,
+    "hash": "728e3eaf0f561b60c5d3438780787df2"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\obj\\Debug\\net10.0\\AuthService.Infrastructure.AssemblyInfo.cs": {
+    "mtime": 1777819744.9001486,
+    "hash": "161d6a6d175afbc631e8e37339ab44a3"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\obj\\Debug\\net10.0\\AuthService.Infrastructure.GlobalUsings.g.cs": {
+    "mtime": 1775497797.8635142,
+    "hash": "9706b2dbf69f7db452e8b0d5baf54dcf"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Persistence\\AuthDbContext.cs": {
+    "mtime": 1777819740.1636024,
+    "hash": "f5cbe2e84c03af6321f3768082cd1633"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Persistence\\Migrations\\20260503133752_InitialCreate_WithRolesAndPermissions.cs": {
+    "mtime": 1777819740.1690326,
+    "hash": "3a94f96325b88d6f2e0848ec76e017f3"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Persistence\\Migrations\\20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs": {
+    "mtime": 1777819740.166304,
+    "hash": "10bfe58159c0fe66825d51fc5dff032c"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Persistence\\Migrations\\AuthDbContextModelSnapshot.cs": {
+    "mtime": 1777819740.1717324,
+    "hash": "5bfe393ebd1e802ff0b994aaa9e39409"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Persistence\\ModelsConfiguration\\PermissionConfiguration.cs": {
+    "mtime": 1777819740.1759152,
+    "hash": "a583704a09bcd77155ea095debe26d5d"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Persistence\\ModelsConfiguration\\RoleConfiguration.cs": {
+    "mtime": 1777819740.1794415,
+    "hash": "edd03458e11e460ea5c908c926b13b3c"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Persistence\\ModelsConfiguration\\UserConfiguration.cs": {
+    "mtime": 1777819740.1834414,
+    "hash": "97d4e590ea7919bf80bf53a05df43050"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Services\\AuthenticationService.cs": {
+    "mtime": 1777819740.1844392,
+    "hash": "0d9d8766c1ac861ef5cdd922bc2f8784"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\Services\\JwtService.cs": {
+    "mtime": 1777819740.1854448,
+    "hash": "8bd735392a9a8b6621d594d64865d928"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\obj\\Debug\\net10.0\\AuthService.Api.csproj.FileListAbsolute.txt": {
+    "mtime": 1777815499.992877,
+    "hash": "494c8db25258068c592690f2314b3779"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\obj\\Debug\\net10.0\\staticwebassets.references.upToDateCheck.txt": {
+    "mtime": 1775498914.5657556,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Api\\obj\\Debug\\net10.0\\staticwebassets.removed.txt": {
+    "mtime": 1775497798.213514,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Application\\obj\\Debug\\net10.0\\AuthService.Application.csproj.FileListAbsolute.txt": {
+    "mtime": 1776094451.6743298,
+    "hash": "d2e39f374fd09675ccfb7766a5952db2"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Contracts\\obj\\Debug\\net10.0\\AuthService.Contracts.csproj.FileListAbsolute.txt": {
+    "mtime": 1775583072.914079,
+    "hash": "b13b5b7eac5b18c6a20d9d9120b77e41"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Domain\\obj\\Debug\\net10.0\\AuthService.Domain.csproj.FileListAbsolute.txt": {
+    "mtime": 1775583073.010058,
+    "hash": "1ab08033dcabd56d8b173e00caaae975"
+  },
+  "D:\\Repositories\\WingDingRepository\\WingDing-Party\\src\\AuthService\\AuthService.Infrastructure\\obj\\Debug\\net10.0\\AuthService.Infrastructure.csproj.FileListAbsolute.txt": {
+    "mtime": 1776094452.17321,
+    "hash": "be3aab7d318e151c9178c2b4f88f2ced"
+  }
+}

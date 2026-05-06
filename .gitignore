@@ -14,9 +14,6 @@ copilot-instructions.md
 #logs
 logs/
 
-# claude
-.claude/
-
 # dotenv files
 .env
 .env.local
@@ -500,3 +497,16 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 /.github/copilot-instructions.md
+
+# Claude Code
+.claude/settings.local.json
+.claude/worktrees/
+
+# graphify
+.graphify_python
+graphify-out/.graphify_*.json
+graphify-out/.graphify_*.txt
+graphify-out/.needs_update
+graphify-out/obsidian/
+graphify-out/cache/
+src/*/graphify-out/
