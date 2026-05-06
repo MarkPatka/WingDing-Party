@@ -19,7 +19,10 @@ var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
+    
+    app.UseAuthentication();  // JWT validation middleware
+    app.UseAuthorization();   // Permission checking middleware 
+    
     app.ApplyMigrations();
     app.UseHttpsRedirection();
     app.UseExceptionHandler();

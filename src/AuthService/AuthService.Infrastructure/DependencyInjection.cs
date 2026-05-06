@@ -1,12 +1,21 @@
-﻿using AuthService.Application.Services;
+﻿using AuthService.Application.Common.Interfaces;
+using AuthService.Application.Services;
+using AuthService.Infrastructure.Authentication;
+using AuthService.Infrastructure.Authorization;
 using AuthService.Infrastructure.Common.Configuration;
 using AuthService.Infrastructure.Persistence;
 using AuthService.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using AuthenticationOptions = AuthService.Infrastructure.Common.Configuration.AuthenticationOptions;
+using AuthenticationService = AuthService.Infrastructure.Services.AuthenticationService;
+using IAuthenticationService = AuthService.Application.Services.IAuthenticationService;
 
 namespace AuthService.Infrastructure;
 
@@ -16,23 +25,68 @@ public static class DependencyInjection
     {
         services
             .RegisterDbContext()
-            .RegisterServices();
+            .RegisterRedis()
+            .AddAuthentication(configuration)
+            .AddAuthorization();
         
         return services;
     }
 
-    private static IServiceCollection RegisterServices(this IServiceCollection services)
+    private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<IAuthenticationService, AuthenticationService>((provider, client) =>
-        {
-            var options = provider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
-            client.BaseAddress = new Uri(options.AdminUrl);
-        });
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
 
-        services.AddHttpClient<IJwtService, JwtService>((provider, client) =>
+        // TODO: move to .env or secret manager
+        services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+        services.Configure<KeycloakOptions>(configuration.GetSection("Keycloak"));
+
+        services.AddTransient<AdminAuthorizationDelegatingHandler>();
+
+        // HttpClient for Keycloak Admin API (user registration)
+        services.AddHttpClient<IAuthenticationService, AuthenticationService>(
+            (sp, httpClient) =>
+            {
+                var opts = sp.GetRequiredService<IOptions<KeycloakOptions>>().Value;
+                httpClient.BaseAddress = new Uri(opts.AdminUrl);
+            })
+            .AddHttpMessageHandler<AdminAuthorizationDelegatingHandler>();
+
+        // HttpClient for Keycloak Token endpoint (login)
+        services.AddHttpClient<IJwtService, JwtService>(
+            (sp, httpClient) =>
+            {
+                var opts = sp.GetRequiredService<IOptions<KeycloakOptions>>().Value;
+                httpClient.BaseAddress = new Uri(opts.TokenUrl);
+            });
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserContext, UserContext>();
+        return services;
+    }
+
+    private static IServiceCollection AddAuthorization(this IServiceCollection services)
+    {
+        services.AddScoped<AuthorizationService>();
+
+        services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+        return services;
+    }
+
+    private static IServiceCollection RegisterRedis(this IServiceCollection services)
+    {
+        services.AddStackExchangeRedisCache(options =>
         {
-            var options = provider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
-            client.BaseAddress = new Uri(options.TokenUrl);
+            var redisOptions = services
+                .BuildServiceProvider()
+                .GetRequiredService<IOptions<RedisOptions>>().Value;
+
+            options.Configuration = redisOptions.REDIS_CONNECTION_STRING;
         });
 
         return services;
