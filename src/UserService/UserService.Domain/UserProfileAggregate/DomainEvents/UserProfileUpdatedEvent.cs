@@ -8,5 +8,5 @@ public sealed record UserProfileUpdatedEvent(
     string DisplayName,
     DateTime UpdatedAt) : IDomainEvent
 {
-    public DateTime OccuredOn => UpdatedAt;
+    public DateTime OccurredOn => UpdatedAt;
 }

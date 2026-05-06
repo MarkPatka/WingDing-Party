@@ -41,6 +41,7 @@ public class KafkaIntegrationEventDispatcher : IIntegrationEventDispatcher
     {
         var aggregate = integrationEvent.GetAggregateName();
         var topic = _options.CurrentValue[aggregate].ProduceEventsTopic;
+
         if (string.IsNullOrWhiteSpace(topic))
         {
             _logger.LogError($"Topic name is missing for aggregate {aggregate}");
@@ -48,16 +49,10 @@ public class KafkaIntegrationEventDispatcher : IIntegrationEventDispatcher
         }
 
         var producer = _producerFactory.GetProducer(aggregate);
-        //var payload = JsonSerializer.Serialize(integrationEvent);
 
-        // serialize for concrete type
-        var concreteType = integrationEvent.GetType();
-        var node = JsonSerializer.SerializeToNode(
-            integrationEvent, concreteType, JsonOptions)?.AsObject()
-            ?? throw new InvalidOperationException("Failed to serialize");
-
-        // eventType as first field
-        var payload = node.ToJsonString(JsonOptions);
+        // serialize for concrete type including EventType
+        var payload = JsonSerializer.Serialize(
+            integrationEvent, integrationEvent.GetType(), JsonOptions);
 
         await producer.ProduceAsync(topic,
             new Message<string, string> { Key = integrationEvent.Id.ToString(), Value = payload },

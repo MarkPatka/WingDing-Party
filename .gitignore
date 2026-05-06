@@ -4,7 +4,7 @@
 ## Get latest from `dotnet new gitignore`
 
 # Docker containers data
-.containers/
+.containers/identity/
 .containers/**/*.db
 .containers/**/*.trace.db
 

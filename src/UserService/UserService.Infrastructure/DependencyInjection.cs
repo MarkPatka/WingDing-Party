@@ -1,20 +1,16 @@
-﻿using ClubService.Infrastructure.Messaging.Mapping;
-using Mapster;
-using MapsterMapper;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Reflection;
 using UserService.Application.Common.Configuration;
+using UserService.Application.IntegrationEvents.Mapping;
 using UserService.Application.Persistence;
 using UserService.Application.Services;
 using UserService.Domain.UserProfileAggregate;
 using UserService.Domain.UserProfileAggregate.ValueObjects;
 using UserService.Infrastructure.Messaging;
+using UserService.Infrastructure.Messaging.Mapping;
 using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Persistence.Outbox;
 using UserService.Infrastructure.Services;
@@ -26,11 +22,12 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
-        services.AddMappings();
+        services.AddIntegrationEventMappers();
         services.RegisterRepositories();
         services.RegisterDbContext();
         services.BackgroundServices();
         services.MessagingServices(configuration);
+
         return services;
     }
 
@@ -66,13 +63,15 @@ public static class DependencyInjection
             .ValidateOnStart();
         return services;
     }
-    
-    public static IServiceCollection AddMappings(this IServiceCollection services)
+
+    private static IServiceCollection AddIntegrationEventMappers(
+        this IServiceCollection services)
     {
-        var config = new TypeAdapterConfig();
-        config.Scan(typeof(UserIntegrationMappingConfiguration).Assembly);
-        services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
+        services.AddSingleton<IIntegrationEventMapper, UserProfileCreatedEventMapper>();
+        services.AddSingleton<IIntegrationEventMapper, UserProfileUpdatedEventMapper>();
+
+        services.AddSingleton<IIntegrationEventMapperRegistry, IntegrationEventMapperRegistry>();
+
         return services;
     }
 

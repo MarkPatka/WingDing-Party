@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using UserService.Application.IntegrationEvents;
+using UserService.Application.IntegrationEvents.Mapping;
 using UserService.Application.Persistence;
 using UserService.Domain.Common.Abstract;
 using UserService.Infrastructure.Persistence.Outbox;
@@ -14,23 +15,23 @@ namespace UserService.Infrastructure.Persistence;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly UserServiceDbContext _context;
+    private readonly IIntegrationEventMapperRegistry _mapperRegistry;
     private readonly ILogger<UnitOfWork> _logger;
-    private readonly IMapper _mapper;
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
 
     public UnitOfWork(
         UserServiceDbContext context,
-        IMapper mapper,
+        IIntegrationEventMapperRegistry mapperRegistry,
         ILogger<UnitOfWork> logger)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(logger);
-        ArgumentNullException.ThrowIfNull(mapper);
+        ArgumentNullException.ThrowIfNull(mapperRegistry);
 
         _context = context;
+        _mapperRegistry = mapperRegistry;
         _logger = logger;
-        _mapper = mapper;
     }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -175,17 +176,25 @@ public class UnitOfWork : IUnitOfWork
             .ToList();
 
         _logger.LogInformation("Dispatching {Count} domain events", domainEvents.Count);
-        
-        var integrationEvents = domainEvents
-            .Select(de => _mapper.Map<IDomainEvent, IIntegrationEvent>(de))
-            .ToList();
-        
-        foreach (var ie in integrationEvents)
+
+        foreach(var domainEvent in domainEvents)
         {
-            var payload = JsonSerializer.Serialize(ie);
-            var message = new OutboxMessage(ie, payload, ie.GetType().Name!);
+            var integrationEvent = _mapperRegistry.Map(domainEvent);
+            if (integrationEvent is null)
+            {
+                _logger.LogDebug(
+                    "No integration event for domain event {Type} - skipping",
+                    domainEvent.GetType().Name);
+                continue;
+            }
+
+            var payload = JsonSerializer.Serialize(
+                integrationEvent, integrationEvent.GetType());
+            var message = new OutboxMessage(
+                integrationEvent, payload, integrationEvent.GetType().Name);
             await _context.OutboxMessages.AddAsync(message, cancellationToken);
         }
+
         domainEntities.ForEach(e => e.ClearDomainEvents());
 
 
