@@ -1,0 +1,5112 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "domain_abstractions_ddd_pattern",
+        "label": "DDD Domain Abstractions Pattern",
+        "nodes": [
+          "entity_abstract",
+          "enumeration_abstract",
+          "valueobject_abstract"
+        ],
+        "relation": "form",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "src/AuthService/AuthService.Domain/Common/Abstractions/Entity.cs"
+      },
+      {
+        "id": "app_service_interfaces",
+        "label": "Application Service Interface Layer",
+        "nodes": [
+          "iauthenticationservice_interface",
+          "ijwtservice_interface",
+          "iusercontext_interface"
+        ],
+        "relation": "implement",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "src/AuthService/AuthService.Application/Services/IAuthenticationService.cs"
+      },
+      {
+        "id": "domain_entities_aggregate",
+        "label": "User-Role Domain Aggregate",
+        "nodes": [
+          "user_entity",
+          "role_entity",
+          "permission_enumeration",
+          "roletype_enumeration"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "src/AuthService/AuthService.Domain/Entities/User.cs"
+      },
+      {
+        "id": "startup_registration_pipeline",
+        "label": "Application Startup Service Registration Pipeline",
+        "nodes": [
+          "program_entrypoint",
+          "apidi_dependencyinjection",
+          "appdi_dependencyinjection"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "src/AuthService/AuthService.Api/Program.cs"
+      },
+      {
+        "id": "permission_authorization_pipeline",
+        "label": "Permission Authorization Pipeline",
+        "nodes": [
+          "haspermissionattribute_HasPermissionAttribute",
+          "permissionauthorizationpolicyprovider_PermissionAuthorizationPolicyProvider",
+          "permissionrequirement_PermissionRequirement",
+          "permissionauthorizationhandler_PermissionAuthorizationHandler",
+          "authorizationservice_AuthorizationService"
+        ],
+        "relation": "implement",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "src/AuthService/AuthService.Infrastructure/Authorization"
+      },
+      {
+        "id": "claims_enrichment_flow",
+        "label": "JWT Claims Enrichment Flow",
+        "nodes": [
+          "customclaimstransformation_CustomClaimsTransformation",
+          "claimsprincipalextensions_ClaimsPrincipalExtensions",
+          "authorizationservice_AuthorizationService",
+          "userrolesresponse_UserRolesResponse"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 0.95,
+        "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs"
+      },
+      {
+        "id": "infrastructure_configuration",
+        "label": "Infrastructure Configuration Options",
+        "nodes": [
+          "authdatabaseoptions_AuthDatabaseOptions",
+          "authenticationoptions_AuthenticationOptions",
+          "keycloakoptions_KeycloakOptions",
+          "redisoptions_RedisOptions"
+        ],
+        "relation": "participate_in",
+        "confidence": "INFERRED",
+        "confidence_score": 0.85,
+        "source_file": "src/AuthService/AuthService.Infrastructure/Common/Configuration"
+      },
+      {
+        "id": "persistence_layer_configuration",
+        "label": "EF Core Persistence Layer Configuration",
+        "nodes": [
+          "authdbcontext_AuthDbContext",
+          "permissionconfiguration_PermissionConfiguration",
+          "roleconfiguration_RoleConfiguration",
+          "userconfiguration_UserConfiguration"
+        ],
+        "relation": "implement",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/AuthDbContext.cs"
+      },
+      {
+        "id": "auth_schema_tables",
+        "label": "Auth Database Schema Tables",
+        "nodes": [
+          "db_table_users",
+          "db_table_roles",
+          "db_table_permissions",
+          "db_table_role_permissions",
+          "db_table_user_roles"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs"
+      },
+      {
+        "id": "keycloak_integration_services",
+        "label": "Keycloak Integration Services",
+        "nodes": [
+          "authenticationservice_AuthenticationService",
+          "jwtservice_JwtService",
+          "keycloak_admin_api",
+          "keycloak_token_api"
+        ],
+        "relation": "participate_in",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "DependencyInjection.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L1",
+      "id": "authservice_api_dependencyinjection_cs",
+      "community": 10,
+      "norm_label": "dependencyinjection.cs"
+    },
+    {
+      "label": "DependencyInjection",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L10",
+      "id": "authservice_api_dependencyinjection_dependencyinjection",
+      "community": 10,
+      "norm_label": "dependencyinjection"
+    },
+    {
+      "label": ".AddPresentation()",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L12",
+      "id": "authservice_api_dependencyinjection_dependencyinjection_addpresentation",
+      "community": 10,
+      "norm_label": ".addpresentation()"
+    },
+    {
+      "label": ".AddConfiguration()",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L26",
+      "id": "authservice_api_dependencyinjection_dependencyinjection_addconfiguration",
+      "community": 10,
+      "norm_label": ".addconfiguration()"
+    },
+    {
+      "label": ".BindConfigurations()",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L43",
+      "id": "authservice_api_dependencyinjection_dependencyinjection_bindconfigurations",
+      "community": 10,
+      "norm_label": ".bindconfigurations()"
+    },
+    {
+      "label": ".AddErrorHandler()",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L57",
+      "id": "authservice_api_dependencyinjection_dependencyinjection_adderrorhandler",
+      "community": 10,
+      "norm_label": ".adderrorhandler()"
+    },
+    {
+      "label": ".AddMappings()",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L65",
+      "id": "authservice_api_dependencyinjection_dependencyinjection_addmappings",
+      "community": 10,
+      "norm_label": ".addmappings()"
+    },
+    {
+      "label": ".AddLogging()",
+      "file_type": "code",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L75",
+      "id": "authservice_api_dependencyinjection_dependencyinjection_addlogging",
+      "community": 10,
+      "norm_label": ".addlogging()"
+    },
+    {
+      "label": "Program.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Api/Program.cs",
+      "source_location": "L1",
+      "id": "authservice_api_program_cs",
+      "community": 37,
+      "norm_label": "program.cs"
+    },
+    {
+      "label": "AuthService.Api.AssemblyInfo.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Api/obj/Debug/net10.0/AuthService.Api.AssemblyInfo.cs",
+      "source_location": "L1",
+      "id": "authservice_api_obj_debug_net10_0_authservice_api_assemblyinfo_cs",
+      "community": 38,
+      "norm_label": "authservice.api.assemblyinfo.cs"
+    },
+    {
+      "label": "AuthService.Api.GlobalUsings.g.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Api/obj/Debug/net10.0/AuthService.Api.GlobalUsings.g.cs",
+      "source_location": "L1",
+      "id": "authservice_api_obj_debug_net10_0_authservice_api_globalusings_g_cs",
+      "community": 39,
+      "norm_label": "authservice.api.globalusings.g.cs"
+    },
+    {
+      "label": "AuthService.Api.MvcApplicationPartsAssemblyInfo.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Api/obj/Debug/net10.0/AuthService.Api.MvcApplicationPartsAssemblyInfo.cs",
+      "source_location": "L1",
+      "id": "authservice_api_obj_debug_net10_0_authservice_api_mvcapplicationpartsassemblyinfo_cs",
+      "community": 40,
+      "norm_label": "authservice.api.mvcapplicationpartsassemblyinfo.cs"
+    },
+    {
+      "label": "DependencyInjection.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Application/DependencyInjection.cs",
+      "source_location": "L1",
+      "id": "authservice_application_dependencyinjection_cs",
+      "community": 23,
+      "norm_label": "dependencyinjection.cs"
+    },
+    {
+      "label": "DependencyInjection",
+      "file_type": "code",
+      "source_file": "AuthService.Application/DependencyInjection.cs",
+      "source_location": "L5",
+      "id": "authservice_application_dependencyinjection_dependencyinjection",
+      "community": 23,
+      "norm_label": "dependencyinjection"
+    },
+    {
+      "label": ".AddApplication()",
+      "file_type": "code",
+      "source_file": "AuthService.Application/DependencyInjection.cs",
+      "source_location": "L7",
+      "id": "authservice_application_dependencyinjection_dependencyinjection_addapplication",
+      "community": 23,
+      "norm_label": ".addapplication()"
+    },
+    {
+      "label": "IUserContext.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Common/Interfaces/IUserContext.cs",
+      "source_location": "L1",
+      "id": "authservice_application_common_interfaces_iusercontext_cs",
+      "community": 29,
+      "norm_label": "iusercontext.cs"
+    },
+    {
+      "label": "IUserContext",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Common/Interfaces/IUserContext.cs",
+      "source_location": "L3",
+      "id": "interfaces_iusercontext_iusercontext",
+      "community": 29,
+      "norm_label": "iusercontext"
+    },
+    {
+      "label": "AuthService.Application.AssemblyInfo.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Application/obj/Debug/net10.0/AuthService.Application.AssemblyInfo.cs",
+      "source_location": "L1",
+      "id": "authservice_application_obj_debug_net10_0_authservice_application_assemblyinfo_cs",
+      "community": 41,
+      "norm_label": "authservice.application.assemblyinfo.cs"
+    },
+    {
+      "label": "AuthService.Application.GlobalUsings.g.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Application/obj/Debug/net10.0/AuthService.Application.GlobalUsings.g.cs",
+      "source_location": "L1",
+      "id": "authservice_application_obj_debug_net10_0_authservice_application_globalusings_g_cs",
+      "community": 42,
+      "norm_label": "authservice.application.globalusings.g.cs"
+    },
+    {
+      "label": "IAuthenticationService.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Services/IAuthenticationService.cs",
+      "source_location": "L1",
+      "id": "authservice_application_services_iauthenticationservice_cs",
+      "community": 24,
+      "norm_label": "iauthenticationservice.cs"
+    },
+    {
+      "label": "IAuthenticationService",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Services/IAuthenticationService.cs",
+      "source_location": "L5",
+      "id": "services_iauthenticationservice_iauthenticationservice",
+      "community": 24,
+      "norm_label": "iauthenticationservice"
+    },
+    {
+      "label": ".RegisterAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Services/IAuthenticationService.cs",
+      "source_location": "L7",
+      "id": "services_iauthenticationservice_iauthenticationservice_registerasync",
+      "community": 24,
+      "norm_label": ".registerasync()"
+    },
+    {
+      "label": "IJwtService.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Services/IJwtService.cs",
+      "source_location": "L1",
+      "id": "authservice_application_services_ijwtservice_cs",
+      "community": 25,
+      "norm_label": "ijwtservice.cs"
+    },
+    {
+      "label": "IJwtService",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Services/IJwtService.cs",
+      "source_location": "L3",
+      "id": "services_ijwtservice_ijwtservice",
+      "community": 25,
+      "norm_label": "ijwtservice"
+    },
+    {
+      "label": ".GetAccessTokenAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Application/Services/IJwtService.cs",
+      "source_location": "L5",
+      "id": "services_ijwtservice_ijwtservice_getaccesstokenasync",
+      "community": 25,
+      "norm_label": ".getaccesstokenasync()"
+    },
+    {
+      "label": "AuthService.Contracts.AssemblyInfo.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Contracts/obj/Debug/net10.0/AuthService.Contracts.AssemblyInfo.cs",
+      "source_location": "L1",
+      "id": "authservice_contracts_obj_debug_net10_0_authservice_contracts_assemblyinfo_cs",
+      "community": 43,
+      "norm_label": "authservice.contracts.assemblyinfo.cs"
+    },
+    {
+      "label": "AuthService.Contracts.GlobalUsings.g.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Contracts/obj/Debug/net10.0/AuthService.Contracts.GlobalUsings.g.cs",
+      "source_location": "L1",
+      "id": "authservice_contracts_obj_debug_net10_0_authservice_contracts_globalusings_g_cs",
+      "community": 44,
+      "norm_label": "authservice.contracts.globalusings.g.cs"
+    },
+    {
+      "label": "Entity.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_common_abstractions_entity_cs",
+      "community": 7,
+      "norm_label": "entity.cs"
+    },
+    {
+      "label": "Entity",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L3",
+      "id": "abstractions_entity_entity",
+      "community": 7,
+      "norm_label": "entity"
+    },
+    {
+      "label": "IEquatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "iequatable",
+      "community": 7,
+      "norm_label": "iequatable"
+    },
+    {
+      "label": ".Equals()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L17",
+      "id": "abstractions_entity_entity_equals",
+      "community": 7,
+      "norm_label": ".equals()"
+    },
+    {
+      "label": ".GetHashCode()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L33",
+      "id": "abstractions_entity_entity_gethashcode",
+      "community": 7,
+      "norm_label": ".gethashcode()"
+    },
+    {
+      "label": "Enumeration.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_common_abstractions_enumeration_cs",
+      "community": 5,
+      "norm_label": "enumeration.cs"
+    },
+    {
+      "label": "Enumeration",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L6",
+      "id": "abstractions_enumeration_enumeration",
+      "community": 5,
+      "norm_label": "enumeration"
+    },
+    {
+      "label": "IComparable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "icomparable",
+      "community": 5,
+      "norm_label": "icomparable"
+    },
+    {
+      "label": ".GetAll()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L15",
+      "id": "abstractions_enumeration_enumeration_getall",
+      "community": 5,
+      "norm_label": ".getall()"
+    },
+    {
+      "label": ".GetFromId()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L24",
+      "id": "abstractions_enumeration_enumeration_getfromid",
+      "community": 5,
+      "norm_label": ".getfromid()"
+    },
+    {
+      "label": ".GetFromName()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L27",
+      "id": "abstractions_enumeration_enumeration_getfromname",
+      "community": 5,
+      "norm_label": ".getfromname()"
+    },
+    {
+      "label": ".Parse()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L30",
+      "id": "abstractions_enumeration_enumeration_parse",
+      "community": 5,
+      "norm_label": ".parse()"
+    },
+    {
+      "label": ".ToString()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L34",
+      "id": "abstractions_enumeration_enumeration_tostring",
+      "community": 5,
+      "norm_label": ".tostring()"
+    },
+    {
+      "label": ".GetHashCode()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L35",
+      "id": "abstractions_enumeration_enumeration_gethashcode",
+      "community": 5,
+      "norm_label": ".gethashcode()"
+    },
+    {
+      "label": ".Equals()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L36",
+      "id": "abstractions_enumeration_enumeration_equals",
+      "community": 5,
+      "norm_label": ".equals()"
+    },
+    {
+      "label": ".CompareTo()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L46",
+      "id": "abstractions_enumeration_enumeration_compareto",
+      "community": 5,
+      "norm_label": ".compareto()"
+    },
+    {
+      "label": "ValueObject.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_common_abstractions_valueobject_cs",
+      "community": 7,
+      "norm_label": "valueobject.cs"
+    },
+    {
+      "label": "ValueObject",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L3",
+      "id": "abstractions_valueobject_valueobject",
+      "community": 7,
+      "norm_label": "valueobject"
+    },
+    {
+      "label": ".GetEqualityComponents()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L5",
+      "id": "abstractions_valueobject_valueobject_getequalitycomponents",
+      "community": 7,
+      "norm_label": ".getequalitycomponents()"
+    },
+    {
+      "label": ".Equals()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L7",
+      "id": "abstractions_valueobject_valueobject_equals",
+      "community": 7,
+      "norm_label": ".equals()"
+    },
+    {
+      "label": ".GetHashCode()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L30",
+      "id": "abstractions_valueobject_valueobject_gethashcode",
+      "community": 7,
+      "norm_label": ".gethashcode()"
+    },
+    {
+      "label": "Role.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/Role.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_entities_role_cs",
+      "community": 8,
+      "norm_label": "role.cs"
+    },
+    {
+      "label": "Role",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/Role.cs",
+      "source_location": "L7",
+      "id": "entities_role_role",
+      "community": 8,
+      "norm_label": "role"
+    },
+    {
+      "label": "Entity",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "entity",
+      "community": 8,
+      "norm_label": "entity"
+    },
+    {
+      "label": "List",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L9",
+      "id": "list",
+      "community": 8,
+      "norm_label": "list"
+    },
+    {
+      "label": ".Create()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/Role.cs",
+      "source_location": "L19",
+      "id": "entities_role_role_create",
+      "community": 8,
+      "norm_label": ".create()"
+    },
+    {
+      "label": "User.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_entities_user_cs",
+      "community": 8,
+      "norm_label": "user.cs"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L7",
+      "id": "entities_user_user",
+      "community": 8,
+      "norm_label": "user"
+    },
+    {
+      "label": ".Create()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L31",
+      "id": "entities_user_user_create",
+      "community": 8,
+      "norm_label": ".create()"
+    },
+    {
+      "label": ".AddRole()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L38",
+      "id": "entities_user_user_addrole",
+      "community": 8,
+      "norm_label": ".addrole()"
+    },
+    {
+      "label": ".SetIdentityId()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L43",
+      "id": "entities_user_user_setidentityid",
+      "community": 8,
+      "norm_label": ".setidentityid()"
+    },
+    {
+      "label": "Permission.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Enumerations/Permission.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_enumerations_permission_cs",
+      "community": 14,
+      "norm_label": "permission.cs"
+    },
+    {
+      "label": "Permission",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Enumerations/Permission.cs",
+      "source_location": "L5",
+      "id": "enumerations_permission_permission",
+      "community": 14,
+      "norm_label": "permission"
+    },
+    {
+      "label": "Enumeration",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "enumeration",
+      "community": 14,
+      "norm_label": "enumeration"
+    },
+    {
+      "label": "RoleType.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Enumerations/RoleType.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_enumerations_roletype_cs",
+      "community": 14,
+      "norm_label": "roletype.cs"
+    },
+    {
+      "label": "RoleType",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/Enumerations/RoleType.cs",
+      "source_location": "L6",
+      "id": "enumerations_roletype_roletype",
+      "community": 14,
+      "norm_label": "roletype"
+    },
+    {
+      "label": "AuthService.Domain.AssemblyInfo.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/obj/Debug/net10.0/AuthService.Domain.AssemblyInfo.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_obj_debug_net10_0_authservice_domain_assemblyinfo_cs",
+      "community": 45,
+      "norm_label": "authservice.domain.assemblyinfo.cs"
+    },
+    {
+      "label": "AuthService.Domain.GlobalUsings.g.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/obj/Debug/net10.0/AuthService.Domain.GlobalUsings.g.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_obj_debug_net10_0_authservice_domain_globalusings_g_cs",
+      "community": 46,
+      "norm_label": "authservice.domain.globalusings.g.cs"
+    },
+    {
+      "label": "RolePermission.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_valueobjects_rolepermission_cs",
+      "community": 3,
+      "norm_label": "rolepermission.cs"
+    },
+    {
+      "label": "RolePermission",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L6",
+      "id": "valueobjects_rolepermission_rolepermission",
+      "community": 3,
+      "norm_label": "rolepermission"
+    },
+    {
+      "label": "ValueObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "valueobject",
+      "community": 3,
+      "norm_label": "valueobject"
+    },
+    {
+      "label": ".Create()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L14",
+      "id": "valueobjects_rolepermission_rolepermission_create",
+      "community": 3,
+      "norm_label": ".create()"
+    },
+    {
+      "label": ".GetEqualityComponents()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L17",
+      "id": "valueobjects_rolepermission_rolepermission_getequalitycomponents",
+      "community": 3,
+      "norm_label": ".getequalitycomponents()"
+    },
+    {
+      "label": "RoleId.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_valueobjects_ids_roleid_cs",
+      "community": 3,
+      "norm_label": "roleid.cs"
+    },
+    {
+      "label": "RoleId",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L5",
+      "id": "ids_roleid_roleid",
+      "community": 3,
+      "norm_label": "roleid"
+    },
+    {
+      "label": ".Create()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L11",
+      "id": "ids_roleid_roleid_create",
+      "community": 3,
+      "norm_label": ".create()"
+    },
+    {
+      "label": ".GetEqualityComponents()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L13",
+      "id": "ids_roleid_roleid_getequalitycomponents",
+      "community": 3,
+      "norm_label": ".getequalitycomponents()"
+    },
+    {
+      "label": "UserId.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L1",
+      "id": "authservice_domain_valueobjects_ids_userid_cs",
+      "community": 3,
+      "norm_label": "userid.cs"
+    },
+    {
+      "label": "UserId",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L5",
+      "id": "ids_userid_userid",
+      "community": 3,
+      "norm_label": "userid"
+    },
+    {
+      "label": ".Create()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L8",
+      "id": "ids_userid_userid_create",
+      "community": 3,
+      "norm_label": ".create()"
+    },
+    {
+      "label": ".CreateUnique()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L9",
+      "id": "ids_userid_userid_createunique",
+      "community": 3,
+      "norm_label": ".createunique()"
+    },
+    {
+      "label": ".GetEqualityComponents()",
+      "file_type": "code",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L12",
+      "id": "ids_userid_userid_getequalitycomponents",
+      "community": 3,
+      "norm_label": ".getequalitycomponents()"
+    },
+    {
+      "label": "DependencyInjection.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_dependencyinjection_cs",
+      "community": 4,
+      "norm_label": "dependencyinjection.cs"
+    },
+    {
+      "label": "DependencyInjection",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L22",
+      "id": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "community": 4,
+      "norm_label": "dependencyinjection"
+    },
+    {
+      "label": ".AddInfrastructure()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L24",
+      "id": "authservice_infrastructure_dependencyinjection_dependencyinjection_addinfrastructure",
+      "community": 4,
+      "norm_label": ".addinfrastructure()"
+    },
+    {
+      "label": ".AddAuthentication()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L35",
+      "id": "authservice_infrastructure_dependencyinjection_dependencyinjection_addauthentication",
+      "community": 4,
+      "norm_label": ".addauthentication()"
+    },
+    {
+      "label": ".AddAuthorization()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L71",
+      "id": "authservice_infrastructure_dependencyinjection_dependencyinjection_addauthorization",
+      "community": 4,
+      "norm_label": ".addauthorization()"
+    },
+    {
+      "label": ".RegisterRedis()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L81",
+      "id": "authservice_infrastructure_dependencyinjection_dependencyinjection_registerredis",
+      "community": 4,
+      "norm_label": ".registerredis()"
+    },
+    {
+      "label": ".RegisterDbContext()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L95",
+      "id": "authservice_infrastructure_dependencyinjection_dependencyinjection_registerdbcontext",
+      "community": 4,
+      "norm_label": ".registerdbcontext()"
+    },
+    {
+      "label": ".ApplyMigrations()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L109",
+      "id": "authservice_infrastructure_dependencyinjection_dependencyinjection_applymigrations",
+      "community": 4,
+      "norm_label": ".applymigrations()"
+    },
+    {
+      "label": "AdminAuthorizationDelegatingHandler.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authentication_adminauthorizationdelegatinghandler_cs",
+      "community": 1,
+      "norm_label": "adminauthorizationdelegatinghandler.cs"
+    },
+    {
+      "label": "AdminAuthorizationDelegatingHandler",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L15",
+      "id": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler",
+      "community": 1,
+      "norm_label": "adminauthorizationdelegatinghandler"
+    },
+    {
+      "label": "DelegatingHandler",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "delegatinghandler",
+      "community": 1,
+      "norm_label": "delegatinghandler"
+    },
+    {
+      "label": "KeycloakOptions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L12",
+      "id": "keycloakoptions",
+      "community": 1,
+      "norm_label": "keycloakoptions"
+    },
+    {
+      "label": ".SendAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L24",
+      "id": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler_sendasync",
+      "community": 1,
+      "norm_label": ".sendasync()"
+    },
+    {
+      "label": ".GetAuthorizationToken()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L38",
+      "id": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler_getauthorizationtoken",
+      "community": 1,
+      "norm_label": ".getauthorizationtoken()"
+    },
+    {
+      "label": "JwtBearerOptionsSetup.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authentication_jwtbeareroptionssetup_cs",
+      "community": 4,
+      "norm_label": "jwtbeareroptionssetup.cs"
+    },
+    {
+      "label": "JwtBearerOptionsSetup",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L7",
+      "id": "authentication_jwtbeareroptionssetup_jwtbeareroptionssetup",
+      "community": 4,
+      "norm_label": "jwtbeareroptionssetup"
+    },
+    {
+      "label": "IConfigureNamedOptions",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "iconfigurenamedoptions",
+      "community": 4,
+      "norm_label": "iconfigurenamedoptions"
+    },
+    {
+      "label": "AuthenticationOptions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L9",
+      "id": "authenticationoptions",
+      "community": 4,
+      "norm_label": "authenticationoptions"
+    },
+    {
+      "label": ".Configure()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L14",
+      "id": "authentication_jwtbeareroptionssetup_jwtbeareroptionssetup_configure",
+      "community": 4,
+      "norm_label": ".configure()"
+    },
+    {
+      "label": "UserContext.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authentication_usercontext_cs",
+      "community": 18,
+      "norm_label": "usercontext.cs"
+    },
+    {
+      "label": "UserContext",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": "L8",
+      "id": "authentication_usercontext_usercontext",
+      "community": 18,
+      "norm_label": "usercontext"
+    },
+    {
+      "label": "IUserContext",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "iusercontext",
+      "community": 18,
+      "norm_label": "iusercontext"
+    },
+    {
+      "label": "IHttpContextAccessor",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": "L10",
+      "id": "ihttpcontextaccessor",
+      "community": 18,
+      "norm_label": "ihttpcontextaccessor"
+    },
+    {
+      "label": "AuthorizationService.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authorization_authorizationservice_cs",
+      "community": 11,
+      "norm_label": "authorizationservice.cs"
+    },
+    {
+      "label": "AuthorizationService",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L14",
+      "id": "authorization_authorizationservice_authorizationservice",
+      "community": 11,
+      "norm_label": "authorizationservice"
+    },
+    {
+      "label": "AuthDbContext",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L16",
+      "id": "authdbcontext",
+      "community": 11,
+      "norm_label": "authdbcontext"
+    },
+    {
+      "label": "IDistributedCache",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L17",
+      "id": "idistributedcache",
+      "community": 11,
+      "norm_label": "idistributedcache"
+    },
+    {
+      "label": "TimeSpan",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L18",
+      "id": "timespan",
+      "community": 11,
+      "norm_label": "timespan"
+    },
+    {
+      "label": ".GetRolesForUserAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L26",
+      "id": "authorization_authorizationservice_authorizationservice_getrolesforuserasync",
+      "community": 11,
+      "norm_label": ".getrolesforuserasync()"
+    },
+    {
+      "label": ".GetPermissionsForUserAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L50",
+      "id": "authorization_authorizationservice_authorizationservice_getpermissionsforuserasync",
+      "community": 11,
+      "norm_label": ".getpermissionsforuserasync()"
+    },
+    {
+      "label": "CustomClaimsTransformation.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authorization_customclaimstransformation_cs",
+      "community": 19,
+      "norm_label": "customclaimstransformation.cs"
+    },
+    {
+      "label": "CustomClaimsTransformation",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": "L24",
+      "id": "authorization_customclaimstransformation_customclaimstransformation",
+      "community": 19,
+      "norm_label": "customclaimstransformation"
+    },
+    {
+      "label": "IClaimsTransformation",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "iclaimstransformation",
+      "community": 19,
+      "norm_label": "iclaimstransformation"
+    },
+    {
+      "label": ".TransformAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": "L26",
+      "id": "authorization_customclaimstransformation_customclaimstransformation_transformasync",
+      "community": 19,
+      "norm_label": ".transformasync()"
+    },
+    {
+      "label": "HasPermissionAttribute.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/HasPermissionAttribute.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authorization_haspermissionattribute_cs",
+      "community": 26,
+      "norm_label": "haspermissionattribute.cs"
+    },
+    {
+      "label": "HasPermissionAttribute",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/HasPermissionAttribute.cs",
+      "source_location": "L9",
+      "id": "authorization_haspermissionattribute_haspermissionattribute",
+      "community": 26,
+      "norm_label": "haspermissionattribute"
+    },
+    {
+      "label": "AuthorizeAttribute",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "authorizeattribute",
+      "community": 26,
+      "norm_label": "authorizeattribute"
+    },
+    {
+      "label": "PermissionAuthorizationHandler.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authorization_permissionauthorizationhandler_cs",
+      "community": 15,
+      "norm_label": "permissionauthorizationhandler.cs"
+    },
+    {
+      "label": "PermissionAuthorizationHandler",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L18",
+      "id": "authorization_permissionauthorizationhandler_permissionauthorizationhandler",
+      "community": 15,
+      "norm_label": "permissionauthorizationhandler"
+    },
+    {
+      "label": "AuthorizationHandler",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "authorizationhandler",
+      "community": 15,
+      "norm_label": "authorizationhandler"
+    },
+    {
+      "label": "IServiceProvider",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L21",
+      "id": "iserviceprovider",
+      "community": 15,
+      "norm_label": "iserviceprovider"
+    },
+    {
+      "label": ".HandleRequirementAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L28",
+      "id": "authorization_permissionauthorizationhandler_permissionauthorizationhandler_handlerequirementasync",
+      "community": 15,
+      "norm_label": ".handlerequirementasync()"
+    },
+    {
+      "label": "PermissionAuthorizationPolicyProvider.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authorization_permissionauthorizationpolicyprovider_cs",
+      "community": 16,
+      "norm_label": "permissionauthorizationpolicyprovider.cs"
+    },
+    {
+      "label": "PermissionAuthorizationPolicyProvider",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L16",
+      "id": "authorization_permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider",
+      "community": 16,
+      "norm_label": "permissionauthorizationpolicyprovider"
+    },
+    {
+      "label": "DefaultAuthorizationPolicyProvider",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "defaultauthorizationpolicyprovider",
+      "community": 16,
+      "norm_label": "defaultauthorizationpolicyprovider"
+    },
+    {
+      "label": "AuthorizationOptions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L19",
+      "id": "authorizationoptions",
+      "community": 16,
+      "norm_label": "authorizationoptions"
+    },
+    {
+      "label": ".GetPolicyAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L27",
+      "id": "authorization_permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider_getpolicyasync",
+      "community": 16,
+      "norm_label": ".getpolicyasync()"
+    },
+    {
+      "label": "PermissionRequirement.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionRequirement.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authorization_permissionrequirement_cs",
+      "community": 27,
+      "norm_label": "permissionrequirement.cs"
+    },
+    {
+      "label": "PermissionRequirement",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionRequirement.cs",
+      "source_location": "L5",
+      "id": "authorization_permissionrequirement_permissionrequirement",
+      "community": 27,
+      "norm_label": "permissionrequirement"
+    },
+    {
+      "label": "IAuthorizationRequirement",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "iauthorizationrequirement",
+      "community": 27,
+      "norm_label": "iauthorizationrequirement"
+    },
+    {
+      "label": "UserRolesREsponse.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Authorization/UserRolesREsponse.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_authorization_userrolesresponse_cs",
+      "community": 47,
+      "norm_label": "userrolesresponse.cs"
+    },
+    {
+      "label": "AuthDatabaseOptions.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_configuration_authdatabaseoptions_cs",
+      "community": 28,
+      "norm_label": "authdatabaseoptions.cs"
+    },
+    {
+      "label": "AuthDatabaseOptions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs",
+      "source_location": "L3",
+      "id": "configuration_authdatabaseoptions_authdatabaseoptions",
+      "community": 28,
+      "norm_label": "authdatabaseoptions"
+    },
+    {
+      "label": "string",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs",
+      "source_location": "L5",
+      "id": "string",
+      "community": 28,
+      "norm_label": "string"
+    },
+    {
+      "label": "AuthenticationOptions.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthenticationOptions.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_configuration_authenticationoptions_cs",
+      "community": 30,
+      "norm_label": "authenticationoptions.cs"
+    },
+    {
+      "label": "AuthenticationOptions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthenticationOptions.cs",
+      "source_location": "L3",
+      "id": "configuration_authenticationoptions_authenticationoptions",
+      "community": 30,
+      "norm_label": "authenticationoptions"
+    },
+    {
+      "label": "KeycloackOptions.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/KeycloackOptions.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_configuration_keycloackoptions_cs",
+      "community": 31,
+      "norm_label": "keycloackoptions.cs"
+    },
+    {
+      "label": "KeycloakOptions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/KeycloackOptions.cs",
+      "source_location": "L3",
+      "id": "configuration_keycloackoptions_keycloakoptions",
+      "community": 31,
+      "norm_label": "keycloakoptions"
+    },
+    {
+      "label": "RedisOptions.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/RedisOptions.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_configuration_redisoptions_cs",
+      "community": 32,
+      "norm_label": "redisoptions.cs"
+    },
+    {
+      "label": "RedisOptions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/RedisOptions.cs",
+      "source_location": "L3",
+      "id": "configuration_redisoptions_redisoptions",
+      "community": 32,
+      "norm_label": "redisoptions"
+    },
+    {
+      "label": "AuthenticationToken.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Dto/AuthenticationToken.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_dto_authenticationtoken_cs",
+      "community": 33,
+      "norm_label": "authenticationtoken.cs"
+    },
+    {
+      "label": "AuthorizationToken",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Dto/AuthenticationToken.cs",
+      "source_location": "L5",
+      "id": "dto_authenticationtoken_authorizationtoken",
+      "community": 33,
+      "norm_label": "authorizationtoken"
+    },
+    {
+      "label": "CredentialRepresentationModel.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Dto/CredentialRepresentationModel.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_dto_credentialrepresentationmodel_cs",
+      "community": 34,
+      "norm_label": "credentialrepresentationmodel.cs"
+    },
+    {
+      "label": "CredentialRepresentationModel",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Dto/CredentialRepresentationModel.cs",
+      "source_location": "L5",
+      "id": "dto_credentialrepresentationmodel_credentialrepresentationmodel",
+      "community": 34,
+      "norm_label": "credentialrepresentationmodel"
+    },
+    {
+      "label": "UserRepresentationModel.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Dto/UserRepresentationModel.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_dto_userrepresentationmodel_cs",
+      "community": 35,
+      "norm_label": "userrepresentationmodel.cs"
+    },
+    {
+      "label": "UserRepresentationModel",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Dto/UserRepresentationModel.cs",
+      "source_location": "L5",
+      "id": "dto_userrepresentationmodel_userrepresentationmodel",
+      "community": 35,
+      "norm_label": "userrepresentationmodel"
+    },
+    {
+      "label": "ClaimsPrincipalExtensions.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_common_extensions_claimsprincipalextensions_cs",
+      "community": 20,
+      "norm_label": "claimsprincipalextensions.cs"
+    },
+    {
+      "label": "ClaimsPrincipalExtensions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": "L8",
+      "id": "extensions_claimsprincipalextensions_claimsprincipalextensions",
+      "community": 20,
+      "norm_label": "claimsprincipalextensions"
+    },
+    {
+      "label": ".GetUserId()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": "L13",
+      "id": "extensions_claimsprincipalextensions_claimsprincipalextensions_getuserid",
+      "community": 20,
+      "norm_label": ".getuserid()"
+    },
+    {
+      "label": ".GetIdentityId()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": "L24",
+      "id": "extensions_claimsprincipalextensions_claimsprincipalextensions_getidentityid",
+      "community": 20,
+      "norm_label": ".getidentityid()"
+    },
+    {
+      "label": "AuthService.Infrastructure.AssemblyInfo.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/obj/Debug/net10.0/AuthService.Infrastructure.AssemblyInfo.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_obj_debug_net10_0_authservice_infrastructure_assemblyinfo_cs",
+      "community": 48,
+      "norm_label": "authservice.infrastructure.assemblyinfo.cs"
+    },
+    {
+      "label": "AuthService.Infrastructure.GlobalUsings.g.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/obj/Debug/net10.0/AuthService.Infrastructure.GlobalUsings.g.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_obj_debug_net10_0_authservice_infrastructure_globalusings_g_cs",
+      "community": 49,
+      "norm_label": "authservice.infrastructure.globalusings.g.cs"
+    },
+    {
+      "label": "AuthDbContext.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_persistence_authdbcontext_cs",
+      "community": 21,
+      "norm_label": "authdbcontext.cs"
+    },
+    {
+      "label": "AuthDbContext",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "L8",
+      "id": "persistence_authdbcontext_authdbcontext",
+      "community": 21,
+      "norm_label": "authdbcontext"
+    },
+    {
+      "label": "DbContext",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "dbcontext",
+      "community": 21,
+      "norm_label": "dbcontext"
+    },
+    {
+      "label": ".OnModelCreating()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "L16",
+      "id": "persistence_authdbcontext_authdbcontext_onmodelcreating",
+      "community": 21,
+      "norm_label": ".onmodelcreating()"
+    },
+    {
+      "label": "20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_persistence_migrations_20260503133752_initialcreate_withrolesandpermissions_cs",
+      "community": 12,
+      "norm_label": "20260503133752_initialcreate_withrolesandpermissions.cs"
+    },
+    {
+      "label": "AuthService.Infrastructure.Persistence.Migrations",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L9",
+      "id": "migrations_20260503133752_initialcreate_withrolesandpermissions_authservice_infrastructure_persistence_migrations",
+      "community": 12,
+      "norm_label": "authservice.infrastructure.persistence.migrations"
+    },
+    {
+      "label": "InitialCreate_WithRolesAndPermissions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L12",
+      "id": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions",
+      "community": 12,
+      "norm_label": "initialcreate_withrolesandpermissions"
+    },
+    {
+      "label": "Migration",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "migration",
+      "community": 12,
+      "norm_label": "migration"
+    },
+    {
+      "label": ".Up()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L15",
+      "id": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions_up",
+      "community": 12,
+      "norm_label": ".up()"
+    },
+    {
+      "label": ".Down()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L190",
+      "id": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions_down",
+      "community": 12,
+      "norm_label": ".down()"
+    },
+    {
+      "label": "20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_persistence_migrations_20260503133752_initialcreate_withrolesandpermissions_designer_cs",
+      "community": 22,
+      "norm_label": "20260503133752_initialcreate_withrolesandpermissions.designer.cs"
+    },
+    {
+      "label": "AuthService.Infrastructure.Persistence.Migrations",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "source_location": "L12",
+      "id": "migrations_20260503133752_initialcreate_withrolesandpermissions_designer_authservice_infrastructure_persistence_migrations",
+      "community": 22,
+      "norm_label": "authservice.infrastructure.persistence.migrations"
+    },
+    {
+      "label": "InitialCreate_WithRolesAndPermissions",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "source_location": "L14",
+      "id": "migrations_20260503133752_initialcreate_withrolesandpermissions_designer_initialcreate_withrolesandpermissions",
+      "community": 22,
+      "norm_label": "initialcreate_withrolesandpermissions"
+    },
+    {
+      "label": ".BuildTargetModel()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "source_location": "L19",
+      "id": "migrations_20260503133752_initialcreate_withrolesandpermissions_designer_initialcreate_withrolesandpermissions_buildtargetmodel",
+      "community": 22,
+      "norm_label": ".buildtargetmodel()"
+    },
+    {
+      "label": "AuthDbContextModelSnapshot.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_persistence_migrations_authdbcontextmodelsnapshot_cs",
+      "community": 17,
+      "norm_label": "authdbcontextmodelsnapshot.cs"
+    },
+    {
+      "label": "AuthService.Infrastructure.Persistence.Migrations",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L11",
+      "id": "migrations_authdbcontextmodelsnapshot_authservice_infrastructure_persistence_migrations",
+      "community": 17,
+      "norm_label": "authservice.infrastructure.persistence.migrations"
+    },
+    {
+      "label": "AuthDbContextModelSnapshot",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L13",
+      "id": "migrations_authdbcontextmodelsnapshot_authdbcontextmodelsnapshot",
+      "community": 17,
+      "norm_label": "authdbcontextmodelsnapshot"
+    },
+    {
+      "label": "ModelSnapshot",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "modelsnapshot",
+      "community": 17,
+      "norm_label": "modelsnapshot"
+    },
+    {
+      "label": ".BuildModel()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L16",
+      "id": "migrations_authdbcontextmodelsnapshot_authdbcontextmodelsnapshot_buildmodel",
+      "community": 17,
+      "norm_label": ".buildmodel()"
+    },
+    {
+      "label": "PermissionConfiguration.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_persistence_modelsconfiguration_permissionconfiguration_cs",
+      "community": 6,
+      "norm_label": "permissionconfiguration.cs"
+    },
+    {
+      "label": "PermissionConfiguration",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": "L7",
+      "id": "modelsconfiguration_permissionconfiguration_permissionconfiguration",
+      "community": 6,
+      "norm_label": "permissionconfiguration"
+    },
+    {
+      "label": "IEntityTypeConfiguration",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "ientitytypeconfiguration",
+      "community": 6,
+      "norm_label": "ientitytypeconfiguration"
+    },
+    {
+      "label": ".Configure()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": "L9",
+      "id": "modelsconfiguration_permissionconfiguration_permissionconfiguration_configure",
+      "community": 6,
+      "norm_label": ".configure()"
+    },
+    {
+      "label": "RoleConfiguration.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_persistence_modelsconfiguration_roleconfiguration_cs",
+      "community": 6,
+      "norm_label": "roleconfiguration.cs"
+    },
+    {
+      "label": "RoleConfiguration",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L11",
+      "id": "modelsconfiguration_roleconfiguration_roleconfiguration",
+      "community": 6,
+      "norm_label": "roleconfiguration"
+    },
+    {
+      "label": ".Configure()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L13",
+      "id": "modelsconfiguration_roleconfiguration_roleconfiguration_configure",
+      "community": 6,
+      "norm_label": ".configure()"
+    },
+    {
+      "label": "object",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L63",
+      "id": "object",
+      "community": 6,
+      "norm_label": "object"
+    },
+    {
+      "label": "UserConfiguration.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_persistence_modelsconfiguration_userconfiguration_cs",
+      "community": 6,
+      "norm_label": "userconfiguration.cs"
+    },
+    {
+      "label": "UserConfiguration",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": "L8",
+      "id": "modelsconfiguration_userconfiguration_userconfiguration",
+      "community": 6,
+      "norm_label": "userconfiguration"
+    },
+    {
+      "label": ".Configure()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": "L10",
+      "id": "modelsconfiguration_userconfiguration_userconfiguration_configure",
+      "community": 6,
+      "norm_label": ".configure()"
+    },
+    {
+      "label": "AuthenticationService.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_services_authenticationservice_cs",
+      "community": 1,
+      "norm_label": "authenticationservice.cs"
+    },
+    {
+      "label": "AuthenticationService",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L8",
+      "id": "services_authenticationservice_authenticationservice",
+      "community": 1,
+      "norm_label": "authenticationservice"
+    },
+    {
+      "label": "IAuthenticationService",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "iauthenticationservice",
+      "community": 4,
+      "norm_label": "iauthenticationservice"
+    },
+    {
+      "label": "HttpClient",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L11",
+      "id": "httpclient",
+      "community": 1,
+      "norm_label": "httpclient"
+    },
+    {
+      "label": ".RegisterAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L17",
+      "id": "services_authenticationservice_authenticationservice_registerasync",
+      "community": 1,
+      "norm_label": ".registerasync()"
+    },
+    {
+      "label": ".ExtractIdentityIdFromLocationHeader()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L45",
+      "id": "services_authenticationservice_authenticationservice_extractidentityidfromlocationheader",
+      "community": 1,
+      "norm_label": ".extractidentityidfromlocationheader()"
+    },
+    {
+      "label": "JwtService.cs",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L1",
+      "id": "authservice_infrastructure_services_jwtservice_cs",
+      "community": 1,
+      "norm_label": "jwtservice.cs"
+    },
+    {
+      "label": "JwtService",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L9",
+      "id": "services_jwtservice_jwtservice",
+      "community": 1,
+      "norm_label": "jwtservice"
+    },
+    {
+      "label": "IJwtService",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "ijwtservice",
+      "community": 1,
+      "norm_label": "ijwtservice"
+    },
+    {
+      "label": ".GetAccessTokenAsync()",
+      "file_type": "code",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L24",
+      "id": "services_jwtservice_jwtservice_getaccesstokenasync",
+      "community": 1,
+      "norm_label": ".getaccesstokenasync()"
+    },
+    {
+      "label": "AuthService API Entry Point",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Api/Program.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "program_entrypoint",
+      "community": 13,
+      "norm_label": "authservice api entry point"
+    },
+    {
+      "label": "AuthService.Api DependencyInjection",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Api/DependencyInjection.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "apidi_dependencyinjection",
+      "community": 13,
+      "norm_label": "authservice.api dependencyinjection"
+    },
+    {
+      "label": "AuthService.Application DependencyInjection",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Application/DependencyInjection.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "appdi_dependencyinjection",
+      "community": 13,
+      "norm_label": "authservice.application dependencyinjection"
+    },
+    {
+      "label": "IUserContext Interface",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Application/Common/Interfaces/IUserContext.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "iusercontext_interface",
+      "community": 0,
+      "norm_label": "iusercontext interface"
+    },
+    {
+      "label": "IAuthenticationService Interface",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Application/Services/IAuthenticationService.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "iauthenticationservice_interface",
+      "community": 0,
+      "norm_label": "iauthenticationservice interface"
+    },
+    {
+      "label": "IJwtService Interface",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Application/Services/IJwtService.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "ijwtservice_interface",
+      "community": 0,
+      "norm_label": "ijwtservice interface"
+    },
+    {
+      "label": "Entity<Tid> Abstract Base",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "entity_abstract",
+      "community": 0,
+      "norm_label": "entity<tid> abstract base"
+    },
+    {
+      "label": "Enumeration Abstract Base",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "enumeration_abstract",
+      "community": 0,
+      "norm_label": "enumeration abstract base"
+    },
+    {
+      "label": "ValueObject Abstract Base",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "valueobject_abstract",
+      "community": 50,
+      "norm_label": "valueobject abstract base"
+    },
+    {
+      "label": "Role Entity",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/Entities/Role.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "role_entity",
+      "community": 0,
+      "norm_label": "role entity"
+    },
+    {
+      "label": "User Entity",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/Entities/User.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "user_entity",
+      "community": 0,
+      "norm_label": "user entity"
+    },
+    {
+      "label": "Permission Enumeration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/Enumerations/Permission.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "permission_enumeration",
+      "community": 0,
+      "norm_label": "permission enumeration"
+    },
+    {
+      "label": "RoleType Enumeration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/Enumerations/RoleType.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "roletype_enumeration",
+      "community": 0,
+      "norm_label": "roletype enumeration"
+    },
+    {
+      "label": "AuthDatabaseOptions Configuration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Api/DependencyInjection.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authdatabaseoptions_config",
+      "community": 13,
+      "norm_label": "authdatabaseoptions configuration"
+    },
+    {
+      "label": "AuthenticationOptions Configuration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Api/DependencyInjection.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authenticationoptions_config",
+      "community": 13,
+      "norm_label": "authenticationoptions configuration"
+    },
+    {
+      "label": "KeycloakOptions Configuration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Api/DependencyInjection.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "keycloakoptions_config",
+      "community": 13,
+      "norm_label": "keycloakoptions configuration"
+    },
+    {
+      "label": "RolePermission Value Object",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "rolepermission_RolePermission",
+      "community": 36,
+      "norm_label": "rolepermission value object"
+    },
+    {
+      "label": "RoleId Value Object",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "roleid_RoleId",
+      "community": 36,
+      "norm_label": "roleid value object"
+    },
+    {
+      "label": "UserId Value Object",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "userid_UserId",
+      "community": 2,
+      "norm_label": "userid value object"
+    },
+    {
+      "label": "Infrastructure DependencyInjection",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "dependencyinjection_DependencyInjection",
+      "community": 2,
+      "norm_label": "infrastructure dependencyinjection"
+    },
+    {
+      "label": "Admin Authorization Delegating Handler",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "adminauthorizationdelegatinghandler_AdminAuthorizationDelegatingHandler",
+      "community": 0,
+      "norm_label": "admin authorization delegating handler"
+    },
+    {
+      "label": "JWT Bearer Options Setup",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "jwtbeareroptionssetup_JwtBearerOptionsSetup",
+      "community": 2,
+      "norm_label": "jwt bearer options setup"
+    },
+    {
+      "label": "UserContext",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "usercontext_UserContext",
+      "community": 2,
+      "norm_label": "usercontext"
+    },
+    {
+      "label": "Authorization Service",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authorizationservice_AuthorizationService",
+      "community": 2,
+      "norm_label": "authorization service"
+    },
+    {
+      "label": "Custom Claims Transformation",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "customclaimstransformation_CustomClaimsTransformation",
+      "community": 2,
+      "norm_label": "custom claims transformation"
+    },
+    {
+      "label": "Has Permission Attribute",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/HasPermissionAttribute.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "haspermissionattribute_HasPermissionAttribute",
+      "community": 2,
+      "norm_label": "has permission attribute"
+    },
+    {
+      "label": "Permission Authorization Handler",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "permissionauthorizationhandler_PermissionAuthorizationHandler",
+      "community": 2,
+      "norm_label": "permission authorization handler"
+    },
+    {
+      "label": "Permission Authorization Policy Provider",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "permissionauthorizationpolicyprovider_PermissionAuthorizationPolicyProvider",
+      "community": 2,
+      "norm_label": "permission authorization policy provider"
+    },
+    {
+      "label": "Permission Requirement",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/PermissionRequirement.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "permissionrequirement_PermissionRequirement",
+      "community": 2,
+      "norm_label": "permission requirement"
+    },
+    {
+      "label": "User Roles Response DTO",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/UserRolesREsponse.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "userrolesresponse_UserRolesResponse",
+      "community": 2,
+      "norm_label": "user roles response dto"
+    },
+    {
+      "label": "Auth Database Options",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authdatabaseoptions_AuthDatabaseOptions",
+      "community": 2,
+      "norm_label": "auth database options"
+    },
+    {
+      "label": "Authentication Options",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Configuration/AuthenticationOptions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authenticationoptions_AuthenticationOptions",
+      "community": 2,
+      "norm_label": "authentication options"
+    },
+    {
+      "label": "Keycloak Options",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Configuration/KeycloackOptions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "keycloakoptions_KeycloakOptions",
+      "community": 0,
+      "norm_label": "keycloak options"
+    },
+    {
+      "label": "Redis Options",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Configuration/RedisOptions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "redisoptions_RedisOptions",
+      "community": 2,
+      "norm_label": "redis options"
+    },
+    {
+      "label": "Authorization Token DTO",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Dto/AuthenticationToken.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authorizationtoken_AuthorizationToken",
+      "community": 0,
+      "norm_label": "authorization token dto"
+    },
+    {
+      "label": "Credential Representation Model DTO",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Dto/CredentialRepresentationModel.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "credentialrepresentationmodel_CredentialRepresentationModel",
+      "community": 0,
+      "norm_label": "credential representation model dto"
+    },
+    {
+      "label": "User Representation Model DTO",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Dto/UserRepresentationModel.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "userrepresentationmodel_UserRepresentationModel",
+      "community": 0,
+      "norm_label": "user representation model dto"
+    },
+    {
+      "label": "Claims Principal Extensions",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claimsprincipalextensions_ClaimsPrincipalExtensions",
+      "community": 2,
+      "norm_label": "claims principal extensions"
+    },
+    {
+      "label": "AuthDbContext",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authdbcontext_AuthDbContext",
+      "community": 9,
+      "norm_label": "authdbcontext"
+    },
+    {
+      "label": "PermissionConfiguration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "permissionconfiguration_PermissionConfiguration",
+      "community": 9,
+      "norm_label": "permissionconfiguration"
+    },
+    {
+      "label": "RoleConfiguration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "roleconfiguration_RoleConfiguration",
+      "community": 9,
+      "norm_label": "roleconfiguration"
+    },
+    {
+      "label": "UserConfiguration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "userconfiguration_UserConfiguration",
+      "community": 9,
+      "norm_label": "userconfiguration"
+    },
+    {
+      "label": "AuthenticationService",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "authenticationservice_AuthenticationService",
+      "community": 0,
+      "norm_label": "authenticationservice"
+    },
+    {
+      "label": "JwtService",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "jwtservice_JwtService",
+      "community": 0,
+      "norm_label": "jwtservice"
+    },
+    {
+      "label": "InitialCreate_WithRolesAndPermissions Migration",
+      "file_type": "code",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "migration_InitialCreate_WithRolesAndPermissions",
+      "community": 9,
+      "norm_label": "initialcreate_withrolesandpermissions migration"
+    },
+    {
+      "label": "Keycloak Admin API",
+      "file_type": "document",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "keycloak_admin_api",
+      "community": 0,
+      "norm_label": "keycloak admin api"
+    },
+    {
+      "label": "Keycloak Token API (ROPG Flow)",
+      "file_type": "document",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "keycloak_token_api",
+      "community": 0,
+      "norm_label": "keycloak token api (ropg flow)"
+    },
+    {
+      "label": "DB Table: users",
+      "file_type": "document",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "db_table_users",
+      "community": 9,
+      "norm_label": "db table: users"
+    },
+    {
+      "label": "DB Table: roles",
+      "file_type": "document",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "db_table_roles",
+      "community": 9,
+      "norm_label": "db table: roles"
+    },
+    {
+      "label": "DB Table: permissions",
+      "file_type": "document",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "db_table_permissions",
+      "community": 9,
+      "norm_label": "db table: permissions"
+    },
+    {
+      "label": "DB Table: role_permissions",
+      "file_type": "document",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "db_table_role_permissions",
+      "community": 9,
+      "norm_label": "db table: role_permissions"
+    },
+    {
+      "label": "DB Table: user_roles",
+      "file_type": "document",
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "db_table_user_roles",
+      "community": 9,
+      "norm_label": "db table: user_roles"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_cs",
+      "target": "authservice_api_dependencyinjection_dependencyinjection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_addpresentation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_addconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_bindconfigurations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_adderrorhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_addmappings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_addlogging",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection_addpresentation",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_adderrorhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection_addpresentation",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_addconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection_addpresentation",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_addmappings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection_addpresentation",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_addlogging",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Api/DependencyInjection.cs",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "authservice_api_dependencyinjection_dependencyinjection_addconfiguration",
+      "target": "authservice_api_dependencyinjection_dependencyinjection_bindconfigurations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Application/DependencyInjection.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_application_dependencyinjection_cs",
+      "target": "authservice_application_dependencyinjection_dependencyinjection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Application/DependencyInjection.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "authservice_application_dependencyinjection_dependencyinjection",
+      "target": "authservice_application_dependencyinjection_dependencyinjection_addapplication",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Application/Common/Interfaces/IUserContext.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_application_common_interfaces_iusercontext_cs",
+      "target": "interfaces_iusercontext_iusercontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Application/Services/IAuthenticationService.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_application_services_iauthenticationservice_cs",
+      "target": "services_iauthenticationservice_iauthenticationservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Application/Services/IAuthenticationService.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "services_iauthenticationservice_iauthenticationservice",
+      "target": "services_iauthenticationservice_iauthenticationservice_registerasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Application/Services/IJwtService.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_application_services_ijwtservice_cs",
+      "target": "services_ijwtservice_ijwtservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Application/Services/IJwtService.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "services_ijwtservice_ijwtservice",
+      "target": "services_ijwtservice_ijwtservice_getaccesstokenasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_domain_common_abstractions_entity_cs",
+      "target": "abstractions_entity_entity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "abstractions_entity_entity",
+      "target": "iequatable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "abstractions_entity_entity",
+      "target": "abstractions_entity_entity_equals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Entity.cs",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "abstractions_entity_entity",
+      "target": "abstractions_entity_entity_gethashcode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "iequatable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "abstractions_valueobject_valueobject",
+      "target": "iequatable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "authservice_domain_common_abstractions_enumeration_cs",
+      "target": "abstractions_enumeration_enumeration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "icomparable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_getall",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_getfromid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_getfromname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_parse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_tostring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_gethashcode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_equals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration",
+      "target": "abstractions_enumeration_enumeration_compareto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/Enumeration.cs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "abstractions_enumeration_enumeration_getfromname",
+      "target": "abstractions_enumeration_enumeration_equals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_domain_common_abstractions_valueobject_cs",
+      "target": "abstractions_valueobject_valueobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "abstractions_valueobject_valueobject",
+      "target": "abstractions_valueobject_valueobject_getequalitycomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "abstractions_valueobject_valueobject",
+      "target": "abstractions_valueobject_valueobject_equals",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "abstractions_valueobject_valueobject",
+      "target": "abstractions_valueobject_valueobject_gethashcode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "abstractions_valueobject_valueobject_equals",
+      "target": "abstractions_valueobject_valueobject_getequalitycomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Common/Abstractions/ValueObject.cs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "abstractions_valueobject_valueobject_gethashcode",
+      "target": "abstractions_valueobject_valueobject_getequalitycomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/Role.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "authservice_domain_entities_role_cs",
+      "target": "entities_role_role",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/Role.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "entities_role_role",
+      "target": "entity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/Role.cs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field",
+      "source": "entities_role_role",
+      "target": "list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/Role.cs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "entities_role_role",
+      "target": "entities_role_role_create",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "entities_user_user",
+      "target": "entity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field",
+      "source": "entities_user_user",
+      "target": "list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "authservice_domain_entities_user_cs",
+      "target": "entities_user_user",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "entities_user_user",
+      "target": "entities_user_user_create",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "entities_user_user",
+      "target": "entities_user_user_addrole",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "entities_user_user",
+      "target": "entities_user_user_setidentityid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Entities/User.cs",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "entities_user_user_create",
+      "target": "entities_user_user_addrole",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Enumerations/Permission.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_domain_enumerations_permission_cs",
+      "target": "enumerations_permission_permission",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Enumerations/Permission.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "enumerations_permission_permission",
+      "target": "enumeration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Enumerations/Permission.cs",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field",
+      "source": "enumerations_permission_permission",
+      "target": "enumerations_permission_permission",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Enumerations/RoleType.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "enumerations_roletype_roletype",
+      "target": "enumeration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Enumerations/RoleType.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "authservice_domain_enumerations_roletype_cs",
+      "target": "enumerations_roletype_roletype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/Enumerations/RoleType.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field",
+      "source": "enumerations_roletype_roletype",
+      "target": "enumerations_roletype_roletype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "authservice_domain_valueobjects_rolepermission_cs",
+      "target": "valueobjects_rolepermission_rolepermission",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "valueobjects_rolepermission_rolepermission",
+      "target": "valueobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "valueobjects_rolepermission_rolepermission",
+      "target": "valueobjects_rolepermission_rolepermission_create",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "valueobjects_rolepermission_rolepermission",
+      "target": "valueobjects_rolepermission_rolepermission_getequalitycomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ids_roleid_roleid",
+      "target": "valueobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "ids_userid_userid",
+      "target": "valueobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_domain_valueobjects_ids_roleid_cs",
+      "target": "ids_roleid_roleid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "ids_roleid_roleid",
+      "target": "ids_roleid_roleid_create",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/RoleId.cs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "ids_roleid_roleid",
+      "target": "ids_roleid_roleid_getequalitycomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_domain_valueobjects_ids_userid_cs",
+      "target": "ids_userid_userid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "ids_userid_userid",
+      "target": "ids_userid_userid_create",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "ids_userid_userid",
+      "target": "ids_userid_userid_createunique",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Domain/ValueObjects/Ids/UserId.cs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "ids_userid_userid",
+      "target": "ids_userid_userid_getequalitycomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_cs",
+      "target": "authenticationoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_cs",
+      "target": "iauthenticationservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_cs",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_addinfrastructure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_addauthentication",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_addauthorization",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_registerredis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_registerdbcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_applymigrations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection_addinfrastructure",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_addauthorization",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection_addinfrastructure",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_addauthentication",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection_addinfrastructure",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_registerredis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_dependencyinjection_dependencyinjection_addinfrastructure",
+      "target": "authservice_infrastructure_dependencyinjection_dependencyinjection_registerdbcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authentication_adminauthorizationdelegatinghandler_cs",
+      "target": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler",
+      "target": "delegatinghandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler",
+      "target": "keycloakoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler",
+      "target": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler_sendasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler",
+      "target": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler_getauthorizationtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field",
+      "source": "services_jwtservice_jwtservice",
+      "target": "keycloakoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler_getauthorizationtoken",
+      "target": "authentication_adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler_sendasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authentication_jwtbeareroptionssetup_cs",
+      "target": "authentication_jwtbeareroptionssetup_jwtbeareroptionssetup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "authentication_jwtbeareroptionssetup_jwtbeareroptionssetup",
+      "target": "iconfigurenamedoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authentication_jwtbeareroptionssetup_jwtbeareroptionssetup",
+      "target": "authenticationoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "authentication_jwtbeareroptionssetup_jwtbeareroptionssetup",
+      "target": "authentication_jwtbeareroptionssetup_jwtbeareroptionssetup_configure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authentication_usercontext_cs",
+      "target": "authentication_usercontext_usercontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "authentication_usercontext_usercontext",
+      "target": "iusercontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authentication_usercontext_usercontext",
+      "target": "ihttpcontextaccessor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authorization_authorizationservice_cs",
+      "target": "authorization_authorizationservice_authorizationservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authorization_authorizationservice_authorizationservice",
+      "target": "authdbcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authorization_authorizationservice_authorizationservice",
+      "target": "idistributedcache",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authorization_authorizationservice_authorizationservice",
+      "target": "timespan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "authorization_authorizationservice_authorizationservice",
+      "target": "authorization_authorizationservice_authorizationservice_getrolesforuserasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "authorization_authorizationservice_authorizationservice",
+      "target": "authorization_authorizationservice_authorizationservice_getpermissionsforuserasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authorization_customclaimstransformation_cs",
+      "target": "authorization_customclaimstransformation_customclaimstransformation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "authorization_customclaimstransformation_customclaimstransformation",
+      "target": "iclaimstransformation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "authorization_customclaimstransformation_customclaimstransformation",
+      "target": "authorization_customclaimstransformation_customclaimstransformation_transformasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/HasPermissionAttribute.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authorization_haspermissionattribute_cs",
+      "target": "authorization_haspermissionattribute_haspermissionattribute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/HasPermissionAttribute.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "authorization_haspermissionattribute_haspermissionattribute",
+      "target": "authorizeattribute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authorization_permissionauthorizationhandler_cs",
+      "target": "authorization_permissionauthorizationhandler_permissionauthorizationhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "authorization_permissionauthorizationhandler_permissionauthorizationhandler",
+      "target": "authorizationhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authorization_permissionauthorizationhandler_permissionauthorizationhandler",
+      "target": "iserviceprovider",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "authorization_permissionauthorizationhandler_permissionauthorizationhandler",
+      "target": "authorization_permissionauthorizationhandler_permissionauthorizationhandler_handlerequirementasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authorization_permissionauthorizationpolicyprovider_cs",
+      "target": "authorization_permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "authorization_permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider",
+      "target": "defaultauthorizationpolicyprovider",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "field",
+      "source": "authorization_permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider",
+      "target": "authorizationoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "authorization_permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider",
+      "target": "authorization_permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider_getpolicyasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionRequirement.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_authorization_permissionrequirement_cs",
+      "target": "authorization_permissionrequirement_permissionrequirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Authorization/PermissionRequirement.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authorization_permissionrequirement_permissionrequirement",
+      "target": "iauthorizationrequirement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_configuration_authdatabaseoptions_cs",
+      "target": "configuration_authdatabaseoptions_authdatabaseoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field",
+      "source": "configuration_authdatabaseoptions_authdatabaseoptions",
+      "target": "string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/AuthenticationOptions.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_configuration_authenticationoptions_cs",
+      "target": "configuration_authenticationoptions_authenticationoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/KeycloackOptions.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_configuration_keycloackoptions_cs",
+      "target": "configuration_keycloackoptions_keycloakoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Configuration/RedisOptions.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_configuration_redisoptions_cs",
+      "target": "configuration_redisoptions_redisoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Dto/AuthenticationToken.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_dto_authenticationtoken_cs",
+      "target": "dto_authenticationtoken_authorizationtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Dto/CredentialRepresentationModel.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_dto_credentialrepresentationmodel_cs",
+      "target": "dto_credentialrepresentationmodel_credentialrepresentationmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Dto/UserRepresentationModel.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_dto_userrepresentationmodel_cs",
+      "target": "dto_userrepresentationmodel_userrepresentationmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_common_extensions_claimsprincipalextensions_cs",
+      "target": "extensions_claimsprincipalextensions_claimsprincipalextensions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "extensions_claimsprincipalextensions_claimsprincipalextensions",
+      "target": "extensions_claimsprincipalextensions_claimsprincipalextensions_getuserid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Common/Extensions/ClaimsPrincipalExtensions.cs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "extensions_claimsprincipalextensions_claimsprincipalextensions",
+      "target": "extensions_claimsprincipalextensions_claimsprincipalextensions_getidentityid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_authdbcontext_cs",
+      "target": "persistence_authdbcontext_authdbcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "persistence_authdbcontext_authdbcontext",
+      "target": "dbcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "persistence_authdbcontext_authdbcontext",
+      "target": "persistence_authdbcontext_authdbcontext_onmodelcreating",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_migrations_20260503133752_initialcreate_withrolesandpermissions_cs",
+      "target": "migrations_20260503133752_initialcreate_withrolesandpermissions_authservice_infrastructure_persistence_migrations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_migrations_20260503133752_initialcreate_withrolesandpermissions_cs",
+      "target": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions",
+      "target": "migration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions",
+      "target": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions_up",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "L190",
+      "weight": 1.0,
+      "source": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions",
+      "target": "migrations_20260503133752_initialcreate_withrolesandpermissions_initialcreate_withrolesandpermissions_down",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_migrations_20260503133752_initialcreate_withrolesandpermissions_designer_cs",
+      "target": "migrations_20260503133752_initialcreate_withrolesandpermissions_designer_authservice_infrastructure_persistence_migrations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_migrations_20260503133752_initialcreate_withrolesandpermissions_designer_cs",
+      "target": "migrations_20260503133752_initialcreate_withrolesandpermissions_designer_initialcreate_withrolesandpermissions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.Designer.cs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "migrations_20260503133752_initialcreate_withrolesandpermissions_designer_initialcreate_withrolesandpermissions",
+      "target": "migrations_20260503133752_initialcreate_withrolesandpermissions_designer_initialcreate_withrolesandpermissions_buildtargetmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_migrations_authdbcontextmodelsnapshot_cs",
+      "target": "migrations_authdbcontextmodelsnapshot_authservice_infrastructure_persistence_migrations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_migrations_authdbcontextmodelsnapshot_cs",
+      "target": "migrations_authdbcontextmodelsnapshot_authdbcontextmodelsnapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "migrations_authdbcontextmodelsnapshot_authdbcontextmodelsnapshot",
+      "target": "modelsnapshot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/Migrations/AuthDbContextModelSnapshot.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "migrations_authdbcontextmodelsnapshot_authdbcontextmodelsnapshot",
+      "target": "migrations_authdbcontextmodelsnapshot_authdbcontextmodelsnapshot_buildmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_modelsconfiguration_permissionconfiguration_cs",
+      "target": "modelsconfiguration_permissionconfiguration_permissionconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "modelsconfiguration_permissionconfiguration_permissionconfiguration",
+      "target": "ientitytypeconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "modelsconfiguration_permissionconfiguration_permissionconfiguration",
+      "target": "modelsconfiguration_permissionconfiguration_permissionconfiguration_configure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "modelsconfiguration_roleconfiguration_roleconfiguration",
+      "target": "ientitytypeconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "modelsconfiguration_userconfiguration_userconfiguration",
+      "target": "ientitytypeconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_modelsconfiguration_roleconfiguration_cs",
+      "target": "modelsconfiguration_roleconfiguration_roleconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "modelsconfiguration_roleconfiguration_roleconfiguration",
+      "target": "modelsconfiguration_roleconfiguration_roleconfiguration_configure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "field",
+      "source": "modelsconfiguration_roleconfiguration_roleconfiguration",
+      "target": "object",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_persistence_modelsconfiguration_userconfiguration_cs",
+      "target": "modelsconfiguration_userconfiguration_userconfiguration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "modelsconfiguration_userconfiguration_userconfiguration",
+      "target": "modelsconfiguration_userconfiguration_userconfiguration_configure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_services_authenticationservice_cs",
+      "target": "services_authenticationservice_authenticationservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "services_authenticationservice_authenticationservice",
+      "target": "iauthenticationservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field",
+      "source": "services_authenticationservice_authenticationservice",
+      "target": "httpclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "services_authenticationservice_authenticationservice",
+      "target": "services_authenticationservice_authenticationservice_registerasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "services_authenticationservice_authenticationservice",
+      "target": "services_authenticationservice_authenticationservice_extractidentityidfromlocationheader",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field",
+      "source": "services_jwtservice_jwtservice",
+      "target": "httpclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "services_authenticationservice_authenticationservice_registerasync",
+      "target": "services_authenticationservice_authenticationservice_extractidentityidfromlocationheader",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "authservice_infrastructure_services_jwtservice_cs",
+      "target": "services_jwtservice_jwtservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "services_jwtservice_jwtservice",
+      "target": "ijwtservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "services_jwtservice_jwtservice",
+      "target": "services_jwtservice_jwtservice_getaccesstokenasync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Api/Program.cs",
+      "source_location": "line 8",
+      "weight": 1.0,
+      "source": "program_entrypoint",
+      "target": "apidi_dependencyinjection"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Api/Program.cs",
+      "source_location": "line 10",
+      "weight": 1.0,
+      "source": "program_entrypoint",
+      "target": "appdi_dependencyinjection"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Api/DependencyInjection.cs",
+      "source_location": "line 47",
+      "weight": 1.0,
+      "source": "apidi_dependencyinjection",
+      "target": "authdatabaseoptions_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Api/DependencyInjection.cs",
+      "source_location": "line 48",
+      "weight": 1.0,
+      "source": "apidi_dependencyinjection",
+      "target": "authenticationoptions_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Api/DependencyInjection.cs",
+      "source_location": "line 49",
+      "weight": 1.0,
+      "source": "apidi_dependencyinjection",
+      "target": "keycloakoptions_config"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/User.cs",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "user_entity",
+      "target": "iusercontext_interface"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Application/Services/IAuthenticationService.cs",
+      "source_location": "line 7",
+      "weight": 1.0,
+      "source": "iauthenticationservice_interface",
+      "target": "user_entity"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/AuthService/AuthService.Application/Services/IJwtService.cs",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "ijwtservice_interface",
+      "target": "iauthenticationservice_interface"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "line 8",
+      "weight": 1.0,
+      "source": "authenticationservice_AuthenticationService",
+      "target": "iauthenticationservice_interface"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "line 9",
+      "weight": 1.0,
+      "source": "jwtservice_JwtService",
+      "target": "ijwtservice_interface"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/Role.cs",
+      "source_location": "line 7",
+      "weight": 1.0,
+      "source": "role_entity",
+      "target": "entity_abstract"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/User.cs",
+      "source_location": "line 7",
+      "weight": 1.0,
+      "source": "user_entity",
+      "target": "entity_abstract"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Enumerations/Permission.cs",
+      "source_location": "line 5",
+      "weight": 1.0,
+      "source": "permission_enumeration",
+      "target": "enumeration_abstract"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Enumerations/RoleType.cs",
+      "source_location": "line 7",
+      "weight": 1.0,
+      "source": "roletype_enumeration",
+      "target": "enumeration_abstract"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/Role.cs",
+      "source_location": "line 11",
+      "weight": 1.0,
+      "source": "role_entity",
+      "target": "permission_enumeration"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/Role.cs",
+      "source_location": "line 14",
+      "weight": 1.0,
+      "source": "role_entity",
+      "target": "roletype_enumeration"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/User.cs",
+      "source_location": "line 9",
+      "weight": 1.0,
+      "source": "user_entity",
+      "target": "role_entity"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/User.cs",
+      "source_location": "line 34",
+      "weight": 1.0,
+      "source": "user_entity",
+      "target": "roletype_enumeration"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "line 17",
+      "weight": 1.0,
+      "source": "authenticationservice_AuthenticationService",
+      "target": "user_entity"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/ValueObjects/RolePermission.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "rolepermission_RolePermission",
+      "target": "roleid_RoleId"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": null,
+      "weight": 0.75,
+      "source": "usercontext_UserContext",
+      "target": "userid_UserId"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": null,
+      "weight": 0.75,
+      "source": "customclaimstransformation_CustomClaimsTransformation",
+      "target": "userid_UserId"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "jwtbeareroptionssetup_JwtBearerOptionsSetup"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "keycloakoptions_KeycloakOptions"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "adminauthorizationdelegatinghandler_AdminAuthorizationDelegatingHandler"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "usercontext_UserContext"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "authorizationservice_AuthorizationService"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "customclaimstransformation_CustomClaimsTransformation"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "permissionauthorizationhandler_PermissionAuthorizationHandler"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "permissionauthorizationpolicyprovider_PermissionAuthorizationPolicyProvider"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "authdatabaseoptions_AuthDatabaseOptions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "redisoptions_RedisOptions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/DependencyInjection.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dependencyinjection_DependencyInjection",
+      "target": "authenticationoptions_AuthenticationOptions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "adminauthorizationdelegatinghandler_AdminAuthorizationDelegatingHandler",
+      "target": "keycloakoptions_KeycloakOptions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "adminauthorizationdelegatinghandler_AdminAuthorizationDelegatingHandler",
+      "target": "authorizationtoken_AuthorizationToken"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/JwtBearerOptionsSetup.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "jwtbeareroptionssetup_JwtBearerOptionsSetup",
+      "target": "authenticationoptions_AuthenticationOptions"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authentication/UserContext.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "usercontext_UserContext",
+      "target": "claimsprincipalextensions_ClaimsPrincipalExtensions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "authorizationservice_AuthorizationService",
+      "target": "userrolesresponse_UserRolesResponse"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "customclaimstransformation_CustomClaimsTransformation",
+      "target": "authorizationservice_AuthorizationService"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "permissionauthorizationhandler_PermissionAuthorizationHandler",
+      "target": "authorizationservice_AuthorizationService"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/AuthorizationService.cs",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "authorizationservice_AuthorizationService",
+      "target": "redisoptions_RedisOptions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "customclaimstransformation_CustomClaimsTransformation",
+      "target": "userrolesresponse_UserRolesResponse"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "customclaimstransformation_CustomClaimsTransformation",
+      "target": "claimsprincipalextensions_ClaimsPrincipalExtensions"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/HasPermissionAttribute.cs",
+      "source_location": null,
+      "weight": 0.95,
+      "source": "haspermissionattribute_HasPermissionAttribute",
+      "target": "permissionauthorizationpolicyprovider_PermissionAuthorizationPolicyProvider"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/HasPermissionAttribute.cs",
+      "source_location": null,
+      "weight": 0.95,
+      "source": "haspermissionattribute_HasPermissionAttribute",
+      "target": "permissionrequirement_PermissionRequirement"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "permissionauthorizationhandler_PermissionAuthorizationHandler",
+      "target": "permissionrequirement_PermissionRequirement"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/PermissionAuthorizationHandler.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "permissionauthorizationhandler_PermissionAuthorizationHandler",
+      "target": "claimsprincipalextensions_ClaimsPrincipalExtensions"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "permissionauthorizationpolicyprovider_PermissionAuthorizationPolicyProvider",
+      "target": "permissionrequirement_PermissionRequirement"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "line 11",
+      "weight": 1.0,
+      "source": "jwtservice_JwtService",
+      "target": "keycloakoptions_KeycloakOptions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "line 43",
+      "weight": 1.0,
+      "source": "jwtservice_JwtService",
+      "target": "authorizationtoken_AuthorizationToken"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Dto/UserRepresentationModel.cs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "userrepresentationmodel_UserRepresentationModel",
+      "target": "credentialrepresentationmodel_CredentialRepresentationModel"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "line 30",
+      "weight": 1.0,
+      "source": "authenticationservice_AuthenticationService",
+      "target": "credentialrepresentationmodel_CredentialRepresentationModel"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "line 20",
+      "weight": 1.0,
+      "source": "authenticationservice_AuthenticationService",
+      "target": "userrepresentationmodel_UserRepresentationModel"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "line 18",
+      "weight": 1.0,
+      "source": "authdbcontext_AuthDbContext",
+      "target": "permissionconfiguration_PermissionConfiguration"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "line 18",
+      "weight": 1.0,
+      "source": "authdbcontext_AuthDbContext",
+      "target": "roleconfiguration_RoleConfiguration"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/AuthDbContext.cs",
+      "source_location": "line 18",
+      "weight": 1.0,
+      "source": "authdbcontext_AuthDbContext",
+      "target": "userconfiguration_UserConfiguration"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs",
+      "source_location": "line 11",
+      "weight": 1.0,
+      "source": "permissionconfiguration_PermissionConfiguration",
+      "target": "db_table_permissions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "line 13",
+      "weight": 1.0,
+      "source": "roleconfiguration_RoleConfiguration",
+      "target": "db_table_roles"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "line 36",
+      "weight": 1.0,
+      "source": "roleconfiguration_RoleConfiguration",
+      "target": "db_table_role_permissions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs",
+      "source_location": "line 32",
+      "weight": 1.0,
+      "source": "roleconfiguration_RoleConfiguration",
+      "target": "db_table_user_roles"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/UserConfiguration.cs",
+      "source_location": "line 11",
+      "weight": 1.0,
+      "source": "userconfiguration_UserConfiguration",
+      "target": "db_table_users"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": "line 38-40",
+      "weight": 1.0,
+      "source": "authenticationservice_AuthenticationService",
+      "target": "keycloak_admin_api"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs",
+      "source_location": null,
+      "weight": 0.7,
+      "source": "authenticationservice_AuthenticationService",
+      "target": "jwtservice_JwtService"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/JwtService.cs",
+      "source_location": "line 38",
+      "weight": 1.0,
+      "source": "jwtservice_JwtService",
+      "target": "keycloak_token_api"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 44",
+      "weight": 1.0,
+      "source": "migration_InitialCreate_WithRolesAndPermissions",
+      "target": "db_table_users"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 31",
+      "weight": 1.0,
+      "source": "migration_InitialCreate_WithRolesAndPermissions",
+      "target": "db_table_roles"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 17",
+      "weight": 1.0,
+      "source": "migration_InitialCreate_WithRolesAndPermissions",
+      "target": "db_table_permissions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 57",
+      "weight": 1.0,
+      "source": "migration_InitialCreate_WithRolesAndPermissions",
+      "target": "db_table_role_permissions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 82",
+      "weight": 1.0,
+      "source": "migration_InitialCreate_WithRolesAndPermissions",
+      "target": "db_table_user_roles"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 96-104",
+      "weight": 1.0,
+      "source": "db_table_user_roles",
+      "target": "db_table_users"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 71-79",
+      "weight": 1.0,
+      "source": "db_table_role_permissions",
+      "target": "db_table_roles"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 88-95",
+      "weight": 1.0,
+      "source": "db_table_user_roles",
+      "target": "db_table_roles"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs",
+      "source_location": "line 63-70",
+      "weight": 1.0,
+      "source": "db_table_role_permissions",
+      "target": "db_table_permissions"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "domain_abstractions_ddd_pattern",
+      "label": "DDD Domain Abstractions Pattern",
+      "nodes": [
+        "entity_abstract",
+        "enumeration_abstract",
+        "valueobject_abstract"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Domain/Common/Abstractions/Entity.cs"
+    },
+    {
+      "id": "app_service_interfaces",
+      "label": "Application Service Interface Layer",
+      "nodes": [
+        "iauthenticationservice_interface",
+        "ijwtservice_interface",
+        "iusercontext_interface"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Application/Services/IAuthenticationService.cs"
+    },
+    {
+      "id": "domain_entities_aggregate",
+      "label": "User-Role Domain Aggregate",
+      "nodes": [
+        "user_entity",
+        "role_entity",
+        "permission_enumeration",
+        "roletype_enumeration"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Domain/Entities/User.cs"
+    },
+    {
+      "id": "startup_registration_pipeline",
+      "label": "Application Startup Service Registration Pipeline",
+      "nodes": [
+        "program_entrypoint",
+        "apidi_dependencyinjection",
+        "appdi_dependencyinjection"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Api/Program.cs"
+    },
+    {
+      "id": "permission_authorization_pipeline",
+      "label": "Permission Authorization Pipeline",
+      "nodes": [
+        "haspermissionattribute_HasPermissionAttribute",
+        "permissionauthorizationpolicyprovider_PermissionAuthorizationPolicyProvider",
+        "permissionrequirement_PermissionRequirement",
+        "permissionauthorizationhandler_PermissionAuthorizationHandler",
+        "authorizationservice_AuthorizationService"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization"
+    },
+    {
+      "id": "claims_enrichment_flow",
+      "label": "JWT Claims Enrichment Flow",
+      "nodes": [
+        "customclaimstransformation_CustomClaimsTransformation",
+        "claimsprincipalextensions_ClaimsPrincipalExtensions",
+        "authorizationservice_AuthorizationService",
+        "userrolesresponse_UserRolesResponse"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs"
+    },
+    {
+      "id": "infrastructure_configuration",
+      "label": "Infrastructure Configuration Options",
+      "nodes": [
+        "authdatabaseoptions_AuthDatabaseOptions",
+        "authenticationoptions_AuthenticationOptions",
+        "keycloakoptions_KeycloakOptions",
+        "redisoptions_RedisOptions"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Common/Configuration"
+    },
+    {
+      "id": "persistence_layer_configuration",
+      "label": "EF Core Persistence Layer Configuration",
+      "nodes": [
+        "authdbcontext_AuthDbContext",
+        "permissionconfiguration_PermissionConfiguration",
+        "roleconfiguration_RoleConfiguration",
+        "userconfiguration_UserConfiguration"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/AuthDbContext.cs"
+    },
+    {
+      "id": "auth_schema_tables",
+      "label": "Auth Database Schema Tables",
+      "nodes": [
+        "db_table_users",
+        "db_table_roles",
+        "db_table_permissions",
+        "db_table_role_permissions",
+        "db_table_user_roles"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Persistence/Migrations/20260503133752_InitialCreate_WithRolesAndPermissions.cs"
+    },
+    {
+      "id": "keycloak_integration_services",
+      "label": "Keycloak Integration Services",
+      "nodes": [
+        "authenticationservice_AuthenticationService",
+        "jwtservice_JwtService",
+        "keycloak_admin_api",
+        "keycloak_token_api"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs"
+    }
+  ],
+  "built_at_commit": "10558dbd7c6e8c941345295fb39c5ebeea93bcb3"
+}
