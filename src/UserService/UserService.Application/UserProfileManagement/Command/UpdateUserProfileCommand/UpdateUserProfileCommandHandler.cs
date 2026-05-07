@@ -13,9 +13,10 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
     private readonly IUserProfileService _userProfileService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateUserProfileCommandHandler(IUserProfileService userProfileService)
+    public UpdateUserProfileCommandHandler(IUserProfileService userProfileService, IUnitOfWork unitOfWork)
     {
         _userProfileService = userProfileService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<UpdateUserProfileResult> Handle(UpdateUserProfileCommand request,
@@ -32,7 +33,6 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
         userProfile.Update(
             request.DisplayName,
             request.Bio,
-            request.AvatarUri,
             request.Interests,
             request.BirthDate
         );
@@ -42,7 +42,6 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
         return new UpdateUserProfileResult(
             userProfile.DisplayName,
             userProfile.Bio,
-            userProfile.AvatarUri,
             userProfile.Interests,
             userProfile.BirthDate);
     }

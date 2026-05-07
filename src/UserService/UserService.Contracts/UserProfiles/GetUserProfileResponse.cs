@@ -3,7 +3,9 @@ namespace UserService.Contracts.UserProfiles;
 public record GetUserProfileResponse(
     string DisplayName,
     string Bio,
-    Uri? AvatarUri,
     IReadOnlyList<string> Interests,
-    DateTime? BirthDate
+    DateTime? BirthDate,
+    IReadOnlyList<GetUserProfileAvatarResponse> Avatars
 );
+
+public record GetUserProfileAvatarResponse(Guid AvatarId, Uri AvatarUri, bool IsDefault, bool IsActive);

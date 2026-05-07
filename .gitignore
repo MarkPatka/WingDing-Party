@@ -512,3 +512,6 @@ graphify-out/.needs_update
 graphify-out/obsidian/
 graphify-out/cache/
 src/*/graphify-out/
+
+#rider launchsettings
+*/Properties/launchSettings.json

@@ -13,6 +13,7 @@ public sealed class Event : AggregateRoot<EventId>
     public IReadOnlyCollection<Participant> Participants => _participants.AsReadOnly();
 
     public string Title         { get; private set; } = string.Empty;
+    public string Title2         { get; private set; } = string.Empty;
     public string Description   { get; private set; } = string.Empty;
     public EventTypeId EventTypeId { get; private set; } = null!;
     public EventType EventType { get; private set; } = null!;
