@@ -6,20 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **WingDing Party** — микросервисная платформа для организации тематических встреч и клубных сообществ. Написана на .NET 10, использует Keycloak (OIDC), PostgreSQL, Redis, Apache Kafka.
 
-## Knowledge Graph
+## Claude Configuration
 
-Каждый сервис может иметь граф знаний. Граф строится командой `/graphify src/<ServiceName>` и сохраняется в `graphify-out/` в корне репозитория. **Один граф за раз** — при смене сервиса нужно пересобрать.
-
-Перед работой с любым сервисом проверь, актуален ли граф:
-
-```powershell
-# Узнать, какой сервис покрыт текущим графом
-Get-Content graphify-out/manifest.json | Select-String "source"
-```
-
-Если граф покрывает нужный сервис — используй его для навигации вместо чтения исходников. Обращайся к исходникам только для деталей реализации, которых нет в графе.
-
-Инструкции по использованию графа для конкретного сервиса — в `src/<ServiceName>/CLAUDE.md`.
+Claude Code–специфичная конфигурация (скиллы, Knowledge Graph, триггеры) — в [`.claude/CLAUDE.md`](.claude/CLAUDE.md).
+Сервисная документация — в `src/<ServiceName>/CLAUDE.md`.
 
 ## Commands
 

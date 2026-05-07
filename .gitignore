@@ -498,9 +498,11 @@ $RECYCLE.BIN/
 *.swo
 /.github/copilot-instructions.md
 
-# Claude Code
+# Claude Code — детальный gitignore в .claude/.gitignore
 .claude/settings.local.json
 .claude/worktrees/
+.claude/memory/
+.claude/plans/
 
 # graphify
 .graphify_python
