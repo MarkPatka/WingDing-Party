@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using UserService.Application.Common.Behaviors;
+using UserService.Application.Common.Configuration;
 
 namespace UserService.Application;
 

@@ -28,60 +28,61 @@ public class UserProfileController : ControllerBase
     public async Task<IActionResult> GetUserProfile(GetUserProfileRequest request)
     {
         var query = _mapper.Map<GetUserProfileQuery>(request);
-        
+
         var result = await _sender.Send(query);
-        
+
         var response = _mapper.Map<GetUserProfileResponse>(result);
-        
+
         return Ok(response);
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> CreateUserProfile([FromBody] CreateUserProfileRequest request)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> CreateUserProfile([FromForm] CreateUserProfileRequest request)
     {
         var command = _mapper.Map<CreateUserProfileCommand>(request);
-        
+
         var result = await _sender.Send(command);
-        
+
         var response = _mapper.Map<CreateUserProfileResponse>(result);
-        
+
         return Ok(response);
     }
-
 
     [HttpPut]
-    public async Task<IActionResult> UpdateUserProfile([FromBody] UpdateUserProfileRequest request)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UpdateUserProfile([FromForm] UpdateUserProfileCommand request)
     {
         var command = _mapper.Map<UpdateUserProfileCommand>(request);
-        
+
         var result = await _sender.Send(command);
-        
-        var response = _mapper.Map<UpdateUserProfileResult>(result);
-        
+
+        var response = _mapper.Map<UpdateUserProfileResponse>(result);
+
         return Ok(response);
     }
-    
+
     [HttpGet("interests")]
     public async Task<IActionResult> GetUserProfileInterests(GetUserProfileInterestsRequest request)
     {
         var query = _mapper.Map<GetUserProfileInterestsQuery>(request);
-        
+
         var result = await _sender.Send(query);
-        
+
         var response = _mapper.Map<GetUserProfileInterestsResult>(result);
-        
+
         return Ok(response);
     }
-    
+
     [HttpPut("interests")]
     public async Task<IActionResult> UpdateUserProfileInterests([FromBody] UpdateUserProfileInterestsRequest request)
     {
         var command = _mapper.Map<UpdateUserProfileInterestsCommand>(request);
-        
+
         var result = await _sender.Send(command);
-        
+
         var response = _mapper.Map<UpdateUserProfileInterestsResult>(result);
-        
+
         return Ok(response);
     }
 }

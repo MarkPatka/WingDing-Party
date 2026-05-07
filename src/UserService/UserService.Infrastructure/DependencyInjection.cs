@@ -1,14 +1,11 @@
-﻿using ClubService.Infrastructure.Messaging.Mapping;
-using Mapster;
-using MapsterMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Reflection;
+using Minio;
 using UserService.Application.Common.Configuration;
 using UserService.Application.Persistence;
 using UserService.Application.Services;
@@ -18,6 +15,7 @@ using UserService.Infrastructure.Messaging;
 using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Persistence.Outbox;
 using UserService.Infrastructure.Services;
+using UserService.Infrastructure.Storage;
 
 namespace UserService.Infrastructure;
 
@@ -26,8 +24,8 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
-        services.AddMappings();
         services.RegisterRepositories();
+        services.RegisterFileStorages(configuration);
         services.RegisterDbContext();
         services.BackgroundServices();
         services.MessagingServices(configuration);
@@ -38,6 +36,22 @@ public static class DependencyInjection
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
         services.AddScoped<IRepository<UserProfile, UserId>, GenericRepository<UserProfile, UserId>>();
+        return services;
+    }
+
+    private static IServiceCollection RegisterFileStorages(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<IMinioBucketManager, MinioBucketManager>();
+        services.AddSingleton<IFileStorage, MinioFileStorage>();
+        services.AddSingleton<IMinioClient>(sp =>
+        {
+            var opt = sp.GetRequiredService<IOptions<FileStorageOptions>>().Value;
+            return new MinioClient()
+                .WithEndpoint(opt.Endpoint)
+                .WithCredentials(opt.AccessKey, opt.SecretKey)
+                .WithSSL(opt.WithSsl)
+                .Build();
+        });
         return services;
     }
 
@@ -66,29 +80,28 @@ public static class DependencyInjection
             .ValidateOnStart();
         return services;
     }
-    
-    public static IServiceCollection AddMappings(this IServiceCollection services)
-    {
-        var config = new TypeAdapterConfig();
-        config.Scan(typeof(UserIntegrationMappingConfiguration).Assembly);
-        services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
-        return services;
-    }
 
     private static IServiceCollection RegisterDbContext(this IServiceCollection services)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        
+        services.AddDbContext<UserServiceDbContext>((provider, options) =>
+        {
+            var dbSettings = provider
+                .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
+
+            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+        }, ServiceLifetime.Scoped);
 
         services.AddDbContextFactory<UserServiceDbContext>((provider, options) =>
         {
             var dbSettings = provider
                 .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
 
-            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
 
         }, ServiceLifetime.Scoped);
-
+     
         return services;
     }
 

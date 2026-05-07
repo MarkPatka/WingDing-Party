@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using Mapster;
-using MapsterMapper;
+﻿using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
 using UserService.Api.Middleware.GlobalErrorHandler;
@@ -15,7 +13,6 @@ public static class DependencyInjection
     {
         services
             .AddLogging()
-            .AddMappings()
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddConfiguration(configuration)
@@ -43,13 +40,15 @@ public static class DependencyInjection
     private static IServiceCollection BindConfigurations(this IServiceCollection services,
         ConfigurationManager configuration)
     {
+        // bind minio settings
+        services.Configure<FileStorageOptions>(configuration.GetSection(FileStorageOptions.SectionName));
+
         // bind kafka settings
         services.AddOptions<Dictionary<string, KafkaOptions>>()
             .Bind(configuration.GetSection(KafkaOptions.SectionName));
 
         // bind api settings
-        services.Configure<ApiOptions>(
-            configuration.GetSection(ApiOptions.SectionName));
+        services.Configure<ApiOptions>(configuration.GetSection(ApiOptions.SectionName));
 
         // bind .env
         services.Configure<UserDatabaseOptions>(options => configuration.Bind(options));
@@ -60,7 +59,7 @@ public static class DependencyInjection
             .ValidateOnStart();
 
         services.AddOptions<UserDatabaseOptions>()
-            .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
+            .Validate(x => !string.IsNullOrEmpty(x.DB_CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
         return services;
@@ -73,16 +72,6 @@ public static class DependencyInjection
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
-        return services;
-    }
-
-    public static IServiceCollection AddMappings(this IServiceCollection services)
-    {
-        var config = TypeAdapterConfig.GlobalSettings;
-        config.Scan(Assembly.GetExecutingAssembly());
-
-        services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
         return services;
     }
 

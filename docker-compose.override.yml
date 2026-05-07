@@ -122,3 +122,24 @@ services:
         condition: service_healthy
     networks:
       - wingding_network
+    
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_LOGIN:-minio_login}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-minio_password}
+    volumes:
+      - minio_data:/data
+    networks:
+      - wingding_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

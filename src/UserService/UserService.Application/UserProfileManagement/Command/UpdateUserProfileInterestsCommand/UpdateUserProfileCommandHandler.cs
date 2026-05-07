@@ -32,7 +32,6 @@ public class
         userProfile.Update(
             userProfile.DisplayName,
             userProfile.Bio,
-            userProfile.AvatarUri,
             request.Interests,
             userProfile.BirthDate
         );
