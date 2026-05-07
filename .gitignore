@@ -506,11 +506,11 @@ $RECYCLE.BIN/
 
 # graphify
 .graphify_python
-graphify-out/.graphify_*.json
-graphify-out/.graphify_*.txt
-graphify-out/.needs_update
-graphify-out/obsidian/
-graphify-out/cache/
+.claude/graphify-out/.graphify_*.json
+.claude/graphify-out/.graphify_*.txt
+.claude/graphify-out/.needs_update
+.claude/graphify-out/obsidian/
+.claude/graphify-out/cache/
 src/*/graphify-out/
 
 #rider launchsettings
