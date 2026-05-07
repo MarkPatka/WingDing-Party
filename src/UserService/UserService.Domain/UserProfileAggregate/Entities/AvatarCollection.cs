@@ -72,7 +72,7 @@ public class AvatarCollection
         if (!isDefault)
         {
             if (!avatar.IsDefault) return;
-            avatar.Update(false, avatar.IsActive);
+            avatar.Update(avatar.IsActive, false);
             return;
         }
 
