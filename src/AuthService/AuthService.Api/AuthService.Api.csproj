@@ -11,9 +11,10 @@
 
   <ItemGroup>
     <PackageReference Include="Mapster.DependencyInjection" />
+    <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
 	<PackageReference Include="Serilog" />
 	<PackageReference Include="Serilog.AspNetCore" />
 	<PackageReference Include="Serilog.Sinks.File" />
