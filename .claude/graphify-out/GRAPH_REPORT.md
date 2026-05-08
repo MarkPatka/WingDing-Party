@@ -1,170 +1,177 @@
-# Graph Report - src/AuthService  (2026-05-06)
+# Graph Report - src/AuthService  (2026-05-08)
 
 ## Corpus Check
-- Corpus is ~6,252 words - fits in a single context window. You may not need a graph.
+- 65 files · ~6,727 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 243 nodes · 239 edges · 51 communities (30 shown, 21 thin omitted)
-- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.88)
-- Token cost: 133,550 input · 0 output
+- 253 nodes · 241 edges · 51 communities (31 shown, 20 thin omitted)
+- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.88)
+- Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Keycloak Auth Service|Keycloak Auth Service]]
-- [[_COMMUNITY_Admin Token Delegation|Admin Token Delegation]]
-- [[_COMMUNITY_Claims & Authorization|Claims & Authorization]]
-- [[_COMMUNITY_Domain Value Objects|Domain Value Objects]]
-- [[_COMMUNITY_JWT Bearer Setup|JWT Bearer Setup]]
-- [[_COMMUNITY_Domain Enumeration Base|Domain Enumeration Base]]
-- [[_COMMUNITY_EF Core Model Config|EF Core Model Config]]
-- [[_COMMUNITY_DDD Abstractions|DDD Abstractions]]
-- [[_COMMUNITY_Domain Entities|Domain Entities]]
-- [[_COMMUNITY_Database Schema|Database Schema]]
-- [[_COMMUNITY_API Startup|API Startup]]
-- [[_COMMUNITY_Permission Policy|Permission Policy]]
-- [[_COMMUNITY_Infrastructure DI|Infrastructure DI]]
-- [[_COMMUNITY_App Service Interfaces|App Service Interfaces]]
+- [[_COMMUNITY_API & Application Interfaces|API & Application Interfaces]]
+- [[_COMMUNITY_Infrastructure Core Services|Infrastructure Core Services]]
+- [[_COMMUNITY_JWT Authentication Setup|JWT Authentication Setup]]
+- [[_COMMUNITY_Admin Auth Delegating Handler|Admin Auth Delegating Handler]]
+- [[_COMMUNITY_Domain Value Objects (IDs)|Domain Value Objects (IDs)]]
+- [[_COMMUNITY_Enumeration Base Class|Enumeration Base Class]]
+- [[_COMMUNITY_EF Core Model Configuration|EF Core Model Configuration]]
+- [[_COMMUNITY_Domain Abstractions|Domain Abstractions]]
+- [[_COMMUNITY_Domain Entities (Role, User)|Domain Entities (Role, User)]]
+- [[_COMMUNITY_API Dependency Injection|API Dependency Injection]]
+- [[_COMMUNITY_Users Controller|Users Controller]]
+- [[_COMMUNITY_Authorization DB Service|Authorization DB Service]]
+- [[_COMMUNITY_EF Core Migration|EF Core Migration]]
+- [[_COMMUNITY_Domain Enumerations|Domain Enumerations]]
+- [[_COMMUNITY_Permission Auth Handler|Permission Auth Handler]]
+- [[_COMMUNITY_Permission Policy Provider|Permission Policy Provider]]
+- [[_COMMUNITY_Permissions & Config Constants|Permissions & Config Constants]]
+- [[_COMMUNITY_DB Schema Snapshot|DB Schema Snapshot]]
 - [[_COMMUNITY_User Context|User Context]]
-- [[_COMMUNITY_Keycloak Config|Keycloak Config]]
-- [[_COMMUNITY_Migrations|Migrations]]
-- [[_COMMUNITY_DB Table Schema|DB Table Schema]]
-- [[_COMMUNITY_Authorization Handler|Authorization Handler]]
-- [[_COMMUNITY_Role Type Model|Role Type Model]]
-- [[_COMMUNITY_Redis Cache Config|Redis Cache Config]]
-- [[_COMMUNITY_Credential DTOs|Credential DTOs]]
-- [[_COMMUNITY_Claim Transforms|Claim Transforms]]
+- [[_COMMUNITY_Custom Claims Transformation|Custom Claims Transformation]]
+- [[_COMMUNITY_Claims Principal Extensions|Claims Principal Extensions]]
+- [[_COMMUNITY_Auth DB Context|Auth DB Context]]
+- [[_COMMUNITY_Migration Designer|Migration Designer]]
+- [[_COMMUNITY_Application DI|Application DI]]
+- [[_COMMUNITY_IAuthentication Service|IAuthentication Service]]
+- [[_COMMUNITY_IJwt Service|IJwt Service]]
+- [[_COMMUNITY_Has Permission Attribute|Has Permission Attribute]]
 - [[_COMMUNITY_Permission Requirement|Permission Requirement]]
-- [[_COMMUNITY_User Roles Response|User Roles Response]]
-- [[_COMMUNITY_Contract Models|Contract Models]]
-- [[_COMMUNITY_Misc Component 26|Misc Component 26]]
-- [[_COMMUNITY_Misc Component 27|Misc Component 27]]
-- [[_COMMUNITY_Misc Component 28|Misc Component 28]]
-- [[_COMMUNITY_Misc Component 29|Misc Component 29]]
-- [[_COMMUNITY_Misc Component 30|Misc Component 30]]
-- [[_COMMUNITY_Misc Component 31|Misc Component 31]]
-- [[_COMMUNITY_Misc Component 32|Misc Component 32]]
-- [[_COMMUNITY_Misc Component 33|Misc Component 33]]
-- [[_COMMUNITY_Misc Component 34|Misc Component 34]]
-- [[_COMMUNITY_Misc Component 35|Misc Component 35]]
-- [[_COMMUNITY_Misc Component 36|Misc Component 36]]
-- [[_COMMUNITY_Misc Component 50|Misc Component 50]]
+- [[_COMMUNITY_Program & DI Bootstrap|Program & DI Bootstrap]]
+- [[_COMMUNITY_IUser Context Interface|IUser Context Interface]]
+- [[_COMMUNITY_Authentication Options|Authentication Options]]
+- [[_COMMUNITY_Keycloak Options|Keycloak Options]]
+- [[_COMMUNITY_Redis Options|Redis Options]]
+- [[_COMMUNITY_Authentication Token DTO|Authentication Token DTO]]
+- [[_COMMUNITY_Credential Representation DTO|Credential Representation DTO]]
+- [[_COMMUNITY_User Representation DTO|User Representation DTO]]
+- [[_COMMUNITY_Role Permission Value Object|Role Permission Value Object]]
+- [[_COMMUNITY_ValueObject Base Class|ValueObject Base Class]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Enumeration` - 11 edges
 2. `Infrastructure DependencyInjection` - 11 edges
-3. `DependencyInjection` - 7 edges
+3. `DependencyInjection` - 8 edges
 4. `DependencyInjection` - 7 edges
-5. `User` - 6 edges
-6. `AuthorizationService` - 6 edges
-7. `User Entity` - 6 edges
-8. `AuthenticationService` - 6 edges
+5. `UsersController` - 7 edges
+6. `User` - 6 edges
+7. `AuthorizationService` - 6 edges
+8. `AuthorizationService` - 6 edges
 9. `ValueObject` - 5 edges
 10. `UserId` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `User Entity` --conceptually_related_to--> `IUserContext Interface`  [INFERRED]
-  src/AuthService/AuthService.Domain/Entities/User.cs → src/AuthService/AuthService.Application/Common/Interfaces/IUserContext.cs
-- `Custom Claims Transformation` --conceptually_related_to--> `UserId Value Object`  [INFERRED]
-  src/AuthService/AuthService.Infrastructure/Authorization/CustomClaimsTransformation.cs → src/AuthService/AuthService.Domain/ValueObjects/Ids/UserId.cs
-- `Authorization Service` --conceptually_related_to--> `Redis Options`  [INFERRED]
-  src/AuthService/AuthService.Infrastructure/Authorization/AuthorizationService.cs → src/AuthService/AuthService.Infrastructure/Common/Configuration/RedisOptions.cs
-- `AdminAuthorizationDelegatingHandler` --references--> `KeycloakOptions`  [EXTRACTED]
-  AuthService.Infrastructure/Authentication/AdminAuthorizationDelegatingHandler.cs → AuthService.Infrastructure/Services/JwtService.cs
-- `AuthenticationService` --references--> `HttpClient`  [EXTRACTED]
-  AuthService.Infrastructure/Services/AuthenticationService.cs → AuthService.Infrastructure/Services/JwtService.cs
+- `PermissionConfiguration` --rationale_for--> `Permission-Based Authorization Pattern`  [INFERRED]
+  src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/PermissionConfiguration.cs → src/AuthService/CLAUDE.md
+- `AuthenticationService` --rationale_for--> `Keycloak Integration Pattern`  [INFERRED]
+  src/AuthService/AuthService.Infrastructure/Services/AuthenticationService.cs → src/AuthService/CLAUDE.md
+- `JwtService` --rationale_for--> `Keycloak Integration Pattern`  [INFERRED]
+  src/AuthService/AuthService.Infrastructure/Services/JwtService.cs → src/AuthService/CLAUDE.md
+- `Keycloak Integration Pattern` --rationale_for--> `IJwtService`  [EXTRACTED]
+  src/AuthService/CLAUDE.md → src/AuthService/AuthService.Application/Services/IJwtService.cs
+- `RoleConfiguration` --rationale_for--> `Permission-Based Authorization Pattern`  [INFERRED]
+  src/AuthService/AuthService.Infrastructure/Persistence/ModelsConfiguration/RoleConfiguration.cs → src/AuthService/CLAUDE.md
 
 ## Hyperedges (group relationships)
-- **DDD Domain Abstractions Pattern** — entity_abstract, enumeration_abstract, valueobject_abstract [INFERRED 0.95]
-- **Application Service Interface Layer** — iauthenticationservice_interface, ijwtservice_interface, iusercontext_interface [INFERRED 0.95]
-- **User-Role Domain Aggregate** — user_entity, role_entity, permission_enumeration, roletype_enumeration [EXTRACTED 1.00]
-- **Application Startup Service Registration Pipeline** — program_entrypoint, apidi_dependencyinjection, appdi_dependencyinjection [EXTRACTED 1.00]
-- **Permission Authorization Pipeline** — haspermissionattribute_HasPermissionAttribute, permissionauthorizationpolicyprovider_PermissionAuthorizationPolicyProvider, permissionrequirement_PermissionRequirement, permissionauthorizationhandler_PermissionAuthorizationHandler, authorizationservice_AuthorizationService [INFERRED 0.95]
-- **JWT Claims Enrichment Flow** — customclaimstransformation_CustomClaimsTransformation, claimsprincipalextensions_ClaimsPrincipalExtensions, authorizationservice_AuthorizationService, userrolesresponse_UserRolesResponse [EXTRACTED 0.95]
-- **Infrastructure Configuration Options** — authdatabaseoptions_AuthDatabaseOptions, authenticationoptions_AuthenticationOptions, keycloakoptions_KeycloakOptions, redisoptions_RedisOptions [INFERRED 0.85]
-- **EF Core Persistence Layer Configuration** — authdbcontext_AuthDbContext, permissionconfiguration_PermissionConfiguration, roleconfiguration_RoleConfiguration, userconfiguration_UserConfiguration [INFERRED 0.95]
-- **Auth Database Schema Tables** — db_table_users, db_table_roles, db_table_permissions, db_table_role_permissions, db_table_user_roles [EXTRACTED 1.00]
-- **Keycloak Integration Services** — authenticationservice_AuthenticationService, jwtservice_JwtService, keycloak_admin_api, keycloak_token_api [INFERRED 0.95]
+- **Clean Architecture Layers** — api_dependencyinjection, application_dependencyinjection, domain_entity, domain_role, domain_user [INFERRED 0.95]
+- **Domain Abstraction Base Classes** — domain_entity, domain_enumeration, domain_valueobject [EXTRACTED 1.00]
+- **Permission System** — domain_permission, contracts_permissions, api_userscontroller, rationale_permission_based_authz [EXTRACTED 1.00]
+- **Permission-Based Authorization Pipeline** — haspermissionattribute_haspermissionattribute, permissionauthorizationpolicyprovider_permissionauthorizationpolicyprovider, permissionrequirement_permissionrequirement, permissionauthorizationhandler_permissionauthorizationhandler, authorizationservice_authorizationservice [EXTRACTED 1.00]
+- **Keycloak Integration Components** — adminauthorizationdelegatinghandler_adminauthorizationdelegatinghandler, keycloakoptions_keycloakoptions, authorizationtoken_authorizationtoken, credentialrepresentationmodel_credentialrepresentationmodel [EXTRACTED 1.00]
+- **Infrastructure Configuration Options** — authdatabaseoptions_authdatabaseoptions, authenticationoptions_authenticationoptions, keycloakoptions_keycloakoptions, redisoptions_redisoptions [INFERRED 0.95]
+- **Claims Enrichment Flow** — customclaimstransformation_customclaimstransformation, authorizationservice_authorizationservice, userrolesresponse_userrolesresponse [EXTRACTED 1.00]
+- **EF Core Persistence Configuration (AuthDbContext + Configurations)** — authdbcontext_authdbcontext, permissionconfiguration_permissionconfiguration, roleconfiguration_roleconfiguration, userconfiguration_userconfiguration [EXTRACTED 1.00]
+- **Keycloak HTTP Services (AuthenticationService + JwtService)** — authenticationservice_authenticationservice, jwtservice_jwtservice, userrepresentationmodel_userrepresentationmodel [EXTRACTED 1.00]
+- **Permission-Based Authorization System** — rationale_permission_based_authz, permissionconfiguration_permissionconfiguration, roleconfiguration_roleconfiguration, claimsprincipalextensions_claimsprincipalextensions, rationale_custom_claims_transformation, rationale_redis_role_cache [INFERRED 0.85]
 
-## Communities (51 total, 21 thin omitted)
+## Communities (51 total, 20 thin omitted)
 
-### Community 0 - "Keycloak Auth Service"
-Cohesion: 0.16
-Nodes (18): Admin Authorization Delegating Handler, AuthenticationService, Authorization Token DTO, Credential Representation Model DTO, Entity<Tid> Abstract Base, Enumeration Abstract Base, IAuthenticationService Interface, IJwtService Interface (+10 more)
+### Community 0 - "API & Application Interfaces"
+Cohesion: 0.1
+Nodes (27): UsersController, IAuthenticationService, IJwtService, IUserContext, AuthDbContext, AuthenticationService, ClaimsPrincipalExtensions, AuthService CLAUDE.md (+19 more)
 
-### Community 1 - "Admin Token Delegation"
+### Community 1 - "Infrastructure Core Services"
+Cohesion: 0.17
+Nodes (18): AdminAuthorizationDelegatingHandler, AuthDatabaseOptions, AuthenticationOptions, AuthorizationService, AuthorizationToken DTO, CredentialRepresentationModel DTO, CustomClaimsTransformation, Infrastructure DependencyInjection (+10 more)
+
+### Community 2 - "JWT Authentication Setup"
+Cohesion: 0.18
+Nodes (5): JwtBearerOptionsSetup, AuthenticationOptions, DependencyInjection, IAuthenticationService, IConfigureNamedOptions
+
+### Community 3 - "Admin Auth Delegating Handler"
 Cohesion: 0.15
 Nodes (7): AdminAuthorizationDelegatingHandler, DelegatingHandler, HttpClient, IJwtService, KeycloakOptions, AuthenticationService, JwtService
 
-### Community 2 - "Claims & Authorization"
-Cohesion: 0.23
-Nodes (15): Auth Database Options, Authentication Options, Authorization Service, Claims Principal Extensions, Custom Claims Transformation, Infrastructure DependencyInjection, Has Permission Attribute, JWT Bearer Options Setup (+7 more)
-
-### Community 3 - "Domain Value Objects"
+### Community 4 - "Domain Value Objects (IDs)"
 Cohesion: 0.14
 Nodes (4): RoleId, UserId, ValueObject, RolePermission
 
-### Community 4 - "JWT Bearer Setup"
-Cohesion: 0.19
-Nodes (5): JwtBearerOptionsSetup, AuthenticationOptions, DependencyInjection, IAuthenticationService, IConfigureNamedOptions
-
-### Community 6 - "EF Core Model Config"
+### Community 6 - "EF Core Model Configuration"
 Cohesion: 0.18
 Nodes (5): IEntityTypeConfiguration, PermissionConfiguration, RoleConfiguration, UserConfiguration, object
 
-### Community 7 - "DDD Abstractions"
+### Community 7 - "Domain Abstractions"
 Cohesion: 0.24
 Nodes (3): Entity, ValueObject, IEquatable
 
-### Community 8 - "Domain Entities"
+### Community 8 - "Domain Entities (Role, User)"
 Cohesion: 0.24
 Nodes (4): Role, User, Entity, List
 
-### Community 9 - "Database Schema"
-Cohesion: 0.38
-Nodes (10): AuthDbContext, DB Table: permissions, DB Table: role_permissions, DB Table: roles, DB Table: user_roles, DB Table: users, InitialCreate_WithRolesAndPermissions Migration, PermissionConfiguration (+2 more)
+### Community 10 - "Users Controller"
+Cohesion: 0.25
+Nodes (4): ControllerBase, UsersController, IMapper, ISender
 
-### Community 11 - "Permission Policy"
+### Community 11 - "Authorization DB Service"
 Cohesion: 0.29
 Nodes (4): AuthDbContext, AuthorizationService, IDistributedCache, TimeSpan
 
-### Community 12 - "Infrastructure DI"
+### Community 12 - "EF Core Migration"
 Cohesion: 0.33
 Nodes (3): Migration, AuthService.Infrastructure.Persistence.Migrations, InitialCreate_WithRolesAndPermissions
 
-### Community 13 - "App Service Interfaces"
-Cohesion: 0.33
-Nodes (6): AuthService.Api DependencyInjection, AuthService.Application DependencyInjection, AuthDatabaseOptions Configuration, AuthenticationOptions Configuration, KeycloakOptions Configuration, AuthService API Entry Point
-
-### Community 14 - "User Context"
+### Community 13 - "Domain Enumerations"
 Cohesion: 0.6
 Nodes (3): Enumeration, Permission, RoleType
 
-### Community 15 - "Keycloak Config"
+### Community 14 - "Permission Auth Handler"
 Cohesion: 0.4
 Nodes (3): PermissionAuthorizationHandler, AuthorizationHandler, IServiceProvider
 
-### Community 16 - "Migrations"
+### Community 15 - "Permission Policy Provider"
 Cohesion: 0.4
 Nodes (3): PermissionAuthorizationPolicyProvider, AuthorizationOptions, DefaultAuthorizationPolicyProvider
 
-### Community 17 - "DB Table Schema"
+### Community 16 - "Permissions & Config Constants"
+Cohesion: 0.4
+Nodes (3): AuthDatabaseOptions, Permissions, string
+
+### Community 17 - "DB Schema Snapshot"
 Cohesion: 0.4
 Nodes (3): AuthDbContextModelSnapshot, AuthService.Infrastructure.Persistence.Migrations, ModelSnapshot
 
-### Community 18 - "Authorization Handler"
+### Community 18 - "User Context"
 Cohesion: 0.5
 Nodes (3): UserContext, IHttpContextAccessor, IUserContext
 
+### Community 28 - "Program & DI Bootstrap"
+Cohesion: 0.67
+Nodes (3): Api DependencyInjection, Program (Entry Point), Application DependencyInjection
+
 ## Knowledge Gaps
-- **29 isolated node(s):** `IUserContext`, `IHttpContextAccessor`, `AuthDbContext`, `IDistributedCache`, `TimeSpan` (+24 more)
+- **35 isolated node(s):** `ISender`, `IMapper`, `IUserContext`, `IHttpContextAccessor`, `AuthDbContext` (+30 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Infrastructure DependencyInjection` connect `Claims & Authorization` to `Keycloak Auth Service`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **What connects `IUserContext`, `IHttpContextAccessor`, `AuthDbContext` to the rest of the system?**
-  _29 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Domain Value Objects` be split into smaller, more focused modules?**
+- **Why does `AuthenticationService` connect `Admin Auth Delegating Handler` to `JWT Authentication Setup`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **What connects `ISender`, `IMapper`, `IUserContext` to the rest of the system?**
+  _35 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `API & Application Interfaces` be split into smaller, more focused modules?**
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+- **Should `Domain Value Objects (IDs)` be split into smaller, more focused modules?**
   _Cohesion score 0.14 - nodes in this community are weakly interconnected._

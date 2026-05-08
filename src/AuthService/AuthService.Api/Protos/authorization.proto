@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "AuthService.Api.Protos";
+
+package authservice;
+
+
+// Service-to-service Permission Oracle.
+// Called by downstream services (EventService, ClubService, UserService)
+// to check user permissions and roles.
+service PermissionOracle {
+	// Returns all permission strings for a given Keycloak identity.
+    // Called by: PermissionAuthorizationHandler in downstream services.
+	rpc GetPermissions (PermisionRequest) returns (PermissionResponse);
+
+	// Returns user ID + role list for a given Keycloak identity.
+    // Called by: RemoteClaimsTransformation in downstream services.
+	rpc GetRoles (RolesRequest) returns (RolesResponse);
+}
+
+message PermisionRequest {
+	string identity_id = 1;
+}
+
+message PermissionResponse {
+	repeated string permissions = 1;
+}
+
+message RolesRequest {
+	string identity_id = 1;
+}
+
+message RolesResponse {
+	string user_id = 1; // Our internal User.Id (GUID as string)
+	repeated string role_names = 2;
+}

@@ -17,7 +17,7 @@ pip install graphifyy
 /graphify src/<ServiceName>
 ```
 
-Выходные файлы сохраняются в `graphify-out/` в корне репозитория (папка gitignored — `obsidian/`, `cache/`; отслеживается только `graph.json` и `manifest.json`).
+Выходные файлы сохраняются в `.claude/graphify-out/` (не в корневой `graphify-out/`). Graphify-скилл пишет в `graphify-out/` по умолчанию — после каждого запуска результаты переносятся в `.claude/graphify-out/` и корневой удаляется. Подробные инструкции — в `.claude/CLAUDE.md`.
 
 **Один граф за раз.** При смене сервиса граф пересобирается полностью.
 
