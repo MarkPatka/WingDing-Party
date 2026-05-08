@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Minio;
 using UserService.Application.Common.Configuration;
 using UserService.Application.IntegrationEvents.Mapping;
 using UserService.Application.Persistence;
@@ -14,6 +17,7 @@ using UserService.Infrastructure.Messaging.Mapping;
 using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Persistence.Outbox;
 using UserService.Infrastructure.Services;
+using UserService.Infrastructure.Storage;
 
 namespace UserService.Infrastructure;
 
@@ -24,6 +28,7 @@ public static class DependencyInjection
         services.AddServices();
         services.AddIntegrationEventMappers();
         services.RegisterRepositories();
+        services.RegisterFileStorages(configuration);
         services.RegisterDbContext();
         services.BackgroundServices();
         services.MessagingServices(configuration);
@@ -35,6 +40,22 @@ public static class DependencyInjection
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
         services.AddScoped<IRepository<UserProfile, UserId>, GenericRepository<UserProfile, UserId>>();
+        return services;
+    }
+
+    private static IServiceCollection RegisterFileStorages(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<IMinioBucketManager, MinioBucketManager>();
+        services.AddSingleton<IFileStorage, MinioFileStorage>();
+        services.AddSingleton<IMinioClient>(sp =>
+        {
+            var opt = sp.GetRequiredService<IOptions<FileStorageOptions>>().Value;
+            return new MinioClient()
+                .WithEndpoint(opt.Endpoint)
+                .WithCredentials(opt.AccessKey, opt.SecretKey)
+                .WithSSL(opt.WithSsl)
+                .Build();
+        });
         return services;
     }
 
@@ -78,16 +99,24 @@ public static class DependencyInjection
     private static IServiceCollection RegisterDbContext(this IServiceCollection services)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        
+        services.AddDbContext<UserServiceDbContext>((provider, options) =>
+        {
+            var dbSettings = provider
+                .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
+
+            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+        }, ServiceLifetime.Scoped);
 
         services.AddDbContextFactory<UserServiceDbContext>((provider, options) =>
         {
             var dbSettings = provider
-                .GetRequiredService<IOptions<EventsDatabaseOptions>>().Value;
+                .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
 
-            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
 
         }, ServiceLifetime.Scoped);
-
+     
         return services;
     }
 

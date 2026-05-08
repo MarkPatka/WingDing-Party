@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Mapster;
-using MapsterMapper;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
 using UserService.Api.Middleware.GlobalErrorHandler;
@@ -16,7 +13,6 @@ public static class DependencyInjection
     {
         services
             .AddLogging()
-            .AddMappings()
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddConfiguration(configuration)
@@ -44,24 +40,26 @@ public static class DependencyInjection
     private static IServiceCollection BindConfigurations(this IServiceCollection services,
         ConfigurationManager configuration)
     {
+        // bind minio settings
+        services.Configure<FileStorageOptions>(configuration.GetSection(FileStorageOptions.SectionName));
+
         // bind kafka settings
         services.AddOptions<Dictionary<string, KafkaOptions>>()
             .Bind(configuration.GetSection(KafkaOptions.SectionName));
 
         // bind api settings
-        services.Configure<ApiOptions>(
-            configuration.GetSection(ApiOptions.SectionName));
+        services.Configure<ApiOptions>(configuration.GetSection(ApiOptions.SectionName));
 
         // bind .env
-        services.Configure<EventsDatabaseOptions>(options => configuration.Bind(options));
+        services.Configure<UserDatabaseOptions>(options => configuration.Bind(options));
 
         // validate settings
         services.AddOptions<ApiOptions>()
             .Validate(x => x.Port > 0, "API Port must be greater than 0")
             .ValidateOnStart();
 
-        services.AddOptions<EventsDatabaseOptions>()
-            .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
+        services.AddOptions<UserDatabaseOptions>()
+            .Validate(x => !string.IsNullOrEmpty(x.DB_CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
         return services;
@@ -74,16 +72,6 @@ public static class DependencyInjection
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
-        return services;
-    }
-
-    public static IServiceCollection AddMappings(this IServiceCollection services)
-    {
-        var config = TypeAdapterConfig.GlobalSettings;
-        config.Scan(Assembly.GetExecutingAssembly());
-
-        services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
         return services;
     }
 

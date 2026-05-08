@@ -33,6 +33,9 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
         builder.Property(e => e.Title)
             .HasMaxLength(100)
             .IsRequired();
+        builder.Property(e => e.Title2)
+            .HasMaxLength(100)
+            .IsRequired();
 
         builder.Property(e => e.Description)
             .HasMaxLength(500);
@@ -44,6 +47,12 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
                 value => UserId.Create(value))
             .IsRequired();
 
+        builder.Property(e => e.OrganizerId)
+            .HasConversion(
+                id => id.Value,
+                value => UserId.Create(value))
+            .IsRequired();
+        
         builder.Property(e => e.OrganizerName)
             .HasMaxLength(100)
             .IsRequired();

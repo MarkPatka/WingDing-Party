@@ -67,7 +67,7 @@ public class UnitOfWork : IUnitOfWork
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to save entities");
-            return false;
+            throw;
         }
     }
 

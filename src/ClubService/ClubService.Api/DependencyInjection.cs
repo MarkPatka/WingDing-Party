@@ -52,14 +52,14 @@ public static class DependencyInjection
             configuration.GetSection(ApiOptions.SectionName));
 
         // bind .env
-        services.Configure<EventsDatabaseOptions>(options => configuration.Bind(options));
+        services.Configure<ClubsDatabaseOptions>(options => configuration.Bind(options));
 
         // validate settings
         services.AddOptions<ApiOptions>()
             .Validate(x => x.Port > 0, "API Port must be greater than 0")
             .ValidateOnStart();
 
-        services.AddOptions<EventsDatabaseOptions>()
+        services.AddOptions<ClubsDatabaseOptions>()
             .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 

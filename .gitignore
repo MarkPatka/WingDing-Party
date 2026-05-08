@@ -14,9 +14,6 @@ copilot-instructions.md
 #logs
 logs/
 
-# claude
-.claude/
-
 # dotenv files
 .env
 .env.local
@@ -500,3 +497,21 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 /.github/copilot-instructions.md
+
+# Claude Code — детальный gitignore в .claude/.gitignore
+.claude/settings.local.json
+.claude/worktrees/
+.claude/memory/
+.claude/plans/
+
+# graphify
+.graphify_python
+.claude/graphify-out/.graphify_*.json
+.claude/graphify-out/.graphify_*.txt
+.claude/graphify-out/.needs_update
+.claude/graphify-out/obsidian/
+.claude/graphify-out/cache/
+src/*/graphify-out/
+
+#rider launchsettings
+*/Properties/launchSettings.json
