@@ -27,6 +27,7 @@ public static class DependencyInjection
             .RegisterDbContext()
             .RegisterRedis()
             .AddAuthentication(configuration)
+            .AddHttpClients()
             .AddAuthorization();
         
         return services;
@@ -45,7 +46,12 @@ public static class DependencyInjection
         services.Configure<KeycloakOptions>(configuration.GetSection("Keycloak"));
 
         services.AddTransient<AdminAuthorizationDelegatingHandler>();
+        services.AddScoped<IUserContext, UserContext>();
+        return services;
+    }
 
+    private static IServiceCollection AddHttpClients(this IServiceCollection services)
+    {
         // HttpClient for Keycloak Admin API (user registration)
         services.AddHttpClient<IAuthenticationService, AuthenticationService>(
             (sp, httpClient) =>
@@ -64,7 +70,7 @@ public static class DependencyInjection
             });
 
         services.AddHttpContextAccessor();
-        services.AddScoped<IUserContext, UserContext>();
+
         return services;
     }
 
@@ -99,7 +105,8 @@ public static class DependencyInjection
             var dbSettings = provider
                 .GetRequiredService<IOptions<AuthDatabaseOptions>>().Value;
 
-            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2))
+            .UseSnakeCaseNamingConvention();
         
         }, ServiceLifetime.Scoped);
 
