@@ -28,7 +28,7 @@ var app = builder.Build();
     }
 
     //TODO разобраться с тем, что падают миграции
-    //app.ApplyMigrations();
+    app.ApplyMigrations();
     
     app.UseHttpsRedirection();
     app.UseExceptionHandler();

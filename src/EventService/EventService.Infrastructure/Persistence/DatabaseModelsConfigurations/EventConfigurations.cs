@@ -33,9 +33,6 @@ public class EventConfigurations : IEntityTypeConfiguration<Event>
         builder.Property(e => e.Title)
             .HasMaxLength(100)
             .IsRequired();
-        builder.Property(e => e.Title2)
-            .HasMaxLength(100)
-            .IsRequired();
 
         builder.Property(e => e.Description)
             .HasMaxLength(500);

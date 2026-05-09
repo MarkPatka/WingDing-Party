@@ -28,7 +28,8 @@ public static class DependencyInjection
             .RegisterRedis()
             .AddAuthentication(configuration)
             .AddHttpClients()
-            .AddAuthorization();
+            .AddAuthorization()
+            .AddPermissionAuthorization();
         
         return services;
     }
@@ -74,7 +75,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddAuthorization(this IServiceCollection services)
+    private static IServiceCollection AddPermissionAuthorization(this IServiceCollection services)
     {
         services.AddScoped<AuthorizationService>();
 
