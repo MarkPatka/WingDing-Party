@@ -1,0 +1,31 @@
+name: Sync Repository to Server
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [84-ci-cd]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Upload docker-compose.yml
+        run: |
+          scp docker-compose.yml \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/opt/wingding/docker-compose.yml
+          
+      - name: Upload docker-compose.override.yml
+        run: |
+          scp docker-compose.override.yml \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/opt/wingding/docker-compose.override.yml
