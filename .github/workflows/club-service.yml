@@ -27,9 +27,6 @@ jobs:
           ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
             cd /opt/wingding &&
 
-            # обновляем образ club-service
-            docker compose pull club-service &&
-
             # поднимаем club-service с секретами
             POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
             POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
@@ -38,5 +35,5 @@ jobs:
             ASPNETCORE_ENVIRONMENT='${{ secrets.ASPNETCORE_ENVIRONMENT }}' \
             ASPNETCORE_URLS='${{ secrets.ASPNETCORE_URLS }}' \
             CLUB_API_PORT='${{ secrets.CLUB_API_PORT }}' \
-            docker compose up -d club-service
+            docker compose up -d --build club-service
           "
