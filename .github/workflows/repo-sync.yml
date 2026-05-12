@@ -26,8 +26,8 @@ jobs:
             # если нет .git — инициализируем репозиторий
             if [ ! -d .git ]; then
               git init
-              git remote set-url origin https://github.com/MarkPatka/WingDing-Party.git
-              git fetch --all
+              git remote add origin https://github.com/MarkPatka/WingDing-Party.git
+              git fetch origin
               git checkout -b 84-ci-cd origin/84-ci-cd
             else
               # если репозиторий уже есть — просто обновляем
