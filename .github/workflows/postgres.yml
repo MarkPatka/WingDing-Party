@@ -8,6 +8,8 @@ on:
       - completed
 
   workflow_dispatch:
+  push:
+    branches: [ 84-ci-cd ]
 
 jobs:
   deploy-postgres:
