@@ -1,6 +1,12 @@
 name: Deploy Postgres
 
 on:
+  
+  workflow_run:
+    workflows: [ "Sync Repository to Server" ]
+    types:
+      - completed
+
   workflow_dispatch:
 
 jobs:
@@ -23,3 +29,4 @@ jobs:
             POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
             POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
             docker compose up -d postgres
+          "
