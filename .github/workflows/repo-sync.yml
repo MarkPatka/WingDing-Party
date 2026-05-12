@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -20,14 +17,11 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Prepare server directory
+      - name: Pull latest code on server
         run: |
           ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
-            mkdir -p /opt/wingding &&
-            rm -rf /opt/wingding/* 
+            cd /opt/wingding &&
+            git reset --hard &&
+            git clean -fd &&
+            git pull origin 84-ci-cd
           "
-
-      - name: Upload full repository
-        run: |
-          scp -r ./* \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/opt/wingding/
