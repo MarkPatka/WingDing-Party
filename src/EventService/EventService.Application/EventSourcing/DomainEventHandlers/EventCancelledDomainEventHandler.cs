@@ -1,4 +1,5 @@
 ﻿using EventService.Application.EventSourcing.IntegrationEvents.Outgoing;
+using EventService.Application.EventSourcing.Outbox;
 using EventService.Domain.EventAggregate.DomainEvents;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -8,14 +9,14 @@ namespace EventService.Application.EventSourcing.DomainEventHandlers;
 public sealed class EventCancelledDomainEventHandler
     : INotificationHandler<EventCancelled>
 {
-    private readonly IIntegrationEventPublisher _integrationEventPublisher;
+    private readonly IOutboxService _outbox;
     private readonly ILogger<EventCancelledDomainEventHandler> _logger;
 
     public EventCancelledDomainEventHandler(
-        IIntegrationEventPublisher integrationEventPublisher,
+        IOutboxService outbox,
         ILogger<EventCancelledDomainEventHandler> logger)
     {
-        _integrationEventPublisher = integrationEventPublisher;
+        _outbox = outbox;
         _logger = logger;
     }
 
@@ -28,12 +29,10 @@ public sealed class EventCancelledDomainEventHandler
             CancelledAt = notification.CancelledAt
         };
 
-        await _integrationEventPublisher.PublishAsync(
-            integrationEvent,
-            cancellationToken);
+        await _outbox.AddAsync(integrationEvent, cancellationToken);
 
         _logger.LogDebug(
-            "Published EventCancelled to Kafka for EventId {EventId}",
+            "Outbox: queued EventCancelled for EventId {EventId}",
             notification.EventId.Value);
     }
 }

@@ -43,6 +43,9 @@ public class UnitOfWork : IUnitOfWork
         {
             try
             {
+                // Dispatch domain events before saving for transactional consistency
+                await DispatchDomainEventsAsync(cancellationToken);
+
                 // transaction
                 // Save changes to database
                 var result = await _context.SaveChangesAsync(cancellationToken);
@@ -51,9 +54,6 @@ public class UnitOfWork : IUnitOfWork
                 // -> transactional outbox message
 
                 // -> commit transaction
-
-                // Dispatch domain events before saving for transactional consistency
-                await DispatchDomainEventsAsync(cancellationToken);
 
                 _logger.LogDebug("Saved {Count} entities to database", result);
 

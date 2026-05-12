@@ -1,4 +1,5 @@
 ﻿using EventService.Application.EventSourcing.IntegrationEvents.Outgoing;
+using EventService.Application.EventSourcing.Outbox;
 using EventService.Domain.EventAggregate.DomainEvents;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -8,14 +9,14 @@ namespace EventService.Application.EventSourcing.DomainEventHandlers;
 public sealed class EventPublishedDomainEventHandler
     : INotificationHandler<EventPublished>
 {
-    private readonly IIntegrationEventPublisher _integrationEventPublisher;
+    private readonly IOutboxService _outbox;
     private readonly ILogger<EventPublishedDomainEventHandler> _logger;
 
     public EventPublishedDomainEventHandler(
-        IIntegrationEventPublisher integrationEventPublisher,
+        IOutboxService outbox,
         ILogger<EventPublishedDomainEventHandler> logger)
     {
-        _integrationEventPublisher = integrationEventPublisher;
+        _outbox = outbox;
         _logger = logger;
     }
 
@@ -28,12 +29,10 @@ public sealed class EventPublishedDomainEventHandler
             PublishedAt = notification.OccurredAt
         };
 
-        await _integrationEventPublisher.PublishAsync(
-            integrationEvent,
-            cancellationToken);
+        await _outbox.AddAsync(integrationEvent, cancellationToken);
 
         _logger.LogDebug(
-            "Published EventPublished to Kafka for EventId {EventId}",
+            "Outbox: queued EventPublished for EventId {EventId}",
             notification.EventId.Value);
     }
 }

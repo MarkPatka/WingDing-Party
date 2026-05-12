@@ -1,4 +1,5 @@
 ﻿using EventService.Application.EventSourcing.IntegrationEvents.Outgoing;
+using EventService.Application.EventSourcing.Outbox;
 using EventService.Domain.EventAggregate.DomainEvents;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -8,14 +9,14 @@ namespace EventService.Application.EventSourcing.DomainEventHandlers;
 public sealed class EventDeletedDomainEventHandler
     : INotificationHandler<EventDeleted>
 {
-    private readonly IIntegrationEventPublisher _integrationEventPublisher;
+    private readonly IOutboxService _outbox;
     private readonly ILogger<EventDeletedDomainEventHandler> _logger;
 
     public EventDeletedDomainEventHandler(
-        IIntegrationEventPublisher integrationEventPublisher,
+        IOutboxService outbox,
         ILogger<EventDeletedDomainEventHandler> logger)
     {
-        _integrationEventPublisher = integrationEventPublisher;
+        _outbox = outbox;
         _logger = logger;
     }
 
@@ -28,12 +29,10 @@ public sealed class EventDeletedDomainEventHandler
             DeletedAt = notification.DeletedAt
         };
 
-        await _integrationEventPublisher.PublishAsync(
-            integrationEvent,
-            cancellationToken);
+        await _outbox.AddAsync(integrationEvent, cancellationToken);
 
         _logger.LogDebug(
-            "Published EventDeleted to Kafka for EventId {EventId}",
+            "Outbox: queued EventDeleted for EventId {EventId}",
             notification.EventId.Value);
     }
 }

@@ -17,10 +17,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />    
-    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.Extensions.Options" />    
+    <PackageReference Include="Microsoft.Extensions.Resilience" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="System.Configuration.ConfigurationManager" />
-    <PackageReference Include="Polly" />
   </ItemGroup>
 
   <ItemGroup>
