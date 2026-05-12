@@ -6,7 +6,6 @@ namespace UserService.Application.UserProfileManagement.Command.CreateUserProfil
 public record CreateUserProfileCommand(
     string DisplayName,
     string Bio,
-    Uri? AvatarUri,
     IReadOnlyList<string> Interests,
     DateTime? BirthDate) 
     : IRequest<CreateUserProfileResult>;

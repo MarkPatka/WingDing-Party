@@ -8,7 +8,6 @@ public record UpdateUserProfileCommand(
     Guid Id,
     string DisplayName,
     string Bio,
-    Uri? AvatarUri,
     IReadOnlyList<string> Interests,
     DateTime? BirthDate) 
     : IRequest<UpdateUserProfileResult>;
