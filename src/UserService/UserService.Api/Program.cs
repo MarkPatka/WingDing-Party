@@ -26,8 +26,7 @@ var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
-    //TODO разобраться с тем, что падают миграции
+    
     app.ApplyMigrations();
     
     app.UseHttpsRedirection();
