@@ -8,12 +8,11 @@ on:
       - completed
 
   workflow_dispatch:
-  push:
-    branches: [ 84-ci-cd ]
 
 jobs:
   deploy-postgres:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Setup SSH
@@ -30,7 +29,7 @@ jobs:
             docker compose pull postgres &&
             POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
             POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
-            docker compose up -d postgres
+            docker compose up -d postgres &&
           
             PGADMIN_DEFAULT_EMAIL='${{ secrets.PGADMIN_DEFAULT_EMAIL }}' \
             PGADMIN_DEFAULT_PASSWORD='${{ secrets.PGADMIN_DEFAULT_PASSWORD }}' \

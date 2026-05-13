@@ -5,14 +5,12 @@ on:
     workflows: ["Deploy Postgres"]
     types:
       - completed
-
   workflow_dispatch:
-  push:
-    branches: [84-ci-cd]
 
 jobs:
   deploy-club-service:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Setup SSH
@@ -26,8 +24,6 @@ jobs:
         run: |
           ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
             cd /opt/wingding &&
-
-            # поднимаем club-service с секретами
             POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
             POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
             POSTGRES_HOST='${{ secrets.POSTGRES_HOST }}' \
