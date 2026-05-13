@@ -20,6 +20,11 @@ jobs:
     uses: ./.github/workflows/deploy-kafka.yml
     secrets: inherit
 
+  deploy-minio:
+    needs: sync
+    uses: ./.github/workflows/deploy-minio.yml
+    secrets: inherit
+
   deploy-club-service:
     needs: [deploy-postgres, deploy-kafka]
     uses: ./.github/workflows/deploy-club-service.yml
