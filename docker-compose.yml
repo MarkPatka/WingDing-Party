@@ -8,18 +8,18 @@ services:
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
-      - ASPNETCORE_URLS=http://+:5100
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
+      - ASPNETCORE_URLS=${USER_ASPNETCORE_URLS:-http://+:5100}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
       - POSTGRES_DB=${USER_POSTGRES_DB:-userdb}
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - CONNECTION_STRING=Host=postgres;Port=5432;Database=${USER_POSTGRES_DB:-userdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
-      - FILESTORAGE__ENDPOINT=minio:9000
-      - FILESTORAGE__ACCESSKEY=minio
-      - FILESTORAGE__SECRETKEY="minio1234"
-      - FILESTORAGE__AVATARBUCKET="avatars"
-      - FILESTORAGE__WITHSSL="false"
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${USER_POSTGRES_DB:-userdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - FILESTORAGE__ENDPOINT=${MINIO_HOST:-minio}:${MINIO_PORT:-9000}
+      - FILESTORAGE__ACCESSKEY=${MINIO_LOGIN:-minio}
+      - FILESTORAGE__SECRETKEY=${MINIO_PASSWORD:-minio1234}
+      - FILESTORAGE__AVATARBUCKET=${USER_AVATARS_BUCKET:-avatars}
+      - FILESTORAGE__WITHSSL=${MINIO_WITH_SSL:-false}
     ports:
       - "${USER_API_PORT:-5100}:5100"
     depends_on:
@@ -41,13 +41,13 @@ services:
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
-      - ASPNETCORE_URLS=http://+:5200
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
+      - ASPNETCORE_URLS=${AUTH_ASPNETCORE_URLS:-http://+:5200}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
       - POSTGRES_DB=${AUTH_POSTGRES_DB:-authdb}
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - CONNECTION_STRING=Host=postgres;Port=5432;Database=${AUTH_POSTGRES_DB:-authdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${AUTH_POSTGRES_DB:-authdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
     ports:
       - "${AUTH_API_PORT:-5200}:5200"
     depends_on:
