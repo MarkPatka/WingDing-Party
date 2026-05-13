@@ -23,7 +23,7 @@ public static class DependencyInjection
     private static IServiceCollection AddConfiguration(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        LoadEnvironmentVariables();
+        //LoadEnvironmentVariables();
 
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -59,7 +59,7 @@ public static class DependencyInjection
             .ValidateOnStart();
 
         services.AddOptions<UserDatabaseOptions>()
-            .Validate(x => !string.IsNullOrEmpty(x.DB_CONNECTION_STRING), "Connection string is required")
+            .Validate(x => !string.IsNullOrEmpty(x.CONNECTION_STRING), "Connection string is required")
             .ValidateOnStart();
 
         return services;
