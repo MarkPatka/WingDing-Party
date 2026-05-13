@@ -24,3 +24,8 @@ jobs:
     needs: [deploy-postgres, deploy-kafka]
     uses: ./.github/workflows/deploy-club-service.yml
     secrets: inherit
+
+  deploy-event-service:
+    needs: [deploy-postgres, deploy-kafka]
+    uses: ./.github/workflows/deploy-event-service.yml
+    secrets: inherit

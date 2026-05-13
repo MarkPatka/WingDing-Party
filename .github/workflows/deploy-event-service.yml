@@ -1,0 +1,30 @@
+name: Deploy Event Service
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy Event Service
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+            cd /opt/wingding &&
+            POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
+            POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
+            POSTGRES_HOST='${{ secrets.POSTGRES_HOST }}' \
+            POSTGRES_PORT='${{ secrets.POSTGRES_PORT }}' \
+            ASPNETCORE_ENVIRONMENT='${{ secrets.ASPNETCORE_ENVIRONMENT }}' \
+            ASPNETCORE_URLS='${{ secrets.EVENT_ASPNETCORE_URLS }}' \
+            EVENT_API_PORT='${{ secrets.EVENT_API_PORT }}' \
+            docker compose up -d --build event-service
+          "
