@@ -3,13 +3,7 @@
     "http": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": "Host=localhost; Database=userdb; Username=postgres; Password=postgres;",
-        "FILESTORAGE__ENDPOINT": "localhost:9000",
-        "FILESTORAGE__ACCESSKEY": "minio",
-        "FILESTORAGE__SECRETKEY": "minio1234",
-        "FILESTORAGE__AVATARBUCKET": "avatars",
-        "FILESTORAGE__WITHSSL": "false"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true
     },
