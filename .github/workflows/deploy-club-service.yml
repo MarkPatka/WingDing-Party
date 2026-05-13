@@ -1,10 +1,7 @@
 name: Deploy Club Service
 
 on:
-  workflow_run:
-    workflows: ["Deploy Postgres"]
-    types:
-      - completed
+  workflow_call:
   workflow_dispatch:
 
 jobs:

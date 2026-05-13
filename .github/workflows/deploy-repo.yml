@@ -1,10 +1,11 @@
 name: Sync Repository to Server
 
 on:
-  workflow_dispatch:
   push:
     branches: [84-ci-cd]
-
+  workflow_dispatch:
+  workflow_call:
+  
 jobs:
   sync:
     runs-on: ubuntu-latest

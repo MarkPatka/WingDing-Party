@@ -1,12 +1,7 @@
 name: Deploy Postgres
 
 on:
-  
-  workflow_run:
-    workflows: [ "Sync Repository to Server" ]
-    types:
-      - completed
-
+  workflow_call:
   workflow_dispatch:
 
 jobs:

@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches: [84-ci-cd]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    uses: ./.github/workflows/deploy-repo.yml
+    secrets: inherit
+
+  deploy-postgres:
+    needs: sync
+    uses: ./.github/workflows/deploy-postgres.yml
+    secrets: inherit
+
+  deploy-club-service:
+    needs: deploy-postgres
+    uses: ./.github/workflows/deploy-club-service.yml
+    secrets: inherit
