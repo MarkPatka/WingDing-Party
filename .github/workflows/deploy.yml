@@ -25,6 +25,11 @@ jobs:
     uses: ./.github/workflows/deploy-minio.yml
     secrets: inherit
 
+  deploy-user-service:
+    needs: [deploy-postgres, deploy-minio, deploy-kafka]
+    uses: ./.github/workflows/deploy-user-service.yml
+    secrets: inherit
+
   deploy-club-service:
     needs: [deploy-postgres, deploy-kafka]
     uses: ./.github/workflows/deploy-club-service.yml
