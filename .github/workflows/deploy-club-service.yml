@@ -24,7 +24,7 @@ jobs:
             POSTGRES_HOST='${{ secrets.POSTGRES_HOST }}' \
             POSTGRES_PORT='${{ secrets.POSTGRES_PORT }}' \
             ASPNETCORE_ENVIRONMENT='${{ secrets.ASPNETCORE_ENVIRONMENT }}' \
-            ASPNETCORE_URLS='${{ secrets.ASPNETCORE_URLS }}' \
+            ASPNETCORE_URLS='${{ secrets.CLUB_ASPNETCORE_URLS }}' \
             CLUB_API_PORT='${{ secrets.CLUB_API_PORT }}' \
             docker compose up -d --build club-service
           "

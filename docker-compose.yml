@@ -67,13 +67,13 @@ services:
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
-      - ASPNETCORE_URLS=http://+:5300
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
+      - ASPNETCORE_URLS=${EVENT_ASPNETCORE_URLS:-http://+:5300}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
       - POSTGRES_DB=${EVENT_POSTGRES_DB:-eventdb}
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - CONNECTION_STRING=Host=postgres;Port=5432;Database=${EVENT_POSTGRES_DB:-eventdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${EVENT_POSTGRES_DB:-eventdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
     ports:
       - "${EVENT_API_PORT:-5300}:5300"
     depends_on:
@@ -94,12 +94,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
       - ASPNETCORE_URLS=${CLUB_ASPNETCORE_URLS:-http://+:5400}
-      - POSTGRES_HOST=${CLUB_POSTGRES_HOST:-postgres}
-      - POSTGRES_PORT=${CLUB_POSTGRES_PORT:-5432}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
       - POSTGRES_DB=${CLUB_POSTGRES_DB:-clubdb}
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - CONNECTION_STRING=Host=postgres;Port=5432;Database=${CLUB_POSTGRES_DB:-clubdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${CLUB_POSTGRES_DB:-clubdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
     ports:
       - "${CLUB_API_PORT:-5400}:5400"
     depends_on:
