@@ -5,10 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-club-service:
+  run:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
-
     steps:
       - name: Setup SSH
         run: |
