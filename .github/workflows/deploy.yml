@@ -15,7 +15,12 @@ jobs:
     uses: ./.github/workflows/deploy-postgres.yml
     secrets: inherit
 
+  deploy-kafka:
+    needs: sync
+    uses: ./.github/workflows/deploy-kafka.yml
+    secrets: inherit
+
   deploy-club-service:
-    needs: deploy-postgres
+    needs: [deploy-postgres, deploy-kafka]
     uses: ./.github/workflows/deploy-club-service.yml
     secrets: inherit

@@ -115,6 +115,9 @@ services:
       KAFKA_CLUSTERS_0_NAME: wingding-local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
       DYNAMIC_CONFIG_ENABLED: "true"
+      AUTH_TYPE: LOGIN_FORM
+      SPRING_SECURITY_USER_NAME: ${KAFKA_UI_USER:-admin}
+      SPRING_SECURITY_USER_PASSWORD: ${KAFKA_UI_PASSWORD:-admin}
     ports:
       - "${KAFKA_UI_PORT:-8090}:8080"
     depends_on:
