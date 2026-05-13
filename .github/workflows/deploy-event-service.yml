@@ -26,5 +26,6 @@ jobs:
             ASPNETCORE_ENVIRONMENT='${{ secrets.ASPNETCORE_ENVIRONMENT }}' \
             ASPNETCORE_URLS='${{ secrets.EVENT_ASPNETCORE_URLS }}' \
             EVENT_API_PORT='${{ secrets.EVENT_API_PORT }}' \
-            docker compose up -d --build event-service
+            docker compose up -d --build event-service &&
+            docker builder prune -af
           "
