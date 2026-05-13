@@ -18,37 +18,10 @@ public class UserProfileMappingConfiguration : IRegister
         config.NewConfig<GetUserProfileRequest, GetUserProfileQuery>();
         config.NewConfig<GetUserProfileResult, GetUserProfileResponse>();
 
-        config.NewConfig<CreateUserProfileRequest, CreateUserProfileCommand>()
-            .MapWith(src => new CreateUserProfileCommand(
-                src.DisplayName,
-                src.Bio,
-                src.Avatar,
-                src.Interests,
-                src.BirthDate));
-
-        config.NewConfig<CreateUserProfileResult, CreateUserProfileResponse>()
-            .MapWith(src => new CreateUserProfileResponse(
-                src.Id,
-                src.DisplayName,
-                src.Bio,
-                src.Interests,
-                src.BirthDate));
-
-        config.NewConfig<UpdateUserProfileRequest, UpdateUserProfileCommand>()
-            .MapWith(src => new UpdateUserProfileCommand(
-                src.Id,
-                src.DisplayName,
-                src.Bio,
-                src.AvatarUri,
-                src.Interests,
-                src.BirthDate));
-
-        config.NewConfig<UpdateUserProfileResult, UpdateUserProfileResponse>()
-            .MapWith(src => new UpdateUserProfileResponse(
-                src.DisplayName,
-                src.Bio,
-                src.Interests,
-                src.BirthDate));
+        config.NewConfig<CreateUserProfileRequest, CreateUserProfileCommand>();
+        config.NewConfig<CreateUserProfileResult, CreateUserProfileResponse>();
+        config.NewConfig<UpdateUserProfileRequest, UpdateUserProfileCommand>();
+        config.NewConfig<UpdateUserProfileResult, UpdateUserProfileResponse>();
 
 
         config.NewConfig<GetUserProfileInterestsRequest, GetUserProfileInterestsQuery>();
