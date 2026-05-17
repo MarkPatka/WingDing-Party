@@ -2,9 +2,10 @@ name: Build
 
 on:
   pull_request:
-    branches: [dev]
+    branches: [dev, main]
+
   push:
-    branches: [dev]
+    branches: [dev, main]
 
 jobs:
   build:
@@ -23,8 +24,8 @@ jobs:
 
       # Скачивает NuGet-зависимости
       - name: Restore dependencies
-        run: dotnet restore WingDing-Party.sln
+        run: dotnet restore WingDingParty.slnx
 
       # Собирает все проекты в Release-конфигурации
       - name: Build solution
-        run: dotnet build WingDing-Party.sln --no-restore --configuration Release
+        run: dotnet build WingDingParty.slnx --no-restore --configuration Release
