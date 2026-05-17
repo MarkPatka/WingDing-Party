@@ -17,10 +17,7 @@ Claude Code–специфичная конфигурация (скиллы, Kno
 
 ```powershell
 # Собрать весь solution
-dotnet build WingDing-Party.sln
-
-# Собрать один сервис
-dotnet build src/<ServiceName>/<ServiceName>.sln
+dotnet build WingDingParty.slnx
 
 # Запустить сервис локально
 dotnet run --project src/<ServiceName>/<ServiceName>.Api

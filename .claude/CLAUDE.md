@@ -14,48 +14,36 @@ When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` 
 
 ## Knowledge Graph
 
-### ВАЖНО: расположение файлов graphify
+### Расположение
 
-**Все файлы graphify хранятся в `.claude/graphify-out/`, а НЕ в `graphify-out/` в корне репозитория.**
+Граф знаний хранится в `.claude/graphify-out/`. В корне репозитория есть **симлинк** `graphify-out/` → `.claude/graphify-out/`, поэтому graphify-скилл пишет туда же по умолчанию. Никакая ручная синхронизация между `graphify-out/` и `.claude/graphify-out/` **не нужна** — это один и тот же каталог.
 
-Graphify-скилл пишет в `graphify-out/` (относительно CWD) по умолчанию — это не то место. В конце каждого запуска нужно переместить результаты в `.claude/graphify-out/`.
-
-#### Перед запуском любого graphify-шага:
-
-1. Убедись, что существующий граф и кэш взяты из `.claude/graphify-out/`, а не из корневого `graphify-out/`
-2. Если существует `.claude/graphify-out/manifest.json`, но нет `graphify-out/manifest.json` — скопируй манифест перед запуском `detect_incremental`, иначе он посчитает все файлы новыми:
-
-```bash
-cp -r .claude/graphify-out/. graphify-out/
+```
+.claude/graphify-out/
+  graph.json          # сырые данные графа
+  graph.html          # интерактивная визуализация
+  GRAPH_REPORT.md     # отчёт с god nodes, community-разбиением, surprising connections
+  manifest.json       # mtime+hash каждого индексированного файла (для --update)
+  cache/semantic/     # кэш семантической экстракции (key = hash содержимого файла)
+  cost.json           # накопительный учёт токенов
 ```
 
-3. Семантический кэш: `.claude/graphify-out/cache/semantic/`
-4. AST кэш: `src/<ServiceName>/graphify-out/cache/ast/`
+### Один граф на весь репозиторий
 
-#### После завершения любого graphify-запуска:
+Per-service графов **нет**. Хранится один общий граф; границы сервисов проходят естественным образом через community-разбиение. При запуске `/graphify src/<ServiceName> --update` инкрементально переэкстрагируются только изменённые файлы в указанной поддиректории.
 
-```bash
-cp graphify-out/graph.json .claude/graphify-out/graph.json
-cp graphify-out/graph.html .claude/graphify-out/graph.html
-cp graphify-out/GRAPH_REPORT.md .claude/graphify-out/GRAPH_REPORT.md
-cp graphify-out/manifest.json .claude/graphify-out/manifest.json
-cp graphify-out/cost.json .claude/graphify-out/cost.json
-cp -n graphify-out/cache/semantic/* .claude/graphify-out/cache/semantic/ 2>/dev/null
-rm -rf graphify-out/
-```
+### Игнорируемые файлы
+
+`.graphifyignore` в корне репозитория исключает .NET build-артефакты (`obj/`, `bin/`, `*.g.cs`, `*.Designer.cs`, `*.AssemblyInfo.cs`, `*ModelSnapshot.cs`, `*.csproj.FileListAbsolute.txt`, `GlobalUsings.cs`). При добавлении новых типов автогена дополни этот файл — иначе `dotnet build` будет триггерить лишнюю переэкстракцию и тратить токены.
 
 ### Использование
 
-Каждый сервис может иметь граф знаний. Граф строится командой `/graphify src/<ServiceName>` и сохраняется в `.claude/graphify-out/`. **Один граф за раз** — при смене сервиса нужно пересобрать.
-
-Перед работой с любым сервисом проверь, актуален ли граф:
+Перед работой со знакомым сервисом проверь актуальность графа:
 
 ```powershell
-Get-Content .claude/graphify-out/manifest.json | Select-String "source"
+Get-Date (Get-Item .claude/graphify-out/graph.json).LastWriteTime
 ```
 
-Если граф покрывает нужный сервис — используй его для навигации вместо чтения исходников. Обращайся к исходникам только для деталей реализации, которых нет в графе.
+Если граф покрывает нужный сервис — используй `graph.json` и `GRAPH_REPORT.md` для навигации вместо чтения исходников. Обращайся к исходникам только за деталями, которых нет в графе.
 
-**Не читай `.claude/graphify-out/obsidian/`** — это vault для визуализации в Obsidian, не несёт полезной информации и только тратит токены. Используй `graph.json` и `GRAPH_REPORT.md`.
-
-Инструкции по использованию графа для конкретного сервиса — в `src/<ServiceName>/CLAUDE.md`.
+**Не читай `.claude/graphify-out/obsidian/`** — vault для Obsidian, токены тратит, полезной информации не несёт. Используй `graph.json` и `GRAPH_REPORT.md`.

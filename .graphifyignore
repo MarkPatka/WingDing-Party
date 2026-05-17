@@ -1,0 +1,16 @@
+# .NET build artifacts — regenerated on every `dotnet build`, no value in graph
+obj/
+bin/
+
+# Auto-generated source files
+*.g.cs
+*.Designer.cs
+*.AssemblyInfo.cs
+GlobalUsings.cs
+
+# MSBuild file lists
+*.csproj.FileListAbsolute.txt
+
+# EF Core auto-generated model snapshots
+# (the Migration *.Up/*.Down classes are real source — keep them)
+*ModelSnapshot.cs
