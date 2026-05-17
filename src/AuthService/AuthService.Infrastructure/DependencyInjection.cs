@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using WingDing.Auth.Shared;
+using WingDing.Auth.Shared.Services;
 using AuthenticationOptions = AuthService.Infrastructure.Common.Configuration.AuthenticationOptions;
 using AuthenticationService = AuthService.Infrastructure.Services.AuthenticationService;
 using IAuthenticationService = AuthService.Application.Services.IAuthenticationService;
@@ -27,9 +29,16 @@ public static class DependencyInjection
             .RegisterDbContext()
             .RegisterRedis()
             .AddAuthentication(configuration)
-            .AddHttpClients()
-            .AddAuthorization();
-        
+            .AddAuthorization()
+            .AddHttpClients();
+
+        return services;
+    }
+    private static IServiceCollection AddAuthorization(this IServiceCollection services)
+    {
+        services.AddScoped<AuthorizationService>();
+        services.AddScoped<IPermissionService, LocalPermissionService>();
+        services.AddWingDingAuthCore();
         return services;
     }
 
@@ -74,16 +83,6 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddAuthorization(this IServiceCollection services)
-    {
-        services.AddScoped<AuthorizationService>();
-
-        services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
-        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
-        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
-        return services;
-    }
-
     private static IServiceCollection RegisterRedis(this IServiceCollection services)
     {
         services.AddStackExchangeRedisCache(options =>
@@ -116,7 +115,8 @@ public static class DependencyInjection
     public static IApplicationBuilder ApplyMigrations(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+        var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<AuthDbContext>>();
+        using AuthDbContext context = factory.CreateDbContext();
         context.Database.Migrate();
         return app;
     }

@@ -19,7 +19,10 @@ public static class DependencyInjection
             .AddOpenApi()
             .AddSwaggerGen()
             .AddConfiguration(configuration)
-            .AddErrorHandler();
+            .AddErrorHandler()
+            .AddGrpc()
+            ;
+
         return services;
     }
 
