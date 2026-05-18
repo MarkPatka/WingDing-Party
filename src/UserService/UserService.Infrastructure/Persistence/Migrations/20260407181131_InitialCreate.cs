@@ -20,7 +20,7 @@ namespace UserService.Infrastructure.Persistence.Migrations
                     Type = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     Payload = table.Column<string>(type: "text", nullable: false),
                     ProcessedOnUtc = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Error = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    Error = table.Column<string>(type: "text", nullable: true),
                     Retries = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
