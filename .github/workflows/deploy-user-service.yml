@@ -29,5 +29,6 @@ jobs:
             MINIO_LOGIN='${{ secrets.MINIO_LOGIN }}' \
             MINIO_PASSWORD='${{ secrets.MINIO_PASSWORD }}' \
             docker compose up -d --build user-service &&
-            docker builder prune -af
+            docker builder prune -af &&
+            docker image prune -f
           "

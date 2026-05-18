@@ -27,5 +27,6 @@ jobs:
             ASPNETCORE_URLS='${{ secrets.CLUB_ASPNETCORE_URLS }}' \
             CLUB_API_PORT='${{ secrets.CLUB_API_PORT }}' \
             docker compose up -d --build club-service &&
-            docker builder prune -af
+            docker builder prune -af &&
+            docker image prune -f
           "
