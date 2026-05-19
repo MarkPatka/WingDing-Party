@@ -49,10 +49,27 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${AUTH_POSTGRES_DB:-authdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - KEYCLOAK__BASEURL=${KEYCLOAK_BASE_URL:-http://keycloak:18080}
+      - KEYCLOAK__ADMINURL=${KEYCLOAK_ADMIN_URL:-http://keycloak:18080/admin/realms/wingding-party/}
+      - KEYCLOAK__TOKENURL=${KEYCLOAK_TOKEN_URL:-http://keycloak:18080/realms/wingding-party/protocol/openid-connect/token}
+      - KEYCLOAK__ADMINCLIENTID=${KEYCLOAK_ADMIN_CLIENT_ID:-wingding-admin-client}
+      - KEYCLOAK__ADMINCLIENTSECRET=${KEYCLOAK_ADMIN_CLIENT_SECRET}
+      - KEYCLOAK__AUTHCLIENTID=${KEYCLOAK_AUTH_CLIENT_ID:-wingding-public-client}
+      - KEYCLOAK__AUTHCLIENTSECRET=${KEYCLOAK_AUTH_CLIENT_SECRET:-}
+      - AUTHENTICATION__AUDIENCE=${AUTH_AUDIENCE:-account}
+      - AUTHENTICATION__ISSUER=${AUTH_ISSUER:-http://keycloak:18080/realms/wingding-party}
+      - AUTHENTICATION__METADATAURL=${AUTH_METADATA_URL:-http://keycloak:18080/realms/wingding-party/.well-known/openid-configuration}
+      - AUTHENTICATION__REQUIREHTTPSMETADATA=${AUTH_REQUIRE_HTTPS_METADATA:-false}
+      - KAFKAOPTIONS__auth__BOOTSTRAPSERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:29092}
     ports:
       - "${AUTH_API_PORT:-5200}:5200"
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - wingding_network

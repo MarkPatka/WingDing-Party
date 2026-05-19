@@ -25,6 +25,16 @@ jobs:
     uses: ./.github/workflows/deploy-minio.yml
     secrets: inherit
 
+  deploy-redis:
+    needs: sync
+    uses: ./.github/workflows/deploy-redis.yml
+    secrets: inherit
+
+  deploy-auth-service:
+    needs: [deploy-postgres, deploy-redis, deploy-kafka]
+    uses: ./.github/workflows/deploy-auth-service.yml
+    secrets: inherit
+
   deploy-user-service:
     needs: [deploy-postgres, deploy-minio, deploy-kafka]
     uses: ./.github/workflows/deploy-user-service.yml
