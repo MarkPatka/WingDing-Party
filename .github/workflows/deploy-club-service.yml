@@ -26,6 +26,7 @@ jobs:
             ASPNETCORE_ENVIRONMENT='${{ secrets.ASPNETCORE_ENVIRONMENT }}' \
             ASPNETCORE_URLS='${{ secrets.CLUB_ASPNETCORE_URLS }}' \
             CLUB_API_PORT='${{ secrets.CLUB_API_PORT }}' \
+            KAFKA_BOOTSTRAP_SERVERS='${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}' \
             docker compose up -d --build club-service &&
             docker builder prune -af || true &&
             docker image prune -f || true

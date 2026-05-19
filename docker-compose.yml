@@ -101,6 +101,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${CLUB_POSTGRES_DB:-clubdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - KAFKAOPTIONS__club__BOOTSTRAPSERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:29092}
     ports:
       - "${CLUB_API_PORT:-5400}:5400"
     depends_on:
