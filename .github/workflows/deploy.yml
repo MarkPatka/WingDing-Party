@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [84-ci-cd]
+    branches: [dev]
   workflow_dispatch:
 
 jobs:
