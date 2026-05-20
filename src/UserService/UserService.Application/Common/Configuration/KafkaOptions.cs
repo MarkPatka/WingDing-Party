@@ -4,12 +4,12 @@ public class KafkaOptions
 {
     public const string SectionName = "KafkaOptions";
     public string BootstrapServers { get; set; } = "localhost:9092";
-    public string ProduceEventsTopic { get; set; } = "event-service-events";
-    public string DeadLetterTopic { get; set; } = "event-service-events-dlq";
+    public string ProduceEventsTopic { get; set; } = "user-service-events";
+    public string DeadLetterTopic { get; set; } = "user-service-events-dlq";
     public KafkaAcks Acks { get; set; } = KafkaAcks.All;
     public bool EnableIdempotence { get; set; } = true;
 
-    public string ConsumerGroupId { get; set; } = "event-service-consumer";
+    public string ConsumerGroupId { get; set; } = "user-service-consumer";
     public string[] ConsumeEventsTopics { get; set; } = [];
     public string AutoOffsetReset { get; set; } = "Earliest";
 

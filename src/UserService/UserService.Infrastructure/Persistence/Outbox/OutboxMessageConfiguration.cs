@@ -26,8 +26,7 @@ namespace UserService.Infrastructure.Persistence.Outbox
 
             builder.Property(x => x.ProcessedOnUtc);
 
-            builder.Property(x => x.Error)
-                .HasMaxLength(1000); // можно ограничить длину ошибки
+            builder.Property(x => x.Error);
 
             builder.Property(x => x.Retries)
                 .IsRequired()

@@ -35,4 +35,13 @@ RUN dotnet publish "UserService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl unzip \
+    && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg \
+    && apt-get remove -y curl unzip \
+    && rm -rf /var/lib/apt/lists/*
+USER $APP_UID
+
 ENTRYPOINT ["dotnet", "UserService.Api.dll"]
