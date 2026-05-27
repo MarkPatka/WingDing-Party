@@ -17,6 +17,7 @@ using EventService.Contracts.Events.Responses;
 
 namespace EventService.Api.Controllers;
 
+[ApiController]
 [Route("[controller]/[action]")]
 public class EventsController : ControllerBase
 {
