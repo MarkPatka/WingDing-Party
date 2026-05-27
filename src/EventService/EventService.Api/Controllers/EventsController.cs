@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using EventService.Application.EventManagement.Command.CreateEventCommand;
 using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
-using EventService.Contracts.Events;
 using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
 using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
@@ -13,6 +12,8 @@ using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartD
 using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
 using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
 using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
+using EventService.Contracts.Events.Requests;
+using EventService.Contracts.Events.Responses;
 
 namespace EventService.Api.Controllers;
 

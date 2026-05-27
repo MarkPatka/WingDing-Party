@@ -1,19 +1,21 @@
-﻿using Mapster;
-using EventService.Application.EventManagement.Command.CreateEventCommand;
-using EventService.Application.EventManagement.Common;
-using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
-using EventService.Contracts.Events;
-using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
-using EventService.Domain.EventAggregate.ValueObjects;
-using EventService.Contracts.DTO;
-using EventService.Application.EventManagement.Command.UpdateEventCommand;
-using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
+﻿using EventService.Application.EventManagement.Command.CreateEventCommand;
+using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
 using EventService.Application.EventManagement.Command.RegisterParticipant;
+using EventService.Application.EventManagement.Command.UpdateEventCommand;
+using EventService.Application.EventManagement.Common;
+using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
+using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
 using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
-using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
-using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
 using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
+using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
+using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
+using EventService.Contracts.DTO;
+using EventService.Contracts.Events.Requests;
+using EventService.Contracts.Events.Responses;
+using EventService.Domain.EventAggregate.ValueObjects;
+using Mapster;
+using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
 
 namespace EventService.Api.Mapping;
 
@@ -39,12 +41,12 @@ public class EventMappingConfiguration : IRegister
                 src.MaxParticipants,
                 src.OrganizerId,
                 src.Description,
-                MapLocation(src.Location)
+                src.Location.Adapt<Location>()
             ));
 
         config.NewConfig<CreateEventResult, CreateEventResponse>();
 
-        config.NewConfig<GetAllUserEventsRequest, GetAllUserEventsQuery>();
+        config.NewConfig<GetAllUserEventsRequest, GetAllUserEventsQuery>(); 
 
         config.NewConfig<GetAllUserEventsResult, GetAllUserEventsResponse>();
 
@@ -57,7 +59,7 @@ public class EventMappingConfiguration : IRegister
                 EventId.Create(src.EventId),
                 src.Title,
                 src.Description,
-                MapLocation(src.Location),
+                src.Location.Adapt<Location>(),
                 src.StartDate,
                 src.EndDate,
                 src.MaxParticipants
@@ -90,7 +92,7 @@ public class EventMappingConfiguration : IRegister
 
         config.NewConfig<CreateEventTypeResult, CreateEventTypeResponse>();
 
-        config.NewConfig<GetAllEventTypesRequest, GetAllUserEventsQuery>();
+        config.NewConfig<GetAllEventTypesRequest, GetAllEventTypesQuery>();
 
         config.NewConfig<GetAllEventTypesResult, GetAllEventTypesResponse>();
 
@@ -98,12 +100,4 @@ public class EventMappingConfiguration : IRegister
 
         config.NewConfig<GetEventParticipantsResult, GetEventParticipantsResponse>();
     }
-    private static Location? MapLocation(LocationFullDto? dto) =>
-            dto == null ? null : Location.Create(
-                dto.Address,
-                dto.City,
-                dto.Country,
-                dto.Latitude,
-                dto.Longitude
-            );
 }

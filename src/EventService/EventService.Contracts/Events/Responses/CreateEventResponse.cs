@@ -1,4 +1,4 @@
-﻿namespace EventService.Contracts.Events;
+﻿namespace EventService.Contracts.Events.Responses;
 
 public sealed record CreateEventResponse(
     Guid EventId,
