@@ -1,64 +1,44 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace EventService.Application.Common.Behaviors;
 
-public class ValidationBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : notnull, IRequest<TResponse>
 {
-    private readonly IValidator<TRequest>? _validator;
+    private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
 
     public ValidationBehavior(
-        ILogger<ValidationBehavior<TRequest, TResponse>> logger,
-        IValidator<TRequest>? validator = null)
-    {
-        _logger = logger;
-        _validator = validator;
-    }
+        IEnumerable<IValidator<TRequest>> validators,
+        ILogger<ValidationBehavior<TRequest, TResponse>> logger) =>
+        (_validators, _logger) = (validators, logger);
 
     public async Task<TResponse> Handle(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (_validator is null)
+        if (!_validators.Any())
             return await next(cancellationToken);
 
-        var validationResult = await _validator
-            .ValidateAsync(request, cancellationToken);
+        ValidationContext<TRequest> context = new(request);
 
-        if (validationResult.IsValid)
+        FluentValidation.Results.ValidationResult[] results = await Task.WhenAll(
+            _validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+
+        List<FluentValidation.Results.ValidationFailure> failures = results
+            .SelectMany(r => r.Errors)
+            .Where(f => f is not null)
+            .ToList();
+
+        if (failures.Count == 0)
             return await next(cancellationToken);
 
-        var context = new ValidationContext<TRequest>(request);
+        _logger.LogDebug("Validation failed for {RequestType}: {ErrorCount} error(s)",
+            typeof(TRequest).Name, failures.Count);
 
-        var errors = _validator.Validate(context).Errors
-            .GroupBy(
-                x => x.PropertyName,
-                x => x.ErrorMessage,
-                (propertyName, errorMessages) => new
-                {
-                    Key = propertyName,
-                    Values = errorMessages.Distinct().ToArray()
-                })
-            .ToDictionary(x => x.Key, x => x.Values);
-
-        var errorDetails = string.Join("; ",
-            errors.Select(kvp => $"[{kvp.Key}: {string.Join(", ", kvp.Value)}]"));
-
-        _logger.LogWarning("Validation failed for {RequestType}: {Errors}",
-            typeof(TRequest).Name, errorDetails);
-
-        if (errors.Count != 0)
-        {
-            throw new Errors.ValidationError(
-                $"Validation failed: {errorDetails}",
-                System.Net.HttpStatusCode.BadRequest,
-                errors);
-        }
-        return await next(cancellationToken);
+        throw new Errors.ValidationError("Validation failed", failures);
     }
 }

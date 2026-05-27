@@ -1,4 +1,4 @@
-﻿using MapsterMapper;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using EventService.Application.EventManagement.Command.CreateEventCommand;
@@ -12,6 +12,7 @@ using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartD
 using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
 using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
 using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
+using EventService.Application.EventManagement.Common;
 using EventService.Contracts.Events.Requests;
 using EventService.Contracts.Events.Responses;
 
@@ -19,150 +20,121 @@ namespace EventService.Api.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class EventsController : ControllerBase
+public class EventsController(ISender sender, IMapper mapper) : ControllerBase
 {
-    private readonly ISender _sender;
-    private readonly IMapper _mapper;
-
-    public EventsController(ISender sender, IMapper mapper)
-    {
-        _sender = sender;
-        _mapper = mapper;
-    }
-
     [HttpPost(Name = nameof(CreateEventType))]
-    public async Task<IActionResult> CreateEventType(CreateEventTypeRequest request)
+    public async Task<IActionResult> CreateEventType([FromBody] CreateEventTypeRequest request)
     {
-        var command = _mapper.Map<CreateEventTypeCommand>(request);
-
-        var result = await _sender.Send(command);
-
-        var response = _mapper.Map<CreateEventTypeResponse>(result);
-
+        CreateEventTypeCommand command = mapper.Map<CreateEventTypeCommand>(request);
+        CreateEventTypeResult result = await sender.Send(command);
+        CreateEventTypeResponse response = mapper.Map<CreateEventTypeResponse>(result);
         return Ok(response);
     }
 
     [HttpGet(Name = nameof(GetAllEventTypes))]
-    public async Task<IActionResult> GetAllEventTypes(GetAllEventTypesRequest request)
+    public async Task<IActionResult> GetAllEventTypes([FromQuery] GetAllEventTypesRequest request)
     {
-        var query = _mapper.Map<GetAllEventTypesQuery>(request);
-
-        var result = await _sender.Send(query);
-
-        var response = _mapper.Map<GetAllEventTypesResponse>(result);
-
+        GetAllEventTypesQuery query = mapper.Map<GetAllEventTypesQuery>(request);
+        GetAllEventTypesResult result = await sender.Send(query);
+        GetAllEventTypesResponse response = mapper.Map<GetAllEventTypesResponse>(result);
         return Ok(response);
     }
 
     [HttpPost(Name = nameof(CreateEvent))]
-    public async Task<IActionResult> CreateEvent(CreateEventRequest request)
+    public async Task<IActionResult> CreateEvent([FromBody] CreateEventRequest request)
     {
-        var command = _mapper.Map<CreateEventCommand>(request);
+        CreateEventCommand command = mapper.Map<CreateEventCommand>(request);
+        CreateEventResult result = await sender.Send(command);
+        CreateEventResponse response = mapper.Map<CreateEventResponse>(result);
+        return Created(string.Empty, response);
+    }
 
-        var result = await _sender.Send(command);
+    [HttpPut("{eventId}", Name = nameof(UpdateEvent))]
+    public async Task<IActionResult> UpdateEvent([FromRoute] Guid eventId, [FromBody] UpdateEventRequest request)
+    {
+        if (eventId != request.EventId)
+            return BadRequest("Event ID in URL does not match ID in request body.");
 
-        var response = _mapper.Map<CreateEventResponse>(result);
-
+        UpdateEventCommand command = mapper.Map<UpdateEventCommand>(request);
+        UpdateEventResult result = await sender.Send(command);
+        UpdateEventResponse response = mapper.Map<UpdateEventResponse>(result);
         return Ok(response);
     }
 
-    [HttpPut("{EventId}", Name = nameof(UpdateEvent))]
-    public async Task<IActionResult> UpdateEvent(UpdateEventRequest request)
+    [HttpDelete("{eventId}", Name = nameof(DeleteEvent))]
+    public async Task<IActionResult> DeleteEvent([FromRoute] Guid eventId)
     {
-        var command = _mapper.Map<UpdateEventCommand>(request);
-
-        var result = await _sender.Send(command);
-
-        var response = _mapper.Map<UpdateEventResponse>(result);
-
-        return Ok(response);
-    }
-
-    [HttpDelete("{EventId}", Name = nameof(DeleteEvent))]
-    public async Task<IActionResult> DeleteEvent(DeleteEventRequest request)
-    {
-        var command = _mapper.Map<DeleteEventCommand>(request);
-
-        var result = await _sender.Send(command);
-
-        var response = _mapper.Map<DeleteEventResponse>(result);
-
-        return Ok(response);
+        DeleteEventCommand command = mapper.Map<DeleteEventCommand>(new DeleteEventRequest(eventId));
+        await sender.Send(command);
+        return NoContent();
     }
 
     [HttpPost(Name = nameof(RegisterParticipantOnEvent))]
-    public async Task<IActionResult> RegisterParticipantOnEvent(RegisterParticipantRequest request)
+    public async Task<IActionResult> RegisterParticipantOnEvent([FromBody] RegisterParticipantRequest request)
     {
-        var command = _mapper.Map<RegisterParticipantCommand>(request);
+        RegisterParticipantCommand command = mapper.Map<RegisterParticipantCommand>(request);
+        RegisterParticipantResult result = await sender.Send(command);
+        RegisterParticipantResponse response = mapper.Map<RegisterParticipantResponse>(result);
+        return Created(string.Empty, response);
+    }
 
-        var result = await _sender.Send(command);
-
-        var response = _mapper.Map<RegisterParticipantResponse>(result);
-
+    [HttpGet("{userId}", Name = nameof(GetAllUserEvents))]
+    public async Task<IActionResult> GetAllUserEvents(
+        [FromRoute] Guid userId,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20)
+    {
+        GetAllUserEventsQuery query = mapper.Map<GetAllUserEventsQuery>(
+            new GetAllUserEventsRequest(userId, pageNumber, pageSize));
+        GetAllUserEventsResult result = await sender.Send(query);
+        GetAllUserEventsResponse response = mapper.Map<GetAllUserEventsResponse>(result);
         return Ok(response);
     }
 
-
-    [HttpGet("{UserId}", Name = nameof(GetAllUserEvents))]
-    public async Task<IActionResult> GetAllUserEvents(GetAllUserEventsRequest request)
+    [HttpGet("{eventId}", Name = nameof(GetEventById))]
+    public async Task<IActionResult> GetEventById([FromRoute] Guid eventId)
     {
-        var query = _mapper.Map<GetAllUserEventsQuery>(request);
-
-        var result = await _sender.Send(query);
-
-        var response = _mapper.Map<GetAllUserEventsResponse>(result);
-
+        GetEventByIdQuery query = mapper.Map<GetEventByIdQuery>(new GetEventByIdRequest(eventId));
+        GetEventByIdResult result = await sender.Send(query);
+        GetEventByIdResponse response = mapper.Map<GetEventByIdResponse>(result);
         return Ok(response);
     }
 
-    [HttpGet("{EventId}", Name = nameof(GetEventById))]
-    public async Task<IActionResult> GetEventById(GetEventByIdRequest request)
-    {
-        var query = _mapper.Map<GetEventByIdQuery>(request);
-
-        var result = await _sender.Send(query);
-
-        var response = _mapper.Map<GetEventByIdResponse>(result);
-        
-        return Ok(response);
-    }
-
-    [HttpGet("{StartDate}", Name = nameof(GetTopRatedEventsByStartDateWithLimit))]
+    [HttpGet("{startDate}", Name = nameof(GetTopRatedEventsByStartDateWithLimit))]
     public async Task<IActionResult> GetTopRatedEventsByStartDateWithLimit(
-        GetTopRatedEventsByStartDateWithLimitRequest request)
+        [FromRoute] DateTime startDate,
+        [FromQuery] int limit = 10)
     {
-        var query = _mapper.Map<GetTopRatedEventsByStartDateWithLimitQuery>(request);
-
-        var result = await _sender.Send(query);
-
-        var response = _mapper.Map<GetTopRatedEventsByStartDateWithLimitResponse>(result);
-
+        GetTopRatedEventsByStartDateWithLimitQuery query = mapper.Map<GetTopRatedEventsByStartDateWithLimitQuery>(
+            new GetTopRatedEventsByStartDateWithLimitRequest(startDate, limit));
+        GetTopRatedEventsByStartDateWithLimitResult result = await sender.Send(query);
+        GetTopRatedEventsByStartDateWithLimitResponse response = mapper.Map<GetTopRatedEventsByStartDateWithLimitResponse>(result);
         return Ok(response);
     }
 
-    [HttpGet("{Text}", Name = nameof(GetEventsByTextAndFilters))]
+    [HttpGet("{text}", Name = nameof(GetEventsByTextAndFilters))]
     public async Task<IActionResult> GetEventsByTextAndFilters(
-        GetEventsByTextAndFiltersRequest request)
+        [FromRoute] string text,
+        [FromQuery] string? city,
+        [FromQuery] DateTime? dateFrom,
+        [FromQuery] DateTime? dateTo,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20)
     {
-        var query = _mapper.Map<GetEventsByTextAndFiltersQuery>(request);
-
-        var result = await _sender.Send(query);
-
-        var response = _mapper.Map<GetEventsByTextAndFiltersResponse>(result);
-
+        GetEventsByTextAndFiltersQuery query = mapper.Map<GetEventsByTextAndFiltersQuery>(
+            new GetEventsByTextAndFiltersRequest(text, city, dateFrom, dateTo, pageNumber, pageSize));
+        GetEventsByTextAndFiltersResult result = await sender.Send(query);
+        GetEventsByTextAndFiltersResponse response = mapper.Map<GetEventsByTextAndFiltersResponse>(result);
         return Ok(response);
     }
 
-    [HttpGet("{EventId}", Name = nameof(GetEventParticipants))]
-    public async Task<IActionResult> GetEventParticipants(
-        GetEventParticipantsRequest request)
+    [HttpGet("{eventId}", Name = nameof(GetEventParticipants))]
+    public async Task<IActionResult> GetEventParticipants([FromRoute] Guid eventId)
     {
-        var query = _mapper.Map<GetEventParticipantsQuery>(request);
-
-        var result = await _sender.Send(query);
-
-        var response = _mapper.Map<GetEventParticipantsResponse>(result);
-
+        GetEventParticipantsQuery query = mapper.Map<GetEventParticipantsQuery>(
+            new GetEventParticipantsRequest(eventId));
+        GetEventParticipantsResult result = await sender.Send(query);
+        GetEventParticipantsResponse response = mapper.Map<GetEventParticipantsResponse>(result);
         return Ok(response);
     }
 }

@@ -1,4 +1,4 @@
-﻿using EventService.Application.Common.Errors;
+using EventService.Application.Common.Errors;
 using EventService.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -17,56 +17,28 @@ internal sealed class GlobalExceptionHandler(
     {
         logger.LogError(
             exception,
-            $"Unhandled exception occurred. " +
-            $"Path: {httpContext.Request.Path}, " +
-            $"Method: {httpContext.Request.Method}, " +
-            $"User: {httpContext.User?.Identity?.Name ?? "Anonymous"}");
+            "Unhandled exception occurred. Path: {Path}, Method: {Method}, User: {User}",
+            httpContext.Request.Path,
+            httpContext.Request.Method,
+            httpContext.User?.Identity?.Name ?? "Anonymous");
 
-        var (statusCode, problemDetails) = exception switch
+        (int statusCode, string detail) = exception switch
         {
-            ValidationError validationError => (
-                StatusCodes.Status400BadRequest,
-                new ProblemDetails
-                {
-                    Title = "Validation Error",
-                    Status = StatusCodes.Status400BadRequest,
-                    Extensions = { { "errors", validationError.Errors } }
-                }),
-
             IServiceError serviceError => (
                 (int)serviceError.StatusCode,
-                new ProblemDetails
-                {
-                    Title = "Service Error",
-                    Detail = serviceError.ErrorMessage,
-                    Status = (int)serviceError.StatusCode
-                }),
+                serviceError.ErrorMessage),
 
             EntityNotFoundException entityNotFoundException => (
                 StatusCodes.Status404NotFound,
-                new ProblemDetails
-                {
-                    Title = "Entity not found",
-                    Status = StatusCodes.Status404NotFound,
-                    Extensions = { { "reason", entityNotFoundException.Message } }
-                }),
+                entityNotFoundException.Message),
 
             InvalidOperationException invalidOperationException => (
                 StatusCodes.Status400BadRequest,
-                new ProblemDetails
-                {
-                    Title = "Invalid Operation Exception",
-                    Status = StatusCodes.Status400BadRequest,
-                    Extensions = { { "reason", invalidOperationException.Message } }
-                }),
+                invalidOperationException.Message),
 
             _ => (
                 StatusCodes.Status500InternalServerError,
-                new ProblemDetails
-                {
-                    Title = "An unexpected error occurred",
-                    Status = StatusCodes.Status500InternalServerError
-                })
+                "An unexpected error occurred. Please try again later.")
         };
 
         httpContext.Response.StatusCode = statusCode;
@@ -75,7 +47,12 @@ internal sealed class GlobalExceptionHandler(
         {
             HttpContext = httpContext,
             Exception = exception,
-            ProblemDetails = problemDetails
+            ProblemDetails = new ProblemDetails
+            {
+                Title = "An error occurred",
+                Detail = detail,
+                Status = statusCode
+            }
         });
     }
 }
