@@ -1,4 +1,4 @@
-using MapsterMapper;
+﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using EventService.Application.EventManagement.Command.CreateEventCommand;

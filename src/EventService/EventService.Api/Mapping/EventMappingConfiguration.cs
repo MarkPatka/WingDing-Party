@@ -1,21 +1,21 @@
-﻿using EventService.Application.EventManagement.Command.CreateEventCommand;
-using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
-using EventService.Application.EventManagement.Command.DeleteEventCommand;
-using EventService.Application.EventManagement.Command.RegisterParticipant;
-using EventService.Application.EventManagement.Command.UpdateEventCommand;
+﻿using Mapster;
+using EventService.Application.EventManagement.Command.CreateEventCommand;
 using EventService.Application.EventManagement.Common;
-using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
 using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
-using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
-using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
-using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
-using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
-using EventService.Contracts.DTO;
 using EventService.Contracts.Events.Requests;
 using EventService.Contracts.Events.Responses;
+using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
 using EventService.Domain.EventAggregate.ValueObjects;
-using Mapster;
+using EventService.Contracts.DTO;
+using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
+using EventService.Application.EventManagement.Command.DeleteEventCommand;
+using EventService.Application.EventManagement.Command.RegisterParticipant;
+using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
+using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
+using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
+using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
+using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
 
 namespace EventService.Api.Mapping;
 
@@ -46,7 +46,7 @@ public class EventMappingConfiguration : IRegister
 
         config.NewConfig<CreateEventResult, CreateEventResponse>();
 
-        config.NewConfig<GetAllUserEventsRequest, GetAllUserEventsQuery>(); 
+        config.NewConfig<GetAllUserEventsRequest, GetAllUserEventsQuery>();
 
         config.NewConfig<GetAllUserEventsResult, GetAllUserEventsResponse>();
 
