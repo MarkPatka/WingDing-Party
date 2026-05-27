@@ -1,9 +1,9 @@
-﻿using System.Data;
-using System.Text.Json;
-using MapsterMapper;
+﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using System.Data;
+using System.Text.Json;
 using UserService.Application.IntegrationEvents;
 using UserService.Application.IntegrationEvents.Mapping;
 using UserService.Application.Persistence;
@@ -15,22 +15,21 @@ namespace UserService.Infrastructure.Persistence;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly UserServiceDbContext _context;
-    private readonly IIntegrationEventMapperRegistry _mapperRegistry;
+    private readonly IIntegrationEventTypeResolver _typeResolver;
     private readonly ILogger<UnitOfWork> _logger;
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
 
     public UnitOfWork(
         UserServiceDbContext context,
-        IIntegrationEventMapperRegistry mapperRegistry,
+        IIntegrationEventTypeResolver typeResolver,
         ILogger<UnitOfWork> logger)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(logger);
-        ArgumentNullException.ThrowIfNull(mapperRegistry);
 
         _context = context;
-        _mapperRegistry = mapperRegistry;
+        _typeResolver = typeResolver;
         _logger = logger;
     }
 
@@ -179,7 +178,7 @@ public class UnitOfWork : IUnitOfWork
 
         foreach(var domainEvent in domainEvents)
         {
-            var integrationEvent = _mapperRegistry.Map(domainEvent);
+            var integrationEvent = MapWithMapster(domainEvent);
             if (integrationEvent is null)
             {
                 _logger.LogDebug(
@@ -201,6 +200,15 @@ public class UnitOfWork : IUnitOfWork
         _logger.LogInformation("Successfully dispatched {Count} domain events", domainEvents.Count);
     }
 
+    private IIntegrationEvent? MapWithMapster(IDomainEvent domainEvent)
+    {
+        var sourceType = domainEvent.GetType();
+        var destType = _typeResolver.Resolve(sourceType);
+
+        if (destType is null) return null;
+
+        return (IIntegrationEvent?)domainEvent.Adapt(sourceType, destType);
+    }
 
     public void Dispose()
     {

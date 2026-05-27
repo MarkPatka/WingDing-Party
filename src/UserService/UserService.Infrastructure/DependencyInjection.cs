@@ -1,9 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Minio;
 using UserService.Application.Common.Configuration;
@@ -13,7 +11,6 @@ using UserService.Application.Services;
 using UserService.Domain.UserProfileAggregate;
 using UserService.Domain.UserProfileAggregate.ValueObjects;
 using UserService.Infrastructure.Messaging;
-using UserService.Infrastructure.Messaging.Mapping;
 using UserService.Infrastructure.Persistence;
 using UserService.Infrastructure.Persistence.Outbox;
 using UserService.Infrastructure.Services;
@@ -88,11 +85,11 @@ public static class DependencyInjection
     private static IServiceCollection AddIntegrationEventMappers(
         this IServiceCollection services)
     {
-        services.AddSingleton<IIntegrationEventMapper, UserProfileCreatedEventMapper>();
-        services.AddSingleton<IIntegrationEventMapper, UserProfileUpdatedEventMapper>();
+        // Регистрируем типорезолвер
+        services.AddSingleton<IIntegrationEventTypeResolver, IntegrationEventTypeResolver>();
 
-        services.AddSingleton<IIntegrationEventMapperRegistry, IntegrationEventMapperRegistry>();
-
+        // Mapster-конфигурация подхватится автоматически через
+        // TypeAdapterConfig.Scan(assembly) или через явную регистрацию IRegister
         return services;
     }
 

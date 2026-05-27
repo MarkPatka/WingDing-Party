@@ -9,7 +9,7 @@ public static class MappingRegistration
 {
     public static IServiceCollection AddMappings(this IServiceCollection services, params Assembly[] assembliesToScan)
     {
-        var config = new TypeAdapterConfig();
+        var config = TypeAdapterConfig.GlobalSettings;
         foreach (var assembly in assembliesToScan)
         {
             config.Scan(assembly);
