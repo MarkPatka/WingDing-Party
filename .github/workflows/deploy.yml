@@ -1,0 +1,56 @@
+name: Deploy
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    uses: ./.github/workflows/deploy-repo.yml
+    secrets: inherit
+
+  deploy-postgres:
+    needs: sync
+    uses: ./.github/workflows/deploy-postgres.yml
+    secrets: inherit
+
+  deploy-kafka:
+    needs: sync
+    uses: ./.github/workflows/deploy-kafka.yml
+    secrets: inherit
+
+  deploy-minio:
+    needs: sync
+    uses: ./.github/workflows/deploy-minio.yml
+    secrets: inherit
+
+  deploy-redis:
+    needs: sync
+    uses: ./.github/workflows/deploy-redis.yml
+    secrets: inherit
+
+  #deploy-keycloak:
+  #  needs: sync
+  #  uses: ./.github/workflows/deploy-keycloak.yml
+  #  secrets: inherit
+
+  #deploy-auth-service:
+  #  needs: [deploy-postgres, deploy-redis, deploy-kafka, deploy-keycloak]
+  #  uses: ./.github/workflows/deploy-auth-service.yml
+  #  secrets: inherit
+
+  deploy-user-service:
+    needs: [deploy-postgres, deploy-minio, deploy-kafka]
+    uses: ./.github/workflows/deploy-user-service.yml
+    secrets: inherit
+
+  deploy-club-service:
+    needs: [deploy-postgres, deploy-kafka]
+    uses: ./.github/workflows/deploy-club-service.yml
+    secrets: inherit
+
+  deploy-event-service:
+    needs: [deploy-postgres, deploy-kafka]
+    uses: ./.github/workflows/deploy-event-service.yml
+    secrets: inherit
