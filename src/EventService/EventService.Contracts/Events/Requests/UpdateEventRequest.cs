@@ -1,6 +1,6 @@
 ﻿using EventService.Contracts.DTO;
 
-namespace EventService.Contracts.Events;
+namespace EventService.Contracts.Events.Requests;
 
 public sealed record UpdateEventRequest(
     Guid EventId,

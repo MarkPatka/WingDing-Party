@@ -2,7 +2,8 @@
 using EventService.Application.EventManagement.Command.CreateEventCommand;
 using EventService.Application.EventManagement.Common;
 using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
-using EventService.Contracts.Events;
+using EventService.Contracts.Events.Requests;
+using EventService.Contracts.Events.Responses;
 using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Contracts.DTO;
@@ -13,6 +14,7 @@ using EventService.Application.EventManagement.Command.RegisterParticipant;
 using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
 using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
 using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
+using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
 using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
 
 namespace EventService.Api.Mapping;
@@ -39,7 +41,7 @@ public class EventMappingConfiguration : IRegister
                 src.MaxParticipants,
                 src.OrganizerId,
                 src.Description,
-                MapLocation(src.Location)
+                src.Location.Adapt<Location>()
             ));
 
         config.NewConfig<CreateEventResult, CreateEventResponse>();
@@ -57,7 +59,7 @@ public class EventMappingConfiguration : IRegister
                 EventId.Create(src.EventId),
                 src.Title,
                 src.Description,
-                MapLocation(src.Location),
+                src.Location.Adapt<Location>(),
                 src.StartDate,
                 src.EndDate,
                 src.MaxParticipants
@@ -90,7 +92,7 @@ public class EventMappingConfiguration : IRegister
 
         config.NewConfig<CreateEventTypeResult, CreateEventTypeResponse>();
 
-        config.NewConfig<GetAllEventTypesRequest, GetAllUserEventsQuery>();
+        config.NewConfig<GetAllEventTypesRequest, GetAllEventTypesQuery>();
 
         config.NewConfig<GetAllEventTypesResult, GetAllEventTypesResponse>();
 
@@ -98,12 +100,4 @@ public class EventMappingConfiguration : IRegister
 
         config.NewConfig<GetEventParticipantsResult, GetEventParticipantsResponse>();
     }
-    private static Location? MapLocation(LocationFullDto? dto) =>
-            dto == null ? null : Location.Create(
-                dto.Address,
-                dto.City,
-                dto.Country,
-                dto.Latitude,
-                dto.Longitude
-            );
 }

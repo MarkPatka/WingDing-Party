@@ -1,4 +1,4 @@
-﻿namespace EventService.Contracts.Events;
+﻿namespace EventService.Contracts.Events.Requests;
 
 public sealed record GetAllEventTypesRequest(
     int PageNumber = 1,
