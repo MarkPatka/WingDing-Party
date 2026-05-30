@@ -1,29 +1,12 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using System.Net;
 
 namespace EventService.Application.Common.Errors;
 
-public class ValidationError : ValidationException, IServiceError
+public sealed class ValidationError(string message, IEnumerable<ValidationFailure> errors)
+    : ValidationException(message, errors), IServiceError
 {
-    private readonly HttpStatusCode _httpStatusCode;
-    private readonly IReadOnlyDictionary<string, string[]> _errorsDictionary;
-
-    public ValidationError(
-        string message,
-        HttpStatusCode httpStatusCode,
-        IReadOnlyDictionary<string, string[]> errorsDictionary)
-        : base(message)
-    {
-        _httpStatusCode = httpStatusCode;
-        _errorsDictionary = errorsDictionary;
-    }
-    public new IReadOnlyDictionary<string, string[]> Errors => _errorsDictionary;
-
-    public HttpStatusCode StatusCode => _httpStatusCode;
-
+    public HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
     public string ErrorMessage => Message;
-
-    public List<Exception> Flatten() =>
-        [.. Errors.Values.SelectMany(mess => mess.Select(ex => new Exception(ex)))];
 }
-
