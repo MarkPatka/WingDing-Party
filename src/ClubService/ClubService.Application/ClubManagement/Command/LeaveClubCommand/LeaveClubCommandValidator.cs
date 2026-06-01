@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace ClubService.Application.ClubManagement.Command.LeaveClubCommand;
 
-public class LeaveClubCommandValidator : AbstractValidator<JoinToClubCommand>
+public class LeaveClubCommandValidator : AbstractValidator<LeaveClubCommand>
 {
     public LeaveClubCommandValidator()
     {
