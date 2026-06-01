@@ -11,14 +11,16 @@ EXPOSE 5201
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 ARG BUILD_CONFIGURATION=Release
+# Preserve the repo's src/ layout so Directory.Packages.props (Central Package
+# Management) stays a common ancestor of AuthService and the SharedKernel project,
+# and the ..\..\SharedKernel project reference resolves the same way as on the host.
 WORKDIR /src
 COPY ["Directory.Packages.props", "./"]
-COPY ["src/AuthService/AuthService.Api/AuthService.Api.csproj", "AuthService.Api/"]
-RUN dotnet restore "AuthService.Api/AuthService.Api.csproj"
+COPY src/AuthService/ ./AuthService/
+COPY src/SharedKernel/ ./SharedKernel/
+RUN dotnet restore "AuthService/AuthService.Api/AuthService.Api.csproj"
 
-COPY src/AuthService/ .
-
-WORKDIR "AuthService.Api"
+WORKDIR "/src/AuthService/AuthService.Api"
 RUN dotnet build "AuthService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

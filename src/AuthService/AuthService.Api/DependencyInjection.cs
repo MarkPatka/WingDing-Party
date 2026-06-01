@@ -23,6 +23,9 @@ public static class DependencyInjection
             .AddGrpc()
             ;
 
+        // MapControllers() in Program.cs requires the MVC controller services
+        services.AddControllers();
+
         return services;
     }
 

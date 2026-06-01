@@ -111,6 +111,35 @@ public static class DependencyInjection
 
         return services;
     }
+/*
+  Npgsql.PostgresException
+  HResult=0x80004005
+  Message=42703: column "migration_id" does not exist
+
+POSITION: 8
+  Source=Npgsql
+  StackTrace:
+   at Npgsql.Internal.NpgsqlConnector.<ReadMessageLong>d__234.MoveNext()
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.<NextResult>d__52.MoveNext()
+   at Npgsql.NpgsqlDataReader.<NextResult>d__52.MoveNext()
+   at Npgsql.NpgsqlDataReader.NextResult()
+   at Npgsql.NpgsqlCommand.<ExecuteReader>d__122.MoveNext()
+   at Npgsql.NpgsqlCommand.<ExecuteReader>d__122.MoveNext()
+   at System.Runtime.CompilerServices.ValueTaskAwaiter`1.GetResult()
+   at Npgsql.NpgsqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.GetAppliedMigrations()
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlHistoryRepository.GetAppliedMigrations()
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Migrations.Internal.NpgsqlMigrator.Migrate(String targetMigration)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.Migrate(DatabaseFacade databaseFacade)
+   at AuthService.Infrastructure.DependencyInjection.ApplyMigrations(IApplicationBuilder app) in D:\Repositories\WingDingRepository\WingDing-Party\src\AuthService\AuthService.Infrastructure\DependencyInjection.cs:line 120
+   at Program.<Main>$(String[] args) in D:\Repositories\WingDingRepository\WingDing-Party\src\AuthService\AuthService.Api\Program.cs:line 27
+
+*/
+
+
 
     public static IApplicationBuilder ApplyMigrations(this IApplicationBuilder app)
     {
