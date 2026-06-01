@@ -1,8 +1,8 @@
 ﻿using AuthService.Contracts.Constants;
-using AuthService.Infrastructure.Authorization;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WingDing.Auth.Shared.Authorization;
 
 namespace AuthService.Api.Controllers;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace AuthService.Infrastructure.Authorization;
+namespace WingDing.Auth.Shared.Authorization;
 
 /// <summary>
 /// Dynamically creates authorization policies on-the-fly.
@@ -18,11 +18,8 @@ internal sealed class PermissionAuthorizationPolicyProvider
 {
     private readonly AuthorizationOptions _authorizationOptions;
 
-    public PermissionAuthorizationPolicyProvider(
-        IOptions<AuthorizationOptions> options) : base(options)
-    {
-        _authorizationOptions = options.Value;
-    }
+    public PermissionAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options) 
+        : base(options) => _authorizationOptions = options.Value;
 
     public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {

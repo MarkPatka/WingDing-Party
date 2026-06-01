@@ -512,6 +512,10 @@ graphify-out
 .claude/graphify-out/.needs_update
 .claude/graphify-out/obsidian/
 .claude/graphify-out/cache/
+# manifest хранит абсолютные пути + mtime — машино-специфичен, бесполезен после клонирования
+.claude/graphify-out/manifest.json
+# cost — локальный счётчик токенов graphify, у каждого разработчика свой
+.claude/graphify-out/cost.json
 src/*/graphify-out/
 
 #rider launchsettings

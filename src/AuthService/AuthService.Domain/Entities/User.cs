@@ -1,4 +1,5 @@
-﻿using AuthService.Domain.Common.Abstractions;
+﻿
+using AuthService.Domain.Common.Abstractions;
 using AuthService.Domain.Enumerations;
 using AuthService.Domain.ValueObjects.Ids;
 

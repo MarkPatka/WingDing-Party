@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace AuthService.Infrastructure.Authorization;
+namespace WingDing.Auth.Shared.Authorization;
 
 /// <summary>
 /// Usage: [HasPermission(Permissions.EventsCreate)]
@@ -8,9 +8,6 @@ namespace AuthService.Infrastructure.Authorization;
 /// </summary>
 public sealed class HasPermissionAttribute : AuthorizeAttribute
 {
-    public HasPermissionAttribute(string permission)
-        : base(permission) // Sets the Policy property to the permission string
-    {
-
-    }
+    // Sets the Policy property to the permission string
+    public HasPermissionAttribute(string permission) : base(permission)  { }
 }

@@ -18,64 +18,64 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                 name: "permissions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
+                    name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_permissions", x => x.Id);
+                    table.PrimaryKey("pk_permissions", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    RoleType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false),
+                    role_type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_roles", x => x.Id);
+                    table.PrimaryKey("pk_roles", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    IdentityId = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    identity_id = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.PrimaryKey("pk_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "role_permissions",
                 columns: table => new
                 {
-                    RoleId = table.Column<int>(type: "integer", nullable: false),
-                    PermissionId = table.Column<int>(type: "integer", nullable: false)
+                    role_id = table.Column<int>(type: "integer", nullable: false),
+                    permission_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_role_permissions", x => new { x.RoleId, x.PermissionId });
+                    table.PrimaryKey("pk_role_permissions", x => new { x.role_id, x.permission_id });
                     table.ForeignKey(
-                        name: "FK_role_permissions_permissions_PermissionId",
-                        column: x => x.PermissionId,
+                        name: "fk_role_permissions_permissions_permission_id",
+                        column: x => x.permission_id,
                         principalTable: "permissions",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_role_permissions_roles_RoleId",
-                        column: x => x.RoleId,
+                        name: "fk_role_permissions_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "roles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -83,29 +83,29 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                 name: "user_roles",
                 columns: table => new
                 {
-                    RolesId = table.Column<int>(type: "integer", nullable: false),
-                    UsersId = table.Column<Guid>(type: "uuid", nullable: false)
+                    roles_id = table.Column<int>(type: "integer", nullable: false),
+                    users_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_roles", x => new { x.RolesId, x.UsersId });
+                    table.PrimaryKey("pk_user_roles", x => new { x.roles_id, x.users_id });
                     table.ForeignKey(
-                        name: "FK_user_roles_roles_RolesId",
-                        column: x => x.RolesId,
+                        name: "fk_user_roles_roles_roles_id",
+                        column: x => x.roles_id,
                         principalTable: "roles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_user_roles_users_UsersId",
-                        column: x => x.UsersId,
+                        name: "fk_user_roles_users_users_id",
+                        column: x => x.users_id,
                         principalTable: "users",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "permissions",
-                columns: new[] { "Id", "Description", "Name" },
+                columns: new[] { "id", "description", "name" },
                 values: new object[,]
                 {
                     { 1, null, "events:read" },
@@ -123,7 +123,7 @@ namespace AuthService.Infrastructure.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "roles",
-                columns: new[] { "Id", "RoleType" },
+                columns: new[] { "id", "role_type" },
                 values: new object[,]
                 {
                     { 1, "Guest" },
@@ -134,7 +134,7 @@ namespace AuthService.Infrastructure.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "role_permissions",
-                columns: new[] { "PermissionId", "RoleId" },
+                columns: new[] { "permission_id", "role_id" },
                 values: new object[,]
                 {
                     { 1, 1 },
@@ -164,25 +164,25 @@ namespace AuthService.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_role_permissions_PermissionId",
+                name: "ix_role_permissions_permission_id",
                 table: "role_permissions",
-                column: "PermissionId");
+                column: "permission_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_roles_UsersId",
+                name: "ix_user_roles_users_id",
                 table: "user_roles",
-                column: "UsersId");
+                column: "users_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_Email",
+                name: "ix_users_email",
                 table: "users",
-                column: "Email",
+                column: "email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_IdentityId",
+                name: "ix_users_identity_id",
                 table: "users",
-                column: "IdentityId",
+                column: "identity_id",
                 unique: true);
         }
 

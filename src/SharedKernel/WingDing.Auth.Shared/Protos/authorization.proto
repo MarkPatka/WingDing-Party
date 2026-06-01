@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "AuthService.Api.Protos";
+option csharp_namespace = "WingDing.Auth.Shared.Grpc";
 
 package authservice;
 
@@ -11,14 +11,14 @@ package authservice;
 service PermissionOracle {
 	// Returns all permission strings for a given Keycloak identity.
     // Called by: PermissionAuthorizationHandler in downstream services.
-	rpc GetPermissions (PermisionRequest) returns (PermissionResponse);
+	rpc GetPermissions (PermissionRequest) returns (PermissionResponse);
 
 	// Returns user ID + role list for a given Keycloak identity.
     // Called by: RemoteClaimsTransformation in downstream services.
 	rpc GetRoles (RolesRequest) returns (RolesResponse);
 }
 
-message PermisionRequest {
+message PermissionRequest {
 	string identity_id = 1;
 }
 

@@ -1,6 +1,7 @@
 using AuthService.Api;
-using AuthService.Infrastructure;
+using AuthService.Api.gRPC.Services;
 using AuthService.Application;
+using AuthService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -26,6 +27,7 @@ var app = builder.Build();
     app.ApplyMigrations();
     app.UseHttpsRedirection();
     app.UseExceptionHandler();
-    //app.MapControllers();
+    app.MapControllers();
+    app.MapGrpcService<PermissionGrpcService>(); // TODO: create and move to app extension
     app.Run();
 }

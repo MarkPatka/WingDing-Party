@@ -25,14 +25,14 @@ internal sealed class AuthenticationService : IAuthenticationService
             Username = user.Email,
             Enabled = true,
             EmailVerified = true,
-            Credentials = new[]
-            {
+            Credentials =
+            [
                 new CredentialRepresentationModel
                 {
                     Value = password,
                     Temporary = false
                 }
-            }
+            ]
         };
 
         // POST to Keycloak Admin API: /admin/realms/wingding-party/users

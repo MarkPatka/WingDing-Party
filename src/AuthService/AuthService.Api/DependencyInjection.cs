@@ -19,7 +19,13 @@ public static class DependencyInjection
             .AddOpenApi()
             .AddSwaggerGen()
             .AddConfiguration(configuration)
-            .AddErrorHandler();
+            .AddErrorHandler()
+            .AddGrpc()
+            ;
+
+        // MapControllers() in Program.cs requires the MVC controller services
+        services.AddControllers();
+
         return services;
     }
 
