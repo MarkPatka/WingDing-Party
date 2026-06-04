@@ -3,7 +3,6 @@ using EventService.Application.Common.Configuration;
 using EventService.Application.EventSourcing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Text;
 using System.Text.Json;
 
 namespace EventService.Infrastructure.EventSourcing.Messaging;
@@ -11,7 +10,6 @@ namespace EventService.Infrastructure.EventSourcing.Messaging;
 public class KafkaEventProducer : IEventProducer
 {
     private readonly IProducer<string, string> _producer;
-    private readonly KafkaOptions _options;
     private readonly ILogger<KafkaEventProducer> _logger;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
@@ -27,12 +25,11 @@ public class KafkaEventProducer : IEventProducer
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(logger);
 
-        _options = options.Value;
         _logger = logger;
 
         var config = new ProducerConfig
         {
-            BootstrapServers = _options.BootstrapServers,
+            BootstrapServers = options.Value.BootstrapServers,
             Acks = Acks.All,
             EnableIdempotence = true,
             MessageTimeoutMs = 5000,
@@ -40,7 +37,7 @@ public class KafkaEventProducer : IEventProducer
 
         _producer = new ProducerBuilder<string, string>(config)
             .SetErrorHandler((_, e) =>
-                _logger.LogError(e.Reason, "Kafka producer error"))
+                _logger.LogError("Kafka producer error: {Reason}", e.Reason))
             .SetLogHandler((_, log) =>
                 _logger.LogDebug("Kafka: {Message}", log.Message))
             .Build();
@@ -74,67 +71,9 @@ public class KafkaEventProducer : IEventProducer
         {
             _logger.LogError(
                 ex,
-                "Failed to produce message to {Topic}. Sending to DLQ.",
-                topic);
-            await SendToDeadLetterQueueAsync(key, payload, ex, cancellationToken);
+                "Failed to produce message to {Topic} for key {Key}",
+                topic, key);
             throw;
-        }
-    }
-
-    private async Task SendToDeadLetterQueueAsync(
-        string key, 
-        string payload, 
-        ProduceException<string, string> originalException, 
-        CancellationToken cancellationToken)
-    {
-        if (string.IsNullOrWhiteSpace(_options.DeadLetterTopic))
-        {
-            _logger.LogWarning(
-                "DeadLetterTopic is not configured; skipping DLQ send.");
-            return;
-        }
-
-        try
-        {
-            var headers = new Headers
-            {
-                {
-                    "dlq-error",
-                    Encoding.UTF8.GetBytes(
-                        originalException.Error?.Reason 
-                        ?? originalException.Message)
-                },
-                {
-                    "dlq-timestamp",
-                    Encoding.UTF8.GetBytes(DateTime.UtcNow.ToString("O"))
-                }
-            };
-
-            var dlqMessage = new Message<string, string>
-            {
-                Key = key,
-                Value = payload,
-                Headers = headers
-            };
-
-            await _producer.ProduceAsync(
-                _options.DeadLetterTopic,
-                dlqMessage,
-                cancellationToken);
-
-            _logger.LogInformation(
-                "Message sent to DLQ topic {DlqTopic} for key {Key}",
-                _options.DeadLetterTopic,
-                key);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(
-                ex,
-                "Failed to send message to DLQ topic {DlqTopic}. " +
-                "Original error: {OriginalError}",
-                _options.DeadLetterTopic,
-                originalException.Message);
         }
     }
 

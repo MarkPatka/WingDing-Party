@@ -50,7 +50,7 @@ public class DeadLetterQueueProducer : IDeadLetterQueueProducer
 
         _producer = new ProducerBuilder<string, string>(config)
             .SetErrorHandler((_, e) =>
-                _logger.LogError(e.Reason, "DLQ producer error"))
+                _logger.LogError("DLQ producer error: {Reason}", e.Reason))
             .SetLogHandler((_, log) =>
                 _logger.LogDebug("DLQ Kafka: {Message}", log.Message))
             .Build();
