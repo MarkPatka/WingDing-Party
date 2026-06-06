@@ -36,7 +36,7 @@ public sealed class UserProfileUpdatedIntegrationEventHandler
 
         // 1. Events where user is organizer
         var organized = await _eventService.GetEventsByOrganizerIdAsync(
-            userId, pageNumber: 1, pageSize: byte.MaxValue, cancellationToken);
+            userId, pageNumber: 1, pageSize: short.MaxValue, cancellationToken);
 
         foreach (var ev in organized)
             ev.UpdateOrganizerName(newName);

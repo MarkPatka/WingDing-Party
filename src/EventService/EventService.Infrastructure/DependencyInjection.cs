@@ -53,6 +53,8 @@ public static class DependencyInjection
             .Bind(configuration.GetSection(KafkaOptions.SectionName))
             .ValidateOnStart();
 
+        services.AddSingleton<IValidateOptions<KafkaOptions>, KafkaOptionsValidator>();
+
         services.AddSingleton<IEventProducer, KafkaEventProducer>();
         services.AddSingleton<IDeadLetterQueueProducer, DeadLetterQueueProducer>();
         services.AddSingleton<IIntegrationEventPublisher, KafkaIntegrationEventPublisher>();
@@ -77,6 +79,8 @@ public static class DependencyInjection
         services.AddOptions<OutboxOptions>()
             .Bind(configuration.GetSection(OutboxOptions.SectionName))
             .ValidateOnStart();
+
+        services.AddSingleton<IValidateOptions<OutboxOptions>, OutboxOptionsValidator>();
 
         services.AddScoped<IOutboxService, OutboxService>();
         services.AddScoped<OutboxProcessor>();
