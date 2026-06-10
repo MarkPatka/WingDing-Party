@@ -102,7 +102,7 @@ public static class DependencyInjection
             var dbSettings = provider
                 .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
 
-            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
         }, ServiceLifetime.Scoped);
 
         services.AddDbContextFactory<UserServiceDbContext>((provider, options) =>
@@ -110,7 +110,7 @@ public static class DependencyInjection
             var dbSettings = provider
                 .GetRequiredService<IOptions<UserDatabaseOptions>>().Value;
 
-            options.UseNpgsql(dbSettings.DB_CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
+            options.UseNpgsql(dbSettings.CONNECTION_STRING, cfg => cfg.EnableRetryOnFailure(2));
 
         }, ServiceLifetime.Scoped);
      

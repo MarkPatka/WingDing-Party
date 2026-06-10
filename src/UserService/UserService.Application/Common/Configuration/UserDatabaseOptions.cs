@@ -13,5 +13,5 @@ public class UserDatabaseOptions
     public string MINIO_USER { get; set; } = null!;
     public string MINIO_PASSWORD { get; set; } = null!;
 
-    public string DB_CONNECTION_STRING { get; set; } = null!;
+    public string CONNECTION_STRING { get; set; } = null!;
 }

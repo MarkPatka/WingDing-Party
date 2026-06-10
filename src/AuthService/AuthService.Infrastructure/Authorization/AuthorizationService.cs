@@ -9,17 +9,18 @@ namespace AuthService.Infrastructure.Authorization;
 
 /// <summary>
 /// Queries the DB for user roles and permissions.
-/// Results are cached in Redis to avoid hitting the DB on every request.
+/// Uses IDbContextFactory because the DbContext is registered as a factory
+/// (AddDbContextFactory in Infrastructure DI). Results are cached in Redis.
 /// </summary>
-internal sealed class AuthorizationService
+public sealed class AuthorizationService
 {
-    private readonly AuthDbContext _dbContext;
+    private readonly IDbContextFactory<AuthDbContext> _dbContextFactory;
     private readonly IDistributedCache _cache;
     private static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(5);
 
-    public AuthorizationService(AuthDbContext dbContext, IDistributedCache cache)
+    public AuthorizationService(IDbContextFactory<AuthDbContext> dbContextFactory, IDistributedCache cache)
     {
-        _dbContext = dbContext;
+        _dbContextFactory = dbContextFactory;
         _cache = cache;
     }
 
@@ -31,7 +32,9 @@ internal sealed class AuthorizationService
         if (cached is not null)
             return JsonSerializer.Deserialize<UserRolesResponse>(cached)!;
 
-        UserRolesResponse roles = await _dbContext.Set<User>()
+        await using AuthDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
+
+        UserRolesResponse roles = await dbContext.Set<User>()
             .Where(u => u.IdentityId == identityId)
             .Select(u => new UserRolesResponse
             {
@@ -55,8 +58,9 @@ internal sealed class AuthorizationService
         if (cached is not null)
             return JsonSerializer.Deserialize<HashSet<string>>(cached)!;
 
-        // Query: User -> Roles -> Permissions (many-to-many-to-many)
-        IReadOnlyCollection<Permission> permissions = await _dbContext.Set<User>()
+        await using AuthDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
+
+        IReadOnlyCollection<Permission> permissions = await dbContext.Set<User>()
             .Where(u => u.IdentityId == identityId)
             .SelectMany(u => u.Roles.Select(r => r.Permissions))
             .FirstAsync();

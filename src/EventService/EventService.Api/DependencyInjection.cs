@@ -27,6 +27,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddErrorHandler(this IServiceCollection services)
     {
+        services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
@@ -45,10 +46,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddConfiguration(this IServiceCollection services, ConfigurationManager configuration)
     {
-        // LoadEnvironmentVariables();
+        LoadEnvironmentVariables();
 
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables()
             .AddUserSecrets<Program>();
 

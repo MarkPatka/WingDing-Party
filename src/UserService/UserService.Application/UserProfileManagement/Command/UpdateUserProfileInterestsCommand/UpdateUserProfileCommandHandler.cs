@@ -7,9 +7,8 @@ using UserService.Domain.UserProfileAggregate.ValueObjects;
 
 namespace UserService.Application.UserProfileManagement.Command.UpdateUserProfileInterestsCommand;
 
-public class
-    UpdateUserProfileInterestsCommandHandler : IRequestHandler<UpdateUserProfileInterestsCommand,
-    UpdateUserProfileInterestsResult>
+public class UpdateUserProfileInterestsCommandHandler 
+    : IRequestHandler<UpdateUserProfileInterestsCommand, UpdateUserProfileInterestsResult>
 {
     private readonly IUserProfileService _userProfileService;
 

@@ -60,7 +60,7 @@ public class OutboxProcessorBackgroundService : BackgroundService
                     foreach (var message in messages)
                     {
                         IIntegrationEvent? integrationEvent = null;
-                        
+
                         try
                         {
                             integrationEvent = Deserialize(message);
@@ -72,7 +72,7 @@ public class OutboxProcessorBackgroundService : BackgroundService
                         }
                         catch (Exception ex)
                         {
-                            message.MarkAsFailed(ex.Message);
+                            message.MarkAsFailed($"message {ex.Message}, stack {ex.StackTrace}");
                             if (message.Retries >= MaxRetries)
                             {
                                 try
@@ -98,6 +98,7 @@ public class OutboxProcessorBackgroundService : BackgroundService
                             }
                         }
                     }
+
                     await dbContext.SaveChangesAsync(stoppingToken);
                     await transaction.CommitAsync(stoppingToken);
                 });
