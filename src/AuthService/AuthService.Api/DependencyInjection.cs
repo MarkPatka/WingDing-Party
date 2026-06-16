@@ -34,6 +34,7 @@ public static class DependencyInjection
     {
         // LoadEnvironmentVariables();
 
+
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
@@ -49,12 +50,13 @@ public static class DependencyInjection
     private static IServiceCollection BindConfigurations(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // bind .env
+        // from .env
         services.Configure<AuthDatabaseOptions>(configuration.Bind);
-        services.Configure<AuthenticationOptions>(configuration.Bind); 
-        services.Configure<KeycloakOptions>(configuration.Bind);
+        services.Configure<RedisOptions>(configuration.Bind);
         
-        // validate settings
+        // from json settings
+        services.Configure<AuthenticationOptions>(configuration.GetSection(AuthenticationOptions.SectionName)); 
+        services.Configure<KeycloakOptions>(configuration.GetSection(KeycloakOptions.SectionName));
 
         return services;
     }

@@ -2,6 +2,8 @@ namespace AuthService.Infrastructure.Common.Configuration;
 
 public sealed class RedisOptions
 {
+    public const string SectionName = nameof(RedisOptions);
+
     public string REDIS_HOST { get; set; } = null!;
     public int REDIS_PORT { get; set; } = 6379;
     public string? REDIS_PASSWORD { get; set; }

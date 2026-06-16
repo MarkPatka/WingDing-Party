@@ -2,6 +2,8 @@
 
 public sealed class KeycloakOptions
 {
+    public const string SectionName = nameof(KeycloakOptions);
+
     public string BaseUrl { get; set; } = string.Empty;
     public string AdminUrl { get; set; } = string.Empty;
     public string TokenUrl { get; set; } = string.Empty;

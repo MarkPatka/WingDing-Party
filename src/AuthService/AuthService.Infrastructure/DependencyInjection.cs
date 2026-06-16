@@ -49,10 +49,10 @@ public static class DependencyInjection
             .AddJwtBearer();
 
         // TODO: move to .env or secret manager
-        services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
+        services.Configure<AuthenticationOptions>(configuration.GetSection(AuthenticationOptions.SectionName));
         services.ConfigureOptions<JwtBearerOptionsSetup>();
 
-        services.Configure<KeycloakOptions>(configuration.GetSection("Keycloak"));
+        services.Configure<KeycloakOptions>(configuration.GetSection(KeycloakOptions.SectionName));
 
         services.AddTransient<AdminAuthorizationDelegatingHandler>();
         services.AddScoped<IUserContext, UserContext>();
