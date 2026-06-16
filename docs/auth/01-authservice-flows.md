@@ -24,9 +24,9 @@ flowchart TB
     end
 
     subgraph AUTH["AuthService"]
-        API["Api: UsersController + PermissionGrpcService"]
-        APP["Application: интерфейсы (IAuthenticationService, IJwtService, IUserContext)"]
-        INFRA["Infrastructure: реализации, Keycloak HTTP, EF Core, Redis"]
+        API["Api: UsersController + <br>PermissionGrpcService"]
+        APP["Application: интерфейсы <br>(IAuthenticationService, IJwtService, IUserContext)"]
+        INFRA["Infrastructure: реализации,<br>Keycloak HTTP, EF Core, Redis"]
         DOM["Domain: User, Role, Permission"]
     end
 

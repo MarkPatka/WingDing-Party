@@ -35,8 +35,7 @@ public static class DependencyInjection
     /// Do NOT call from AuthService — it has its own JWT setup and LocalPermissionService.
     /// </summary>
     public static IServiceCollection AddWingDingAuthRemote(this IServiceCollection services,
-        IConfiguration configuration,
-        string authServiceGrpcUrl = "http://auth-service:5200")
+        IConfiguration configuration, string authServiceGrpcUrl = "http://auth-service:5200")
     {
         var authSection = configuration.GetSection("Authentication");
 
