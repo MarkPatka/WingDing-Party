@@ -27,8 +27,9 @@ public static class DependencyInjection
     {
         services
             .RegisterDbContext()
+            .BindConfigurations(configuration)
             .RegisterRedis()
-            .AddAuthentication(configuration)
+            .AddAuthentication()
             .AddAuthorization()
             .AddHttpClients();
 
@@ -42,21 +43,6 @@ public static class DependencyInjection
         return services;
     }
 
-
-
-    private static IServiceCollection AddAuthentication(this IServiceCollection services, 
-        IConfiguration configuration)
-    {
-        services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer();
-
-        services.BindConfigurations(configuration);
-
-        services.AddTransient<AdminAuthorizationDelegatingHandler>();
-        services.AddScoped<IUserContext, UserContext>();
-        return services;
-    }
     private static IServiceCollection BindConfigurations(this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -72,6 +58,19 @@ public static class DependencyInjection
 
         return services;
     }
+
+    private static IServiceCollection AddAuthentication(this IServiceCollection services)
+    {
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
+
+        services.AddTransient<AdminAuthorizationDelegatingHandler>();
+        services.AddScoped<IUserContext, UserContext>();
+        return services;
+    }
+
+
 
     private static IServiceCollection AddHttpClients(this IServiceCollection services)
     {
