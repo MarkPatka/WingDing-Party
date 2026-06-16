@@ -42,20 +42,34 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+
+
+    private static IServiceCollection AddAuthentication(this IServiceCollection services, 
+        IConfiguration configuration)
     {
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer();
 
-        // TODO: move to .env or secret manager
-        services.Configure<AuthenticationOptions>(configuration.GetSection(AuthenticationOptions.SectionName));
-        services.ConfigureOptions<JwtBearerOptionsSetup>();
-
-        services.Configure<KeycloakOptions>(configuration.GetSection(KeycloakOptions.SectionName));
+        services.BindConfigurations(configuration);
 
         services.AddTransient<AdminAuthorizationDelegatingHandler>();
         services.AddScoped<IUserContext, UserContext>();
+        return services;
+    }
+    private static IServiceCollection BindConfigurations(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        // from .env
+        services.Configure<AuthDatabaseOptions>(configuration.Bind);
+        services.Configure<RedisOptions>(configuration.Bind);
+
+        // from json settings
+        services.Configure<AuthenticationOptions>(configuration.GetSection(AuthenticationOptions.SectionName));
+        services.Configure<KeycloakOptions>(configuration.GetSection(KeycloakOptions.SectionName));
+
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+
         return services;
     }
 

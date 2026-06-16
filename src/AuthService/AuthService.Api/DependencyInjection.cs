@@ -32,31 +32,11 @@ public static class DependencyInjection
     private static IServiceCollection AddConfiguration(this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // LoadEnvironmentVariables();
-
-
         configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables()
             .AddUserSecrets<Program>();
-
-        services.BindConfigurations(configuration);
-
-
-        return services;
-    }
-
-    private static IServiceCollection BindConfigurations(this IServiceCollection services,
-        ConfigurationManager configuration)
-    {
-        // from .env
-        services.Configure<AuthDatabaseOptions>(configuration.Bind);
-        services.Configure<RedisOptions>(configuration.Bind);
-        
-        // from json settings
-        services.Configure<AuthenticationOptions>(configuration.GetSection(AuthenticationOptions.SectionName)); 
-        services.Configure<KeycloakOptions>(configuration.GetSection(KeycloakOptions.SectionName));
 
         return services;
     }
