@@ -2,7 +2,7 @@
 
 public sealed class KeycloakOptions
 {
-    public const string SectionName = nameof(KeycloakOptions);
+    public const string SectionName = ConfigurationKeys.KEYCLOAK_SECTION;
 
     public string BaseUrl { get; set; } = string.Empty;
     public string AdminUrl { get; set; } = string.Empty;

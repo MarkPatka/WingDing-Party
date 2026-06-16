@@ -2,7 +2,7 @@
 
 public sealed class AuthenticationOptions
 {
-    public const string SectionName = nameof(AuthenticationOptions);
+    public const string SectionName = ConfigurationKeys.AUTHENTICATION_SECTION;
 
     public string Audience { get; set; } = string.Empty;
     public string Issuer { get; set; } = string.Empty;
