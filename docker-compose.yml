@@ -52,16 +52,16 @@ services:
       - REDIS_HOST=${REDIS_HOST:-redis}
       - REDIS_PORT=${REDIS_PORT:-6379}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
-      - KEYCLOAK__BASEURL=${KEYCLOAK_BASE_URL:-http://keycloak:18080}
-      - KEYCLOAK__ADMINURL=${KEYCLOAK_ADMIN_URL:-http://keycloak:18080/admin/realms/wingding-party/}
-      - KEYCLOAK__TOKENURL=${KEYCLOAK_TOKEN_URL:-http://keycloak:18080/realms/wingding-party/protocol/openid-connect/token}
+      - KEYCLOAK__BASEURL=${KEYCLOAK_BASE_URL:-http://keycloak:8080}
+      - KEYCLOAK__ADMINURL=${KEYCLOAK_ADMIN_URL:-http://keycloak:8080/admin/realms/wingding-party/}
+      - KEYCLOAK__TOKENURL=${KEYCLOAK_TOKEN_URL:-http://keycloak:8080/realms/wingding-party/protocol/openid-connect/token}
       - KEYCLOAK__ADMINCLIENTID=${KEYCLOAK_ADMIN_CLIENT_ID:-wingding-admin-client}
       - KEYCLOAK__ADMINCLIENTSECRET=${KEYCLOAK_ADMIN_CLIENT_SECRET:-}
       - KEYCLOAK__AUTHCLIENTID=${KEYCLOAK_AUTH_CLIENT_ID:-wingding-public-client}
       - KEYCLOAK__AUTHCLIENTSECRET=${KEYCLOAK_AUTH_CLIENT_SECRET:-}
       - AUTHENTICATION__AUDIENCE=${AUTH_AUDIENCE:-account}
-      - AUTHENTICATION__ISSUER=${AUTH_ISSUER:-http://keycloak:18080/realms/wingding-party}
-      - AUTHENTICATION__METADATAURL=${AUTH_METADATA_URL:-http://keycloak:18080/realms/wingding-party/.well-known/openid-configuration}
+      - AUTHENTICATION__ISSUER=${AUTH_ISSUER:-http://keycloak:8080/realms/wingding-party}
+      - AUTHENTICATION__METADATAURL=${AUTH_METADATA_URL:-http://keycloak:8080/realms/wingding-party/.well-known/openid-configuration}
       - AUTHENTICATION__REQUIREHTTPSMETADATA=${AUTH_REQUIRE_HTTPS_METADATA:-false}
       - KAFKAOPTIONS__auth__BOOTSTRAPSERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:29092}
     ports:
