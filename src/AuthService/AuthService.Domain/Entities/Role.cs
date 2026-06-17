@@ -1,6 +1,7 @@
 ﻿using AuthService.Domain.Common.Abstractions;
 using AuthService.Domain.Enumerations;
 using AuthService.Domain.ValueObjects.Ids;
+using System.Text.Json.Serialization;
 
 namespace AuthService.Domain.Entities;
 
@@ -14,7 +15,12 @@ public sealed class Role : Entity<RoleId>
     public RoleType RoleType { get; private set; } = null!;
 
     private Role() { }
-    private Role(RoleType roleType) { RoleType = roleType; }
+    
+    [JsonConstructor]
+    private Role(RoleType roleType) : base(RoleId.Create(roleType.Id)) 
+    { 
+        RoleType = roleType; 
+    }
 
     public static Role Create(RoleType role) => new(role);
 }

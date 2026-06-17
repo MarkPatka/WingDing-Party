@@ -1,5 +1,4 @@
-﻿using AuthService.Infrastructure.Common.Configuration;
-using Mapster;
+﻿using Mapster;
 using MapsterMapper;
 using Serilog;
 using Serilog.Events;

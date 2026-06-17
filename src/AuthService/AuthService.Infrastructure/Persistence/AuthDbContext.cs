@@ -1,3 +1,4 @@
+using AuthService.Application.Persistence;
 using AuthService.Domain.Entities;
 using AuthService.Domain.Enumerations;
 using AuthService.Domain.ValueObjects;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AuthService.Infrastructure.Persistence;
 
 public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options) 
-    : DbContext(options)
+    : DbContext(options), IAuthDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();

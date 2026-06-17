@@ -43,6 +43,9 @@ public sealed class User : Entity<UserId>
 
     public void SetIdentityId(string identityId)
     {
+        if (string.IsNullOrWhiteSpace(identityId))
+            throw new ArgumentException("Identity ID cannot be null or empty.", nameof(identityId));
+        
         IdentityId = identityId;
     }
 

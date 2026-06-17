@@ -1,4 +1,7 @@
-﻿using AuthService.Contracts.Constants;
+﻿using AuthService.Application.UserManagement.Command.RegisterUser;
+using AuthService.Application.UserManagement.Queries.LoginUser;
+using AuthService.Contracts.Authentication;
+using AuthService.Contracts.Constants;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,17 +20,27 @@ public class UsersController : ControllerBase
         => (_sender, _mapper) = (sender, mapper);
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(/* RegisterUserRequest */)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
-        // TODO: MediatR command -> creates user in Keycloak + local DB
-        return Ok();
+        var command = _mapper.Map<RegisterUserCommand>(request);    
+        var result = await _sender.Send(command);
+        var response = _mapper.Map<RegisterUserResponse>(result);
+        return Ok(response);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(/* LoginRequest */)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        // TODO: MediatR command -> gets JWT from Keycloak token endpoint
-        return Ok();
+        var query = _mapper.Map<LoginUserQuery>(request);
+        var result = await _sender.Send(query);
+        
+        if (result is null)
+        {
+            return Unauthorized();
+        }   
+
+        var response = _mapper.Map<LoginResponse>(result);
+        return Ok(response);
     }
 
     [HttpGet("me")]

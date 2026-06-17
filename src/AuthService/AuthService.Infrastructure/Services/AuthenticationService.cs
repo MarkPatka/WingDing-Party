@@ -38,6 +38,14 @@ internal sealed class AuthenticationService : IAuthenticationService
         // POST to Keycloak Admin API: /admin/realms/wingding-party/users
         HttpResponseMessage response = await _httpClient
             .PostAsJsonAsync("users", model, ct);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            string body = await response.Content.ReadAsStringAsync(ct);
+        
+            throw new InvalidOperationException(
+                $"Keycloak user creation failed: {(int)response.StatusCode} {body}");
+        }
 
         return ExtractIdentityIdFromLocationHeader(response);
     }
