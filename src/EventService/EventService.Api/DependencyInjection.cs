@@ -1,11 +1,13 @@
-﻿using Mapster;
-using MapsterMapper;
-using EventService.Api.Middleware.GlobalErrorHandler;
+﻿using EventService.Api.Middleware.GlobalErrorHandler;
 using EventService.Application.Common.Configuration;
+using Mapster;
+using MapsterMapper;
+using Microsoft.Extensions.Configuration.Memory;
+using Microsoft.OpenApi;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
-using Microsoft.Extensions.Configuration.Memory;
+using WingDing.Auth.Shared;
 
 namespace EventService.Api;
 
@@ -19,6 +21,8 @@ public static class DependencyInjection
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddErrorHandler()
+            .AddWingDingAuthCore()
+            .AddWingDingAuthRemote(configuration)
             .AddMappings()
             .AddControllers();
 
@@ -126,6 +130,36 @@ public static class DependencyInjection
         services.AddSerilog(logger);
 
         return services;
+    }
+
+    private static IServiceCollection AddSwaggerGen(this IServiceCollection services)
+    {
+        // TODO: DocInclusionPredicate and Groups with OperationFilter
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "JWT токен от Keycloak",
+                Name = "Authorization",
+                In = ParameterLocation.Header
+            });
+
+
+            options.AddSecurityRequirement(doc =>
+                new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecuritySchemeReference("Bearer"),
+                        new List<string>()
+                    }
+                });
+        });
+
+        return services;
+
     }
 
     private static void LoadEnvironmentVariables()

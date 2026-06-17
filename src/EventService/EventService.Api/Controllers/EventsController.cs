@@ -15,10 +15,12 @@ using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery
 using EventService.Application.EventManagement.Common;
 using EventService.Contracts.Events.Requests;
 using EventService.Contracts.Events.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EventService.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]/[action]")]
 public class EventsController(ISender sender, IMapper mapper) : ControllerBase
 {
