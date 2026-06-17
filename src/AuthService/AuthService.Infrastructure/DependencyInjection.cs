@@ -1,6 +1,7 @@
 ﻿using AuthService.Application.Common.Interfaces;
 using AuthService.Application.Persistence;
 using AuthService.Application.Services;
+using AuthService.Domain.Common.Abstractions;
 using AuthService.Infrastructure.Authentication;
 using AuthService.Infrastructure.Authorization;
 using AuthService.Infrastructure.Common.Configuration;
@@ -40,6 +41,7 @@ public static class DependencyInjection
     {
         services.AddScoped<AuthorizationService>();
         services.AddScoped<IPermissionService, LocalPermissionService>();
+        services.AddScoped<IPermissionCache, PermissionCache>();
         services.AddWingDingAuthCore();
         return services;
     }

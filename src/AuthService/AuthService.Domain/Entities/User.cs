@@ -49,5 +49,5 @@ public sealed class User : Entity<UserId>
         IdentityId = identityId;
     }
 
-
+    public bool HasRole(Role role) => _roles.Contains(role);
 }

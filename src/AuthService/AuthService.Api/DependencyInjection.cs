@@ -1,5 +1,7 @@
-﻿using Mapster;
+﻿using AuthService.Api.Middleware.GlobalErrorHandler;
+using Mapster;
 using MapsterMapper;
+using Microsoft.OpenApi;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
@@ -43,8 +45,36 @@ public static class DependencyInjection
 
     private static IServiceCollection AddErrorHandler(this IServiceCollection services)
     {
-        //services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddExceptionHandler<ValidationExceptionHandler>();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+
+        return services;
+    }
+
+    private static IServiceCollection AddSwaggerGen(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "JWT токен от Keycloak",
+                Name = "Authorization",
+                In = ParameterLocation.Header
+            });
+
+            options.AddSecurityRequirement(doc =>
+                new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecuritySchemeReference("Bearer", doc),
+                        new List<string>()
+                    }
+                });
+        });
 
         return services;
     }
