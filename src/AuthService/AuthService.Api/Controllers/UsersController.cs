@@ -42,12 +42,4 @@ public class UsersController : ControllerBase
         var response = _mapper.Map<LoginResponse>(result);
         return Ok(response);
     }
-
-    [HttpGet("me")]
-    [HasPermission(Permissions.UsersRead)]  // <-- THIS IS THE PATTERN
-    public async Task<IActionResult> GetMe()
-    {
-        // Only accessible if the user's roles include a permission "users:read"
-        return Ok();
-    }
 }

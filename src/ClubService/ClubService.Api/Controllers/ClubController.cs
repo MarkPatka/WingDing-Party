@@ -11,6 +11,8 @@ using ClubService.Contracts.Clubs;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WingDing.Auth.Shared;
+using WingDing.Auth.Shared.Authorization;
 
 namespace ClubService.Api.Controllers;
 
@@ -28,6 +30,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpGet]
+    [HasPermission(Permissions.ClubsRead)]
     public async Task<IActionResult> GetClub(GetClubRequest request)
     {
         var query = _mapper.Map<GetClubQuery>(request);
@@ -37,6 +40,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpPost]
+    [HasPermission(Permissions.ClubsCreate)]
     public async Task<IActionResult> CreateClub([FromBody] CreateClubRequest request)
     {
         var command = _mapper.Map<CreateClubCommand>(request);
@@ -46,6 +50,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpPut]
+    [HasPermission(Permissions.ClubsUpdate)]
     public async Task<IActionResult> UpdateClub([FromBody] UpdateClubRequest request)
     {
         var command = _mapper.Map<UpdateClubCommand>(request);
@@ -55,6 +60,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpDelete]
+    [HasPermission(Permissions.ClubsDelete)]
     public async Task<IActionResult> DeleteClub(DeleteClubRequest request)
     {
         var command = _mapper.Map<DeleteClubCommand>(request);
@@ -64,6 +70,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpGet("participant")]
+    [HasPermission(Permissions.ClubsRead)]
     public async Task<IActionResult> GetClubsByParticipant(GetClubsByUserRequest request)
     {
         var query = _mapper.Map<GetClubsByUserQuery>(request);
@@ -73,6 +80,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpGet("members")]
+    [HasPermission(Permissions.ClubsRead)]
     public async Task<IActionResult> GetClubMembers(GetClubMembersRequest request)
     {
         var query = _mapper.Map<GetClubMembersQuery>(request);
@@ -82,6 +90,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpPost("join")]
+    [HasPermission(Permissions.ClubsRead)]
     public async Task<IActionResult> JoinToClub([FromBody] JoinToClubRequest request)
     {
         var command = _mapper.Map<JoinToClubCommand>(request);
@@ -91,6 +100,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpPost("leave")]
+    [HasPermission(Permissions.ClubsRead)]
     public async Task<IActionResult> LeaveClub([FromBody] LeaveClubRequest request)
     {
         var command = _mapper.Map<LeaveClubCommand>(request);
@@ -100,6 +110,7 @@ public class ClubController : ControllerBase
     }
 
     [HttpPost("search")]
+    [HasPermission(Permissions.ClubsRead)]
     public async Task<IActionResult> SearchClubs([FromBody] SearchClubsRequest request)
     {
         var query = _mapper.Map<SearchClubsQuery>(request);

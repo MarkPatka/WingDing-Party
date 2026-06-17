@@ -1,10 +1,12 @@
-﻿using System.Reflection;
-using ClubService.Api.Middleware.GlobalErrorHandler;
+﻿using ClubService.Api.Middleware.GlobalErrorHandler;
 using ClubService.Application.Common.Configuration;
 using Mapster;
 using MapsterMapper;
+using Microsoft.OpenApi;
 using Serilog;
 using Serilog.Events;
+using System.Reflection;
+using WingDing.Auth.Shared;
 
 namespace ClubService.Api;
 
@@ -19,7 +21,10 @@ public static class DependencyInjection
             .AddEndpointsApiExplorer()
             .AddSwaggerGen()
             .AddConfiguration(configuration)
+            .AddWingDingAuthCore()
+            .AddWingDingAuthRemote(configuration)
             .AddErrorHandler();
+
         return services;
     }
 
@@ -128,6 +133,36 @@ public static class DependencyInjection
         services.AddSerilog(logger);
 
         return services;
+    }
+
+    private static IServiceCollection AddSwaggerGen(this IServiceCollection services)
+    {
+        // TODO: DocInclusionPredicate and Groups with OperationFilter
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "JWT токен от Keycloak",
+                Name = "Authorization",
+                In = ParameterLocation.Header
+            });
+
+
+            options.AddSecurityRequirement(doc =>
+                new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecuritySchemeReference("Bearer"),
+                        new List<string>()
+                    }
+                });
+        });
+
+        return services;
+
     }
 
     private static void LoadEnvironmentVariables()

@@ -6,6 +6,8 @@ using UserService.Application.AvatarManagement.Commands.CreateAvatarCommand;
 using UserService.Application.AvatarManagement.Commands.DeleteAvatarCommand;
 using UserService.Application.AvatarManagement.Commands.UpdateAvatarCommand;
 using UserService.Contracts.Avatars;
+using WingDing.Auth.Shared;
+using WingDing.Auth.Shared.Authorization;
 
 namespace UserService.Api.Controllers;
 
@@ -24,6 +26,7 @@ public class AvatarController : ControllerBase
 
     [HttpPost]
     [Consumes("multipart/form-data")]
+    [HasPermission(Permissions.UsersUpdate)]
     public async Task<IActionResult> CreateAvatarProfile([FromForm] CreateAvatarForm form)
     {
         using var stream = form.Avatar != null ? form.Avatar.OpenReadStream() : null;
@@ -43,6 +46,7 @@ public class AvatarController : ControllerBase
     }
     
     [HttpPut]
+    [HasPermission(Permissions.UsersUpdate)]
     public async Task<IActionResult> UpdateAvatarProfile([FromBody] UpdateAvatarRequest request)
     {
         var command = _mapper.Map<UpdateAvatarCommand>(request);
@@ -55,6 +59,7 @@ public class AvatarController : ControllerBase
     }
     
     [HttpDelete]
+    [HasPermission(Permissions.UsersUpdate)]
     public async Task<IActionResult> DeleteAvatarProfile([FromBody] DeleteAvatarRequest request)
     {
         var command = _mapper.Map<DeleteAvatarCommand>(request);
