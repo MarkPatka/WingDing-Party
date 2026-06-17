@@ -1,4 +1,4 @@
-﻿namespace AuthService.Infrastructure.Common.Configuration;
+﻿namespace WingDing.Auth.Shared;
 
 /// <summary>
 /// That keys are used as prefixes for both: the settings in .env file and appsettings json blocks

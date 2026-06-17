@@ -1,4 +1,6 @@
-﻿namespace AuthService.Infrastructure.Common.Configuration;
+﻿using WingDing.Auth.Shared;
+
+namespace AuthService.Infrastructure.Common.Configuration;
 
 public sealed class AuthenticationOptions
 {

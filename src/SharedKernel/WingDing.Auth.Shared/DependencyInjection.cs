@@ -34,10 +34,9 @@ public static class DependencyInjection
     /// JWT bearer + gRPC client + GrpcPermissionService bound to IPermissionService.
     /// Do NOT call from AuthService — it has its own JWT setup and LocalPermissionService.
     /// </summary>
-    public static IServiceCollection AddWingDingAuthRemote(this IServiceCollection services,
-        IConfiguration configuration, string authServiceGrpcUrl = "http://auth-service:5200")
+    public static IServiceCollection AddWingDingAuthRemote(this IServiceCollection services, IConfiguration configuration)
     {
-        var authSection = configuration.GetSection("Authentication");
+        var authSection = configuration.GetSection(ConfigurationKeys.AUTHENTICATION_SECTION);
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -54,7 +53,7 @@ public static class DependencyInjection
 
         services.AddGrpcClient<PermissionOracle.PermissionOracleClient>(options =>
         {
-            options.Address = new Uri(authServiceGrpcUrl);
+            options.Address = new Uri(authSection["AuthServiceGrpcUrl"] ?? "http://auth-service:5200");
         });
 
         services.AddScoped<IPermissionService, GrpcPermissionService>();
