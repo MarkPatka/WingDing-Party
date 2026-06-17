@@ -132,7 +132,7 @@ public static class DependencyInjection
                 new OpenApiSecurityRequirement
                 {
                     {
-                        new OpenApiSecuritySchemeReference("Bearer"),
+                        new OpenApiSecuritySchemeReference("Bearer", doc),
                         new List<string>()
                     }
                 });
