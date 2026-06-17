@@ -69,10 +69,15 @@ public sealed partial class UserProfile : AggregateRoot<UserId>
         IReadOnlyList<string> interests,
         DateTime? birthDate)
     {
+        var displayNameChanged = !string.Equals(DisplayName, displayName, StringComparison.Ordinal);
+
         SetBirthDate(birthDate);
         SetInterests(interests);
         SetBio(bio);
         SetDisplayName(displayName);
+
+        if (displayNameChanged)
+            AddDomainEvent(new UserProfileUpdatedEvent(Id, DisplayName, UpdatedAt ?? DateTime.UtcNow));
     }
 
     private void SetBirthDate(DateTime? birthDate)

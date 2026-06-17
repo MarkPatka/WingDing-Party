@@ -1,10 +1,11 @@
-﻿using System.Data;
-using System.Text.Json;
-using MapsterMapper;
+﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using System.Data;
+using System.Text.Json;
 using UserService.Application.IntegrationEvents;
+using UserService.Application.IntegrationEvents.Mapping;
 using UserService.Application.Persistence;
 using UserService.Domain.Common.Abstract;
 using UserService.Infrastructure.Persistence.Outbox;
@@ -14,23 +15,22 @@ namespace UserService.Infrastructure.Persistence;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly UserServiceDbContext _context;
+    private readonly IIntegrationEventTypeResolver _typeResolver;
     private readonly ILogger<UnitOfWork> _logger;
-    private readonly IMapper _mapper;
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
 
     public UnitOfWork(
         UserServiceDbContext context,
-        IMapper mapper,
+        IIntegrationEventTypeResolver typeResolver,
         ILogger<UnitOfWork> logger)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(logger);
-        ArgumentNullException.ThrowIfNull(mapper);
 
         _context = context;
+        _typeResolver = typeResolver;
         _logger = logger;
-        _mapper = mapper;
     }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -175,23 +175,40 @@ public class UnitOfWork : IUnitOfWork
             .ToList();
 
         _logger.LogInformation("Dispatching {Count} domain events", domainEvents.Count);
-        
-        var integrationEvents = domainEvents
-            .Select(de => _mapper.Map<IDomainEvent, IIntegrationEvent>(de))
-            .ToList();
-        
-        foreach (var ie in integrationEvents)
+
+        foreach(var domainEvent in domainEvents)
         {
-            var payload = JsonSerializer.Serialize(ie);
-            var message = new OutboxMessage(ie, payload, ie.GetType().Name!);
+            var integrationEvent = MapWithMapster(domainEvent);
+            if (integrationEvent is null)
+            {
+                _logger.LogDebug(
+                    "No integration event for domain event {Type} - skipping",
+                    domainEvent.GetType().Name);
+                continue;
+            }
+
+            var payload = JsonSerializer.Serialize(
+                integrationEvent, integrationEvent.GetType());
+            var message = new OutboxMessage(
+                integrationEvent, payload, integrationEvent.GetType().Name);
             await _context.OutboxMessages.AddAsync(message, cancellationToken);
         }
+
         domainEntities.ForEach(e => e.ClearDomainEvents());
 
 
         _logger.LogInformation("Successfully dispatched {Count} domain events", domainEvents.Count);
     }
 
+    private IIntegrationEvent? MapWithMapster(IDomainEvent domainEvent)
+    {
+        var sourceType = domainEvent.GetType();
+        var destType = _typeResolver.Resolve(sourceType);
+
+        if (destType is null) return null;
+
+        return (IIntegrationEvent?)domainEvent.Adapt(sourceType, destType);
+    }
 
     public void Dispose()
     {

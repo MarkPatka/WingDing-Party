@@ -54,4 +54,9 @@ public sealed class Participant : Entity<ParticipantId>
     {
         Status = ParticipantStatus.Cancelled;
     }
+
+    public void UpdateName(string name)
+    {
+        UserName = name;
+    }
 }

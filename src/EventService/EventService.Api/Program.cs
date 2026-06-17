@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
         .AddPresentation(builder.Configuration)
-        .AddInfrastructure()
+        .AddInfrastructure(builder.Configuration)
         .AddApplication();
 }
 
@@ -20,7 +20,12 @@ var app = builder.Build();
     }
 
     app.ApplyMigrations();
-    app.UseHttpsRedirection();
+
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseHttpsRedirection();
+    }
+
     app.UseExceptionHandler();
     app.MapControllers();
 

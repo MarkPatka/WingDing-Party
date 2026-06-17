@@ -1,13 +1,20 @@
 ﻿using EventService.Application.Common.Configuration;
+using EventService.Application.EventSourcing;
+using EventService.Application.EventSourcing.IntegrationEventHandlers;
+using EventService.Application.EventSourcing.IntegrationEvents.Incoming;
+using EventService.Application.EventSourcing.Outbox;
 using EventService.Application.Persistence;
 using EventService.Application.Services;
 using EventService.Domain;
 using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
+using EventService.Infrastructure.EventSourcing.Messaging;
+using EventService.Infrastructure.EventSourcing.Outbox;
 using EventService.Infrastructure.Persistence;
 using EventService.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -15,12 +22,14 @@ namespace EventService.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddServices()
             .RegisterDbContext()
             .RegisterRepositories()
+            .AddMessaging(configuration)
             ;
         return services;
     }
@@ -33,6 +42,49 @@ public static class DependencyInjection
         services.AddScoped<IEventService, Services.EventService>();
 
         services.AddScoped<IEventTypeService, EventTypeService>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddMessaging(
+        this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<KafkaOptions>()
+            .Bind(configuration.GetSection(KafkaOptions.SectionName))
+            .ValidateOnStart();
+
+        services.AddSingleton<IValidateOptions<KafkaOptions>, KafkaOptionsValidator>();
+
+        services.AddSingleton<IEventProducer, KafkaEventProducer>();
+        services.AddSingleton<IDeadLetterQueueProducer, DeadLetterQueueProducer>();
+        services.AddSingleton<IIntegrationEventPublisher, KafkaIntegrationEventPublisher>();
+
+        services.AddSingleton<IIntegrationEventTypeRegistry, IntegrationEventTypeRegistry>();
+        services.AddSingleton<IIntegrationEventDispatcher, IntegrationEventDispatcher>();
+        services.AddSingleton<IEventConsumer, KafkaEventConsumer>();
+        services.AddHostedService<KafkaEventConsumerBackgroundService>();
+
+        // Integration event handlers
+        services.AddScoped<IIntegrationEventHandler<UserProfileUpdatedIntegrationEvent>,
+            UserProfileUpdatedIntegrationEventHandler>();
+
+        services.AddOutbox(configuration);
+
+        return services;
+    }
+
+    private static IServiceCollection AddOutbox(
+        this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<OutboxOptions>()
+            .Bind(configuration.GetSection(OutboxOptions.SectionName))
+            .ValidateOnStart();
+
+        services.AddSingleton<IValidateOptions<OutboxOptions>, OutboxOptionsValidator>();
+
+        services.AddScoped<IOutboxService, OutboxService>();
+        services.AddScoped<OutboxProcessor>();
+        services.AddHostedService<OutboxProcessorBackgroundService>();
 
         return services;
     }
