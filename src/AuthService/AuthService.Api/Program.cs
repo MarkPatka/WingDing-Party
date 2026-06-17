@@ -2,6 +2,7 @@ using AuthService.Api;
 using AuthService.Api.gRPC.Services;
 using AuthService.Application;
 using AuthService.Infrastructure;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -10,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
         .AddInfrastructure(builder.Configuration)
         .AddApplication()
         ;
+
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(5200, o => o.Protocols = HttpProtocols.Http1);  // REST
+        options.ListenAnyIP(5201, o => o.Protocols = HttpProtocols.Http2);  // gRPC (h2c)
+    });
 }
 
 var app = builder.Build();

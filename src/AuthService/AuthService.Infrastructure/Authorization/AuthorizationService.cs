@@ -34,14 +34,17 @@ public sealed class AuthorizationService
 
         await using AuthDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
 
-        UserRolesResponse roles = await dbContext.Set<User>()
+        UserRolesResponse? roles = await dbContext.Set<User>()
             .Where(u => u.IdentityId == identityId)
-            .Select(u => new UserRolesResponse
+            .Select(u => new UserRolesResponse 
             {
-                UserId = u.Id.Value,
+                UserId = u.Id.Value, 
                 Roles = u.Roles.ToList()
             })
-            .FirstAsync();
+            .FirstOrDefaultAsync();
+
+        if (roles is null)
+            return new UserRolesResponse { UserId = Guid.Empty, Roles = [] };
 
         await _cache.SetStringAsync(cacheKey,
             JsonSerializer.Serialize(roles),
@@ -60,17 +63,19 @@ public sealed class AuthorizationService
 
         await using AuthDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
 
-        IReadOnlyCollection<Permission> permissions = await dbContext.Set<User>()
+        var permissions = await dbContext.Set<User>()
             .Where(u => u.IdentityId == identityId)
-            .SelectMany(u => u.Roles.Select(r => r.Permissions))
-            .FirstAsync();
+            .SelectMany(u => u.Roles.SelectMany(r => r.Permissions))
+            .ToListAsync();
 
         HashSet<string> permissionsSet = [.. permissions.Select(p => p.Name)];
 
-        await _cache.SetStringAsync(cacheKey,
-            JsonSerializer.Serialize(permissionsSet),
-            new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = CacheExpiration });
-
+        if (permissionsSet.Count != 0)
+        {
+            await _cache.SetStringAsync(cacheKey,
+                JsonSerializer.Serialize(permissionsSet),
+                new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = CacheExpiration });
+        }
         return permissionsSet;
     }
 }

@@ -83,7 +83,8 @@ public sealed class KafkaEventConsumer : IEventConsumer
             SessionTimeoutMs = 10_000,
             HeartbeatIntervalMs = 3_000,
             MaxPollIntervalMs = 300_000,
-            EnablePartitionEof = true
+            EnablePartitionEof = true,
+            AllowAutoCreateTopics = true
         };
 
         _consumer = new ConsumerBuilder<string, string>(config)
@@ -97,12 +98,12 @@ public sealed class KafkaEventConsumer : IEventConsumer
                     string.Join(",", ps)))
             .Build();
 
-        _consumer.Subscribe(_options.ConsumeEventsTopics);
+        _consumer.Subscribe(topics);
 
         _logger.LogInformation(
             "Consumer ready. Group={Group}, Topics=[{Topics}]",
             _options.ConsumerGroupId,
-            string.Join(", ", _options.ConsumeEventsTopics));
+            string.Join(", ", topics));
     }
 
     public async Task ConsumeMessageAsync(CancellationToken stoppingToken)

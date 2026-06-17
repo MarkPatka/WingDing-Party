@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
-      - ASPNETCORE_URLS=${AUTH_ASPNETCORE_URLS:-http://+:5200}
+      - ASPNETCORE_HTTP_PORTS=
       - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
       - POSTGRES_PORT=${POSTGRES_PORT:-5432}
       - POSTGRES_DB=${AUTH_POSTGRES_DB:-authdb}

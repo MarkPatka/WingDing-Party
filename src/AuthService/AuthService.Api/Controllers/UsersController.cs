@@ -1,10 +1,10 @@
 ﻿using AuthService.Application.UserManagement.Command.RegisterUser;
 using AuthService.Application.UserManagement.Queries.LoginUser;
 using AuthService.Contracts.Authentication;
-using AuthService.Contracts.Constants;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WingDing.Auth.Shared;
 using WingDing.Auth.Shared.Authorization;
 
 namespace AuthService.Api.Controllers;

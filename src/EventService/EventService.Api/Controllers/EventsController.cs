@@ -1,21 +1,23 @@
-﻿using MapsterMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using EventService.Application.EventManagement.Command.CreateEventCommand;
-using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
-using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
-using EventService.Application.EventManagement.Command.UpdateEventCommand;
+﻿using EventService.Application.EventManagement.Command.CreateEventCommand;
+using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
 using EventService.Application.EventManagement.Command.DeleteEventCommand;
 using EventService.Application.EventManagement.Command.RegisterParticipant;
-using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
-using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
-using EventService.Application.EventManagement.Command.CreateEventTypeCommand;
-using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
-using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
+using EventService.Application.EventManagement.Command.UpdateEventCommand;
 using EventService.Application.EventManagement.Common;
+using EventService.Application.EventManagement.Queries.GetAllEventTypesQuery;
+using EventService.Application.EventManagement.Queries.GetAllUserEventsQuery;
+using EventService.Application.EventManagement.Queries.GetEventByIdQuery;
+using EventService.Application.EventManagement.Queries.GetEventParticipantsQuery;
+using EventService.Application.EventManagement.Queries.GetEventsByTextAndFiltersQuery;
+using EventService.Application.EventManagement.Queries.GetTopRatedEventsByStartDateWithLimitQuery;
 using EventService.Contracts.Events.Requests;
 using EventService.Contracts.Events.Responses;
+using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WingDing.Auth.Shared;
+using WingDing.Auth.Shared.Authorization;
 
 namespace EventService.Api.Controllers;
 
@@ -24,6 +26,7 @@ namespace EventService.Api.Controllers;
 [Route("[controller]/[action]")]
 public class EventsController(ISender sender, IMapper mapper) : ControllerBase
 {
+    [HasPermission(Permissions.EventsCreate)]
     [HttpPost(Name = nameof(CreateEventType))]
     public async Task<IActionResult> CreateEventType([FromBody] CreateEventTypeRequest request)
     {
@@ -33,6 +36,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Ok(response);
     }
 
+    [HasPermission(Permissions.EventsRead)]
     [HttpGet(Name = nameof(GetAllEventTypes))]
     public async Task<IActionResult> GetAllEventTypes([FromQuery] GetAllEventTypesRequest request)
     {
@@ -42,6 +46,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Ok(response);
     }
 
+    [HasPermission(Permissions.EventsCreate)]
     [HttpPost(Name = nameof(CreateEvent))]
     public async Task<IActionResult> CreateEvent([FromBody] CreateEventRequest request)
     {
@@ -51,6 +56,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Created(string.Empty, response);
     }
 
+    [HasPermission(Permissions.EventsUpdate)]
     [HttpPut("{eventId}", Name = nameof(UpdateEvent))]
     public async Task<IActionResult> UpdateEvent([FromRoute] Guid eventId, [FromBody] UpdateEventRequest request)
     {
@@ -63,6 +69,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Ok(response);
     }
 
+    [HasPermission(Permissions.EventsDelete)]
     [HttpDelete("{eventId}", Name = nameof(DeleteEvent))]
     public async Task<IActionResult> DeleteEvent([FromRoute] Guid eventId)
     {
@@ -80,6 +87,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Created(string.Empty, response);
     }
 
+    [HasPermission(Permissions.EventsRead)]
     [HttpGet("{userId}", Name = nameof(GetAllUserEvents))]
     public async Task<IActionResult> GetAllUserEvents(
         [FromRoute] Guid userId,
@@ -93,6 +101,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Ok(response);
     }
 
+    [HasPermission(Permissions.EventsRead)]
     [HttpGet("{eventId}", Name = nameof(GetEventById))]
     public async Task<IActionResult> GetEventById([FromRoute] Guid eventId)
     {
@@ -102,6 +111,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Ok(response);
     }
 
+    [HasPermission(Permissions.EventsRead)]
     [HttpGet("{startDate}", Name = nameof(GetTopRatedEventsByStartDateWithLimit))]
     public async Task<IActionResult> GetTopRatedEventsByStartDateWithLimit(
         [FromRoute] DateTime startDate,
@@ -114,6 +124,7 @@ public class EventsController(ISender sender, IMapper mapper) : ControllerBase
         return Ok(response);
     }
 
+    [HasPermission(Permissions.EventsRead)]
     [HttpGet("{text}", Name = nameof(GetEventsByTextAndFilters))]
     public async Task<IActionResult> GetEventsByTextAndFilters(
         [FromRoute] string text,

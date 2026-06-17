@@ -1,4 +1,4 @@
-﻿namespace AuthService.Contracts.Constants;
+﻿namespace WingDing.Auth.Shared;
 
 /// <summary>
 /// String constants matching Permission.Name values from the domain.
