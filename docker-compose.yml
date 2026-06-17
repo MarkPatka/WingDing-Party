@@ -60,7 +60,7 @@ services:
       - KEYCLOAK__AUTHCLIENTID=${KEYCLOAK_AUTH_CLIENT_ID:-wingding-public-client}
       - KEYCLOAK__AUTHCLIENTSECRET=${KEYCLOAK_AUTH_CLIENT_SECRET:-}
       - AUTHENTICATION__AUDIENCE=${AUTH_AUDIENCE:-account}
-      - AUTHENTICATION__ISSUER=${AUTH_ISSUER:-http://keycloak:8080/realms/wingding-party}
+      - AUTHENTICATION__ISSUER=${AUTH_ISSUER:-http://localhost:18080/realms/wingding-party}
       - AUTHENTICATION__METADATAURL=${AUTH_METADATA_URL:-http://keycloak:8080/realms/wingding-party/.well-known/openid-configuration}
       - AUTHENTICATION__REQUIREHTTPSMETADATA=${AUTH_REQUIRE_HTTPS_METADATA:-false}
       - KAFKAOPTIONS__auth__BOOTSTRAPSERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:29092}
