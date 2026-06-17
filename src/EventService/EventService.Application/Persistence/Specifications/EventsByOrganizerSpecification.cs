@@ -18,7 +18,7 @@ public class EventsByOrganizerSpec : BaseSpecification<Event>
             skip: (pageNumber - 1) * pageSize,
             take: pageSize);
 
-        ApplyNoTracking();
+        // ApplyNoTracking();
         ApplySplitQuery();
     }
 }

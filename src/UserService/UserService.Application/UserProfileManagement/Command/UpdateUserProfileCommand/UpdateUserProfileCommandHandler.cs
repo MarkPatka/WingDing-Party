@@ -13,7 +13,9 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
     private readonly IUserProfileService _userProfileService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateUserProfileCommandHandler(IUserProfileService userProfileService, IUnitOfWork unitOfWork)
+    public UpdateUserProfileCommandHandler(
+        IUserProfileService userProfileService,
+        IUnitOfWork unitOfWork)
     {
         _userProfileService = userProfileService;
         _unitOfWork = unitOfWork;

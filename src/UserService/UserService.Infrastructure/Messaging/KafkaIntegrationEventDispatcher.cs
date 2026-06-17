@@ -6,11 +6,18 @@ using Microsoft.Extensions.Options;
 using UserService.Application.Common.Configuration;
 using UserService.Application.IntegrationEvents;
 using UserService.Infrastructure.Messaging.Extensions;
+using System.Text.Json.Serialization;
 
 namespace UserService.Infrastructure.Messaging;
 
 public class KafkaIntegrationEventDispatcher : IIntegrationEventDispatcher
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+
     private readonly ILogger<KafkaIntegrationEventDispatcher> _logger;
     private readonly IOptionsMonitor<Dictionary<string, KafkaOptions>> _options;
     private readonly IKafkaProducerFactory _producerFactory;
@@ -34,6 +41,7 @@ public class KafkaIntegrationEventDispatcher : IIntegrationEventDispatcher
     {
         var aggregate = integrationEvent.GetAggregateName();
         var topic = _options.CurrentValue[aggregate].ProduceEventsTopic;
+
         if (string.IsNullOrWhiteSpace(topic))
         {
             _logger.LogError($"Topic name is missing for aggregate {aggregate}");
@@ -41,7 +49,10 @@ public class KafkaIntegrationEventDispatcher : IIntegrationEventDispatcher
         }
 
         var producer = _producerFactory.GetProducer(aggregate);
-        var payload = JsonSerializer.Serialize(integrationEvent);
+
+        // serialize for concrete type including EventType
+        var payload = JsonSerializer.Serialize(
+            integrationEvent, integrationEvent.GetType(), JsonOptions);
 
         await producer.ProduceAsync(topic,
             new Message<string, string> { Key = integrationEvent.Id.ToString(), Value = payload },

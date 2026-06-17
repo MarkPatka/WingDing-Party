@@ -252,4 +252,25 @@ public sealed class Event : AggregateRoot<EventId>
     public string GetRatingDisplay() => AverageRating.HasValue
         ? $"{AverageRating.Value:F2}"
         : "No rating yet";
+
+    public void UpdateOrganizerName(string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+            throw new InvalidOperationException("Organizer name required");
+
+        if (OrganizerName == newName) return;
+
+        OrganizerName = newName;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateParticipantName(UserId userId, string newName)
+    {
+        var participant = _participants.FirstOrDefault(p => p.UserId == userId);
+
+        if (participant is null) return;
+
+        participant.UpdateName(newName);
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

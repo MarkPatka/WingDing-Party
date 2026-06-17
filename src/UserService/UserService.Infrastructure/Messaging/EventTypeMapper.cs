@@ -9,6 +9,10 @@ public class EventTypeMapper : IEventTypeMapper
         {
             nameof(UserProfileCreatedIntegrationEvent),
             typeof(UserProfileCreatedIntegrationEvent)
+        },
+        {
+            nameof(UserProfileUpdatedIntegrationEvent),
+            typeof(UserProfileUpdatedIntegrationEvent)
         }
     };
 

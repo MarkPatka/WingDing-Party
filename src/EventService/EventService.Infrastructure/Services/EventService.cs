@@ -97,4 +97,11 @@ public class EventService : IEventService
         var spec = new EventParticipantsByEventIdSpecification(id);
         return await _eventRepository.FirstOrDefaultAsync(spec, cancellationToken);
     }
+
+    public async Task<IReadOnlyList<Event>> GetEventsByParticipantAsync(
+        UserId id, CancellationToken cancellationToken = default)
+    {
+        var spec = new EventsByParticipantSpec(id);
+        return await _eventRepository.ListAsync(spec, cancellationToken);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using EventService.Domain;
 using EventService.Domain.Common.Abstract;
+using EventService.Infrastructure.Persistence.Outbox;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,6 +10,7 @@ namespace EventService.Infrastructure.Persistence
         : DbContext(options)
     {
         public DbSet<Event> Events { get; set; } = null!;
+        public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

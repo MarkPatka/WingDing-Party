@@ -1,12 +1,11 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Minio;
 using UserService.Application.Common.Configuration;
+using UserService.Application.IntegrationEvents.Mapping;
 using UserService.Application.Persistence;
 using UserService.Application.Services;
 using UserService.Domain.UserProfileAggregate;
@@ -24,11 +23,13 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
+        services.AddIntegrationEventMappers();
         services.RegisterRepositories();
         services.RegisterFileStorages(configuration);
         services.RegisterDbContext();
         services.BackgroundServices();
         services.MessagingServices(configuration);
+
         return services;
     }
 
@@ -78,6 +79,17 @@ public static class DependencyInjection
         services.AddOptions<Dictionary<string, KafkaOptions>>()
             .Bind(configuration.GetSection(nameof(KafkaOptions)))
             .ValidateOnStart();
+        return services;
+    }
+
+    private static IServiceCollection AddIntegrationEventMappers(
+        this IServiceCollection services)
+    {
+        // Регистрируем типорезолвер
+        services.AddSingleton<IIntegrationEventTypeResolver, IntegrationEventTypeResolver>();
+
+        // Mapster-конфигурация подхватится автоматически через
+        // TypeAdapterConfig.Scan(assembly) или через явную регистрацию IRegister
         return services;
     }
 

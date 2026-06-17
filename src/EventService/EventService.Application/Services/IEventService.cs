@@ -29,4 +29,7 @@ public interface IEventService
 
     public Task<Event?> GetEventParticipantsAsync(
         EventId id,  CancellationToken cancellationToken = default);
+
+    public Task<IReadOnlyList<Event>> GetEventsByParticipantAsync(
+        UserId id, CancellationToken cancellationToken = default);
 }
