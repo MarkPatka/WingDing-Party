@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Grpc.Core;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using WingDing.Auth.Shared.Grpc;
 
 namespace WingDing.Auth.Shared.Services;
@@ -12,15 +14,18 @@ namespace WingDing.Auth.Shared.Services;
 public sealed class GrpcPermissionService : IPermissionService
 {
     private readonly PermissionOracle.PermissionOracleClient _client;
+    private readonly ILogger<GrpcPermissionService> _logger;
     private readonly IMemoryCache _cache;
     private static readonly TimeSpan CacheTtl = TimeSpan.FromSeconds(30);
 
     public GrpcPermissionService(
         PermissionOracle.PermissionOracleClient client,
+        ILogger<GrpcPermissionService> logger,
         IMemoryCache cache)
     {
         _client = client;
         _cache = cache;
+        _logger = logger;
     }
 
     public async Task<HashSet<string>> GetPermissionsForUserAsync(string identityId)
@@ -29,15 +34,35 @@ public sealed class GrpcPermissionService : IPermissionService
 
         if (_cache.TryGetValue(cacheKey, out HashSet<string>? cached) && cached is not null)
             return cached;
+        try
+        {
+            // gRPC call to AuthService: PermissionOracle.GetPermissions()
+            var response = await _client.GetPermissionsAsync(
+                new PermissionRequest { IdentityId = identityId });
 
-        // gRPC call to AuthService: PermissionOracle.GetPermissions()
-        var response = await _client.GetPermissionsAsync(
-            new PermissionRequest { IdentityId = identityId });
+            HashSet<string> permissions = [.. response.Permissions];
 
-        HashSet<string> permissions = [.. response.Permissions];
-
-        _cache.Set(cacheKey, permissions, CacheTtl);
-        return permissions;
+            if (permissions.Count != 0)
+            {
+                _cache.Set(cacheKey, permissions, CacheTtl);
+            }
+            return permissions;
+        }
+        catch (RpcException ex) when (ex.StatusCode == StatusCode.Unavailable)
+        {
+            _logger.LogError(ex, "Auth service unavailable for identity {IdentityId}", identityId);
+            throw; 
+        }
+        catch (RpcException ex) when (ex.StatusCode == StatusCode.NotFound)
+        {
+            _logger.LogWarning("Identity {IdentityId} not found", identityId);
+            return []; 
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting permissions for identity {IdentityId}", identityId);
+            throw;
+        }
     }
 
     public async Task<UserRolesDto> GetRolesForUserAsync(string identityId)
