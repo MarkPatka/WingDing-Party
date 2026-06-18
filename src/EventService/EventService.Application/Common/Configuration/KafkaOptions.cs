@@ -12,4 +12,8 @@ public class KafkaOptions
     public string DeadLetterTopic { get; set; } = "event-service-events-dlq";
     public int MaxRetryAttempts { get; set; } = 3;
     public int RetryDelayMs { get; set; } = 1000;
+
+    // Параметры авто-провижининга топиков при старте.
+    public int TopicPartitions { get; set; } = 3;
+    public short TopicReplicationFactor { get; set; } = 1;
 }

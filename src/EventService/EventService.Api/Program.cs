@@ -21,6 +21,8 @@ var app = builder.Build();
 
     app.ApplyMigrations();
 
+    app.ProvisionKafkaTopics();
+
     if (!app.Environment.IsDevelopment())
     {
         app.UseHttpsRedirection();

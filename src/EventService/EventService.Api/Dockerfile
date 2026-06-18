@@ -11,18 +11,16 @@ EXPOSE 5301
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 ARG BUILD_CONFIGURATION=Release
+# Preserve the repo's src/ layout so Directory.Packages.props (Central Package
+# Management) stays a common ancestor of EventService and the SharedKernel project,
+# and the ..\..\SharedKernel project reference resolves the same way as on the host.
 WORKDIR /src
 COPY ["Directory.Packages.props", "./"]
-COPY ["src/EventService/EventService.Api/EventService.Api.csproj", "EventService.Api/"]
-COPY ["src/EventService/EventService.Application/EventService.Application.csproj", "EventService.Application/"]
-COPY ["src/EventService/EventService.Domain/EventService.Domain.csproj", "EventService.Domain/"]
-COPY ["src/EventService/EventService.Contracts/EventService.Contracts.csproj", "EventService.Contracts/"]
-COPY ["src/EventService/EventService.Infrastructure/EventService.Infrastructure.csproj", "EventService.Infrastructure/"]
-RUN dotnet restore "EventService.Api/EventService.Api.csproj"
+COPY src/EventService/ ./EventService/
+COPY src/SharedKernel/ ./SharedKernel/
+RUN dotnet restore "EventService/EventService.Api/EventService.Api.csproj"
 
-COPY src/EventService/ .
-
-WORKDIR "EventService.Api"
+WORKDIR "/src/EventService/EventService.Api"
 RUN dotnet build "EventService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

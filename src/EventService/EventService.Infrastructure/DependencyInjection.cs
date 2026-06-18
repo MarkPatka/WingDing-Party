@@ -61,6 +61,7 @@ public static class DependencyInjection
 
         services.AddSingleton<IIntegrationEventTypeRegistry, IntegrationEventTypeRegistry>();
         services.AddSingleton<IIntegrationEventDispatcher, IntegrationEventDispatcher>();
+        services.AddSingleton<ITopicProvisioner, KafkaTopicProvisioner>();
         services.AddSingleton<IEventConsumer, KafkaEventConsumer>();
         services.AddHostedService<KafkaEventConsumerBackgroundService>();
 
@@ -132,6 +133,15 @@ public static class DependencyInjection
         using var scope = app.ApplicationServices.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<EventServiceDbContext>();
         context.Database.Migrate();
+        return app;
+    }
+
+    public static IApplicationBuilder ProvisionKafkaTopics(this IApplicationBuilder app)
+    {
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+        ITopicProvisioner provisioner = scope.ServiceProvider
+            .GetRequiredService<ITopicProvisioner>();
+        provisioner.ProvisionAsync().GetAwaiter().GetResult();
         return app;
     }
 }
