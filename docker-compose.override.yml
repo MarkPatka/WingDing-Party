@@ -80,7 +80,7 @@ services:
       - wingding_network
 
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:8.1.1
     container_name: wingding_kafka
     restart: unless-stopped
     environment:
@@ -112,7 +112,7 @@ services:
       start_period: 60s
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:v0.7.2
     container_name: wingding_kafka_ui
     restart: unless-stopped
     environment:
