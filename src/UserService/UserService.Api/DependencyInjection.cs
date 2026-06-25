@@ -20,13 +20,23 @@ public static class DependencyInjection
             .AddWingDingAuthCore()
             .AddWingDingAuthRemote(configuration)
             .AddErrorHandler();
+        
         return services;
     }
 
     private static IServiceCollection AddConfiguration(this IServiceCollection services,
         ConfigurationManager configuration)
     {
+        LoadEnvironmentVariables();
+        
+        configuration
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .AddUserSecrets<Program>();
+        
         services.BindConfigurations(configuration);
+        
         return services;
     }
 
@@ -64,7 +74,6 @@ public static class DependencyInjection
         services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
-
         return services;
     }
 
