@@ -5,7 +5,6 @@ using ClubService.Application.Services;
 using ClubService.Domain.ClubAggregate;
 using ClubService.Domain.ClubAggregate.ValueObjects;
 using ClubService.Infrastructure.Messaging;
-using ClubService.Infrastructure.Messaging.Mapping;
 using ClubService.Infrastructure.Persistence;
 using ClubService.Infrastructure.Persistence.Outbox;
 using Mapster;
@@ -20,6 +19,8 @@ namespace ClubService.Infrastructure;
 
 public static class DependencyInjection
 {
+    private static int _repositoriesRegistered;
+
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
@@ -34,6 +35,8 @@ public static class DependencyInjection
 
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
+        if (Interlocked.Exchange(ref _repositoriesRegistered, 1) == 1) return services; 
+
         services.AddScoped<IRepository<Club, ClubId>, GenericRepository<Club, ClubId>>();
         return services;
     }

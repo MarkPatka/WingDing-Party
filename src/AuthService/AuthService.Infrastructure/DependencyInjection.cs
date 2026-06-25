@@ -1,15 +1,12 @@
 ﻿using AuthService.Application.Common.Interfaces;
 using AuthService.Application.Persistence;
 using AuthService.Application.Services;
-using AuthService.Domain.Common.Abstractions;
 using AuthService.Infrastructure.Authentication;
 using AuthService.Infrastructure.Authorization;
 using AuthService.Infrastructure.Common.Configuration;
 using AuthService.Infrastructure.Persistence;
 using AuthService.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -22,6 +22,8 @@ namespace EventService.Infrastructure;
 
 public static class DependencyInjection
 {
+    private static int _repositoriesRegistered;
+
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
@@ -92,6 +94,8 @@ public static class DependencyInjection
 
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
+        if (Interlocked.Exchange(ref _repositoriesRegistered, 1) == 1) return services;
+
 
         services
             .AddScoped<IUnitOfWork, UnitOfWork>()

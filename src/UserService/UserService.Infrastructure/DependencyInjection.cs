@@ -20,6 +20,8 @@ namespace UserService.Infrastructure;
 
 public static class DependencyInjection
 {
+    private static int _repositoriesRegistered;
+
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
@@ -36,6 +38,8 @@ public static class DependencyInjection
 
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
+        if (Interlocked.Exchange(ref _repositoriesRegistered, 1) == 1) return services;
+
         services.AddScoped<IRepository<UserProfile, UserId>, GenericRepository<UserProfile, UserId>>();
         return services;
     }
