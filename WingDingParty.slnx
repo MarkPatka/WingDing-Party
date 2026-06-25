@@ -1,0 +1,55 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".files/wingding-realm-export.json" />
+    <File Path=".github/workflows/deploy-auth-service.yml" />
+    <File Path=".github/workflows/deploy-club-service.yml" />
+    <File Path=".github/workflows/deploy-event-service.yml" />
+    <File Path=".github/workflows/deploy-kafka.yml" />
+    <File Path=".github/workflows/deploy-keycloak.yml" />
+    <File Path=".github/workflows/deploy-minio.yml" />
+    <File Path=".github/workflows/deploy-postgres.yml" />
+    <File Path=".github/workflows/deploy-redis.yml" />
+    <File Path=".github/workflows/deploy-repo.yml" />
+    <File Path=".github/workflows/deploy-user-service.yml" />
+    <File Path=".github/workflows/deploy.yml" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/AuthService/">
+    <Project Path="src/AuthService/AuthService.Api/AuthService.Api.csproj" />
+    <Project Path="src/AuthService/AuthService.Application/AuthService.Application.csproj" />
+    <Project Path="src/AuthService/AuthService.Contracts/AuthService.Contracts.csproj" />
+    <Project Path="src/AuthService/AuthService.Domain/AuthService.Domain.csproj" />
+    <Project Path="src/AuthService/AuthService.Infrastructure/AuthService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/ClubService/">
+    <Project Path="src/ClubService/ClubService.Api/ClubService.Api.csproj" />
+    <Project Path="src/ClubService/ClubService.Application/ClubService.Application.csproj" />
+    <Project Path="src/ClubService/ClubService.Contracts/ClubService.Contracts.csproj" />
+    <Project Path="src/ClubService/ClubService.Domain/ClubService.Domain.csproj" />
+    <Project Path="src/ClubService/ClubService.Infrastructure/ClubService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/EventService/">
+    <Project Path="src/EventService/EventService.Api/EventService.Api.csproj" />
+    <Project Path="src/EventService/EventService.Application/EventService.Application.csproj" />
+    <Project Path="src/EventService/EventService.Contracts/EventService.Contracts.csproj" />
+    <Project Path="src/EventService/EventService.Domain/EventService.Domain.csproj" />
+    <Project Path="src/EventService/EventService.Infrastructure/EventService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/SharedKernel/">
+    <Project Path="src/SharedKernel/WingDing.Auth.Shared/WingDing.Auth.Shared.csproj" />
+  </Folder>
+  <Folder Name="/src/UserService/">
+    <Project Path="src/UserService/UserService.Api/UserService.Api.csproj" />
+    <Project Path="src/UserService/UserService.Application/UserService.Application.csproj" />
+    <Project Path="src/UserService/UserService.Contracts/UserService.Contracts.csproj" />
+    <Project Path="src/UserService/UserService.Domain/UserService.Domain.csproj" />
+    <Project Path="src/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>

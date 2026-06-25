@@ -1,0 +1,47 @@
+# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+# This stage is used when running from VS in fast mode (Default for Debug configuration)
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS base
+RUN apt-get update && apt-get install -y --no-install-recommends libgssapi-krb5-2 && rm -rf /var/lib/apt/lists/*
+USER $APP_UID
+WORKDIR /app
+EXPOSE 5100
+EXPOSE 5101
+
+
+# This stage is used to build the service project
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["Directory.Packages.props", "./"]
+COPY ["src/UserService/UserService.Api/UserService.Api.csproj", "UserService.Api/"]
+COPY ["src/UserService/UserService.Application/UserService.Application.csproj", "UserService.Application/"]
+COPY ["src/UserService/UserService.Domain/UserService.Domain.csproj", "UserService.Domain/"]
+COPY ["src/UserService/UserService.Contracts/UserService.Contracts.csproj", "UserService.Contracts/"]
+COPY ["src/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj", "UserService.Infrastructure/"]
+RUN dotnet restore "UserService.Api/UserService.Api.csproj"
+
+COPY src/UserService/ .
+
+WORKDIR "UserService.Api"
+RUN dotnet build "UserService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# This stage is used to publish the service project to be copied to the final stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "UserService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl unzip \
+    && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg \
+    && apt-get remove -y curl unzip \
+    && rm -rf /var/lib/apt/lists/*
+USER $APP_UID
+
+ENTRYPOINT ["dotnet", "UserService.Api.dll"]

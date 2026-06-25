@@ -1,0 +1,155 @@
+services:
+  user-service:
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    build:
+      context: .
+      dockerfile: src/UserService/UserService.Api/Dockerfile
+    container_name: user_api
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=${USER_ASPNETCORE_URLS:-http://+:5100}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${USER_POSTGRES_DB:-userdb}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${USER_POSTGRES_DB:-userdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - FILESTORAGE__ENDPOINT=${MINIO_HOST:-minio}:${MINIO_PORT:-9000}
+      - KafkaOptions__BootstrapServers=kafka:29092
+      - FILESTORAGE__ACCESSKEY=${MINIO_LOGIN:-minio}
+      - FILESTORAGE__SECRETKEY=${MINIO_PASSWORD:-minio1234}
+      - FILESTORAGE__AVATARBUCKET=${USER_AVATARS_BUCKET:-avatars}
+      - FILESTORAGE__WITHSSL=${MINIO_WITH_SSL:-false}
+      - KAFKAOPTIONS__userprofile__BOOTSTRAPSERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:29092}
+    ports:
+      - "${USER_API_PORT:-5100}:5100"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - wingding_network
+    volumes:
+      - ./logs/user-service:/app/logs
+
+  auth-service:
+    image: ${DOCKER_REGISTRY-}authserviceapi
+    build:
+      context: .
+      dockerfile: src/AuthService/AuthService.Api/Dockerfile
+    container_name: auth_api
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_HTTP_PORTS=
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${AUTH_POSTGRES_DB:-authdb}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${AUTH_POSTGRES_DB:-authdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis_password}
+      - KEYCLOAK__BASEURL=${KEYCLOAK_BASE_URL:-http://keycloak:8080}
+      - KEYCLOAK__ADMINURL=${KEYCLOAK_ADMIN_URL:-http://keycloak:8080/admin/realms/wingding-party/}
+      - KEYCLOAK__TOKENURL=${KEYCLOAK_TOKEN_URL:-http://keycloak:8080/realms/wingding-party/protocol/openid-connect/token}
+      - KEYCLOAK__ADMINCLIENTID=${KEYCLOAK_ADMIN_CLIENT_ID:-wingding-admin-client}
+      - KEYCLOAK__ADMINCLIENTSECRET=${KEYCLOAK_ADMIN_CLIENT_SECRET:-}
+      - KEYCLOAK__AUTHCLIENTID=${KEYCLOAK_AUTH_CLIENT_ID:-wingding-public-client}
+      - KEYCLOAK__AUTHCLIENTSECRET=${KEYCLOAK_AUTH_CLIENT_SECRET:-}
+      - AUTHENTICATION__AUDIENCE=${AUTH_AUDIENCE:-account}
+      - AUTHENTICATION__ISSUER=${AUTH_ISSUER:-http://localhost:18080/realms/wingding-party}
+      - AUTHENTICATION__METADATAURL=${AUTH_METADATA_URL:-http://keycloak:8080/realms/wingding-party/.well-known/openid-configuration}
+      - AUTHENTICATION__REQUIREHTTPSMETADATA=${AUTH_REQUIRE_HTTPS_METADATA:-false}
+      - KAFKAOPTIONS__auth__BOOTSTRAPSERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:29092}
+    ports:
+      - "${AUTH_API_PORT:-5200}:5200"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - wingding_network
+    volumes:
+      - ./logs/auth-service:/app/logs
+
+  event-service:
+    image: ${DOCKER_REGISTRY-}eventserviceapi
+    build:
+      context: .
+      dockerfile: src/EventService/EventService.Api/Dockerfile
+    container_name: event_api
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=${EVENT_ASPNETCORE_URLS:-http://+:5300}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${EVENT_POSTGRES_DB:-eventdb}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${EVENT_POSTGRES_DB:-eventdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - KafkaOptions__BootstrapServers=kafka:29092
+    ports:
+      - "${EVENT_API_PORT:-5300}:5300"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - wingding_network
+    volumes:
+      - ./logs/event-service:/app/logs
+
+  club-service:
+    image: ${DOCKER_REGISTRY-}clubserviceapi
+    build:
+      context: .
+      dockerfile: src/ClubService/ClubService.Api/Dockerfile
+    container_name: club_api
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=${CLUB_ASPNETCORE_URLS:-http://+:5400}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${CLUB_POSTGRES_DB:-clubdb}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - CONNECTION_STRING=Host=${POSTGRES_HOST:-postgres};Port=${POSTGRES_PORT:-5432};Database=${CLUB_POSTGRES_DB:-clubdb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - KafkaOptions__BootstrapServers=kafka:29092 
+      - KAFKAOPTIONS__club__BOOTSTRAPSERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:29092}
+    ports:
+      - "${CLUB_API_PORT:-5400}:5400"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - wingding_network
+    volumes:
+      - ./logs/club-service:/app/logs
+
+networks:
+  wingding_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  kafka_data:
+    driver: local
+  minio_data:
+    driver: local
+  redis_data:
+    driver: local

@@ -1,0 +1,11 @@
+# Local settings — машино-специфичные разрешения, не для командного шаринга
+settings.local.json
+
+# Auto-memory — приватные заметки, генерируются автоматически
+memory/
+
+# Временные git worktrees
+worktrees/
+
+# Планы сессии
+plans/

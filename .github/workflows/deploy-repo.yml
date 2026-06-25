@@ -1,0 +1,39 @@
+name: Sync Repository to Server
+
+on:
+  push:
+    branches: [84-ci-cd]
+  workflow_dispatch:
+  workflow_call:
+  
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Ensure repository exists on server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+            mkdir -p /opt/wingding
+            cd /opt/wingding
+
+            # если нет .git — инициализируем репозиторий
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin https://github.com/MarkPatka/WingDing-Party.git
+              git fetch origin
+              git checkout -b 84-ci-cd origin/84-ci-cd
+            else
+              # если репозиторий уже есть — просто обновляем
+              git fetch --all
+              git reset --hard origin/84-ci-cd
+              git clean -fd
+            fi
+          "

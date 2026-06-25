@@ -1,0 +1,3 @@
+# Shell-скрипты должны оставаться с LF: они выполняются внутри Linux-контейнеров
+# (например, docker-entrypoint-initdb.d). CRLF ломает их (#!/bin/bash^M: bad interpreter).
+*.sh text eol=lf
