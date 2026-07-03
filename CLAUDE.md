@@ -11,6 +11,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Claude Code–специфичная конфигурация (скиллы, Knowledge Graph, триггеры) — в [`.claude/CLAUDE.md`](.claude/CLAUDE.md).
 Сервисная документация — в `src/<ServiceName>/CLAUDE.md`.
 
+### Session bootstrap — где брать контекст (читать ДО анализа кода)
+
+Не анализируй кодовую базу с нуля — сначала используй уже собранный контекст. Для любой архитектурной работы, планирования или задач по сервису:
+
+1. **Граф знаний** — основной навигатор. Один общий граф на весь `src/` в `.claude/graphify-out/`. Сначала проверь scope и свежесть (заголовок `GRAPH_REPORT.md` + дата `graph.json`); если актуален — навигируй по `graph.json` / `GRAPH_REPORT.md`, к исходникам обращайся только за деталями. Если scope не тот или устарел — `/graphify src/ --update`. Детали дисциплины — в [`.claude/CLAUDE.md`](.claude/CLAUDE.md).
+2. **Сервисные `CLAUDE.md`** — у каждого сервиса есть `src/<ServiceName>/CLAUDE.md` (Auth, User, Event, Club) с его специфм (messaging, storage, авторизация, конфиг). Прочитай нужный **до** чтения его исходников; они не подгружаются автоматически на старте сессии.
+3. **`docs/`** — сквозная документация: [`docs/auth_doc.md`](docs/auth_doc.md) (аутентификация/авторизация) и [`docs/grpc_doc.md`](docs/grpc_doc.md) (gRPC `PermissionOracle` между сервисами). Сверяйся с ними, не выдумывай контракты.
+
 ## Commands
 
 ### Build & Run
@@ -106,7 +114,7 @@ builder.Services
 
 ### Конфигурация
 
-Конфиг-классы биндятся на root configuration (не на секцию), то есть переменные окружения маппируются напрямую. Порядок источников: `appsettings.json` → `appsettings.Development.json` → Environment Variables → User Secrets.
+Большинство опций биндятся на **именованные секции** через `configuration.GetSection(Options.SectionName)` — у каждого options-класса есть константа `SectionName`. Часть инфраструктурных опций (например, БД и Redis в AuthService) биндится напрямую на **root** через `configuration.Bind`, чтобы переменные окружения маппировались без секции. Порядок источников: `appsettings.json` → `appsettings.Development.json` → Environment Variables → User Secrets.
 
 Сервис-специфичные секции конфигурации описаны в `src/<ServiceName>/CLAUDE.md`.
 

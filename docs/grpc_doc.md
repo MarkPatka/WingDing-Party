@@ -245,7 +245,7 @@ sequenceDiagram
 
     EV->>MEM: grpc:perms:{identityId}?
     alt попадание в кэш
-        MEM-->>EV: HashSet&lt;string&gt; (готово)
+        MEM-->>EV: HashSet[string] (готово)
     else промах
         Note over EV: _client.GetPermissionsAsync(req)<br/>= сериализация в байты
         EV->>NET: PermissionRequest (Protobuf)
@@ -258,7 +258,7 @@ sequenceDiagram
             AZ->>DB: SELECT user + roles + permissions
             AZ->>REDIS: записать (TTL 5 мин)
         end
-        AZ-->>PGS: HashSet&lt;string&gt;
+        AZ-->>PGS: HashSet[string]
         PGS->>NET: PermissionResponse (Protobuf)
         NET->>EV: байты обратно → десериализация
         EV->>MEM: записать (TTL 30s)

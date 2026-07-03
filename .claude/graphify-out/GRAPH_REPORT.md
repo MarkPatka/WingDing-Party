@@ -1,403 +1,406 @@
-# Graph Report - src/  (2026-06-01)
+# Graph Report - src/  (2026-07-03)
 
 ## Corpus Check
-- Corpus is ~33,245 words - fits in a single context window. You may not need a graph.
+- Corpus is ~39,256 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 1347 nodes · 1294 edges · 303 communities (181 shown, 122 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.89)
-- Token cost: 20,000 input · 728 output
+- 1549 nodes · 1535 edges · 325 communities (204 shown, 121 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 6 edges (avg confidence: 0.88)
+- Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Domain Base Classes|Domain Base Classes]]
-- [[_COMMUNITY_Repository and DB Context|Repository and DB Context]]
+- [[_COMMUNITY_Club Aggregate (Domain)|Club Aggregate (Domain)]]
+- [[_COMMUNITY_Kafka Consumer & UnitOfWork|Kafka Consumer & UnitOfWork]]
 - [[_COMMUNITY_REST API Controllers|REST API Controllers]]
+- [[_COMMUNITY_Domain Base Classes|Domain Base Classes]]
 - [[_COMMUNITY_EF Core Entity Configurations|EF Core Entity Configurations]]
-- [[_COMMUNITY_Domain Services|Domain Services]]
 - [[_COMMUNITY_Query Specifications|Query Specifications]]
-- [[_COMMUNITY_Auth and JWT Middleware|Auth and JWT Middleware]]
-- [[_COMMUNITY_Domain Exceptions|Domain Exceptions]]
+- [[_COMMUNITY_Aggregate Root & Domain Events|Aggregate Root & Domain Events]]
 - [[_COMMUNITY_Configuration Options|Configuration Options]]
-- [[_COMMUNITY_Authorization Services|Authorization Services]]
-- [[_COMMUNITY_Event CQRS Handlers|Event CQRS Handlers]]
-- [[_COMMUNITY_Mapster Mapping Configs|Mapster Mapping Configs]]
+- [[_COMMUNITY_DI Registration & Bootstrap|DI Registration & Bootstrap]]
+- [[_COMMUNITY_Auth Command Handlers & Cache|Auth Command Handlers & Cache]]
+- [[_COMMUNITY_Errors & Domain Exceptions|Errors & Domain Exceptions]]
+- [[_COMMUNITY_Authorization & Permission (gRPC)|Authorization & Permission (gRPC)]]
 - [[_COMMUNITY_Club CQRS Handlers|Club CQRS Handlers]]
-- [[_COMMUNITY_User CQRS Handlers|User CQRS Handlers]]
-- [[_COMMUNITY_Specification Pattern|Specification Pattern]]
-- [[_COMMUNITY_Event Domain Aggregate|Event Domain Aggregate]]
-- [[_COMMUNITY_Background Services|Background Services]]
-- [[_COMMUNITY_Club Service Interface|Club Service Interface]]
-- [[_COMMUNITY_Club Command Handlers|Club Command Handlers]]
-- [[_COMMUNITY_Club Member Entities|Club Member Entities]]
-- [[_COMMUNITY_Global Error Handling|Global Error Handling]]
-- [[_COMMUNITY_Repository Interfaces|Repository Interfaces]]
-- [[_COMMUNITY_Event Service Interface|Event Service Interface]]
-- [[_COMMUNITY_Club Domain Aggregate|Club Domain Aggregate]]
-- [[_COMMUNITY_Expression Extensions|Expression Extensions]]
-- [[_COMMUNITY_Infrastructure DI|Infrastructure DI]]
-- [[_COMMUNITY_API Layer DI|API Layer DI]]
-- [[_COMMUNITY_Create Command Handlers|Create Command Handlers]]
-- [[_COMMUNITY_Application DI|Application DI]]
-- [[_COMMUNITY_Permission|Permission]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_AbstractValidator|AbstractValidator]]
-- [[_COMMUNITY_IReadRepository|IReadRepository]]
-- [[_COMMUNITY_IUnitOfWork|IUnitOfWork]]
-- [[_COMMUNITY_RolePermission|RolePermission]]
-- [[_COMMUNITY_Role|Role]]
-- [[_COMMUNITY_AggregateRoot|AggregateRoot]]
-- [[_COMMUNITY_FileStorageOptions|FileStorageOptions]]
-- [[_COMMUNITY_API Config Settings|API Config Settings]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_AggregateRoot|AggregateRoot]]
-- [[_COMMUNITY_AvatarCollection|AvatarCollection]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_ValidationBehavior|ValidationBehavior]]
-- [[_COMMUNITY_IUserProfileService|IUserProfileService]]
-- [[_COMMUNITY_UserProfile|UserProfile]]
-- [[_COMMUNITY_ClubCreatedIntegrationEvent|ClubCreatedIntegrationEvent]]
-- [[_COMMUNITY_UserId|UserId]]
-- [[_COMMUNITY_IEventSourceable|IEventSourceable]]
-- [[_COMMUNITY_IEventTypeService|IEventTypeService]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_KafkaProducerFactory|KafkaProducerFactory]]
-- [[_COMMUNITY_KafkaIntegrationEventDispatcher|KafkaIntegrationEventDispatcher]]
-- [[_COMMUNITY_IDeadLetterQueueProducer|IDeadLetterQueueProducer]]
-- [[_COMMUNITY_Admin Authorization Delegating Handler|Admin Authorization Delegating Handler]]
-- [[_COMMUNITY_Migration|Migration]]
-- [[_COMMUNITY_OwnerId|OwnerId]]
-- [[_COMMUNITY_Avatar|Avatar]]
-- [[_COMMUNITY_IAvatarService|IAvatarService]]
-- [[_COMMUNITY_AuthService CLAUDE|AuthService CLAUDE.md]]
-- [[_COMMUNITY_EventService.Api|EventService.Api]]
-- [[_COMMUNITY_20260317175616_AddIdToClubMember|20260317175616_AddIdToClubMember]]
-- [[_COMMUNITY_20260212090837_AddOutboxMessagesTable|20260212090837_AddOutboxMessagesTable]]
-- [[_COMMUNITY_20260601084039_InitialCreate_WithRolesAn|20260601084039_InitialCreate_WithRolesAn]]
-- [[_COMMUNITY_20260518160358_ChangeErrotTypeInOutbox|20260518160358_ChangeErrotTypeInOutbox]]
-- [[_COMMUNITY_InitialCreate|InitialCreate]]
-- [[_COMMUNITY_AddAvatars|AddAvatars]]
-- [[_COMMUNITY_20260130134340_InitialCreate|20260130134340_InitialCreate]]
-- [[_COMMUNITY_20260407062819_FK_EventType|20260407062819_FK_EventType]]
-- [[_COMMUNITY_20260401071320_InitialCreateV2|20260401071320_InitialCreateV2]]
-- [[_COMMUNITY_ClubId|ClubId]]
-- [[_COMMUNITY_ParticipantId|ParticipantId]]
-- [[_COMMUNITY_IEntityId|IEntityId]]
-- [[_COMMUNITY_ReviewId|ReviewId]]
-- [[_COMMUNITY_AvatarId|AvatarId]]
-- [[_COMMUNITY_UserId|UserId]]
-- [[_COMMUNITY_EventId|EventId]]
-- [[_COMMUNITY_EventTypeId|EventTypeId]]
-- [[_COMMUNITY_OrganizerId|OrganizerId]]
-- [[_COMMUNITY_IDomainEvent|IDomainEvent]]
-- [[_COMMUNITY_IEventTypeMapper|IEventTypeMapper]]
-- [[_COMMUNITY_IIntegrationEventDispatcher|IIntegrationEventDispatcher]]
-- [[_COMMUNITY_KafkaOptionsValidator|KafkaOptionsValidator]]
-- [[_COMMUNITY_SpecificationEvaluator|SpecificationEvaluator]]
-- [[_COMMUNITY_OutboxMessage|OutboxMessage]]
-- [[_COMMUNITY_IConfigurationService|IConfigurationService]]
-- [[_COMMUNITY_PermissionAuthorizationHandler|PermissionAuthorizationHandler]]
-- [[_COMMUNITY_PermissionAuthorizationPolicyProvider|PermissionAuthorizationPolicyProvider]]
-- [[_COMMUNITY_IPermissionService|IPermissionService]]
-- [[_COMMUNITY_IEventConsumer|IEventConsumer]]
-- [[_COMMUNITY_ILogger|ILogger]]
-- [[_COMMUNITY_EntityTid Abstract Base|Entity<Tid> Abstract Base]]
-- [[_COMMUNITY_Keycloak Identity Link (sub - User.Iden|Keycloak Identity Link (sub -> User.Iden]]
-- [[_COMMUNITY_authdb Database|authdb Database]]
-- [[_COMMUNITY_UserContext|UserContext]]
-- [[_COMMUNITY_ClaimsPrincipalExtensions|ClaimsPrincipalExtensions]]
-- [[_COMMUNITY_Attribute|Attribute]]
-- [[_COMMUNITY_IServiceError|IServiceError]]
-- [[_COMMUNITY_ISpecification|ISpecification]]
-- [[_COMMUNITY_RoleId|RoleId]]
-- [[_COMMUNITY_IEntityId|IEntityId]]
-- [[_COMMUNITY_IKafkaProducerFactory|IKafkaProducerFactory]]
-- [[_COMMUNITY_IntegrationEventExtensions|IntegrationEventExtensions]]
-- [[_COMMUNITY_EventType|EventType]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_RemoteClaimsTransformation|RemoteClaimsTransformation]]
-- [[_COMMUNITY_IFileStorage|IFileStorage]]
-- [[_COMMUNITY_IMinioBucketManager|IMinioBucketManager]]
-- [[_COMMUNITY_AuthDbContext|AuthDbContext]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_IAuthenticationService|IAuthenticationService]]
-- [[_COMMUNITY_IJwtService|IJwtService]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_IIntegrationEvent|IIntegrationEvent]]
-- [[_COMMUNITY_DeadLetterMessage|DeadLetterMessage]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_JoinToClubCommandHandler|JoinToClubCommandHandler]]
-- [[_COMMUNITY_GetUserProfileQueryInterestsHandler|GetUserProfileQueryInterestsHandler]]
-- [[_COMMUNITY_UpdateClubCommandHandler|UpdateClubCommandHandler]]
-- [[_COMMUNITY_HasPermissionAttribute|HasPermissionAttribute]]
-- [[_COMMUNITY_PermissionRequirement|PermissionRequirement]]
-- [[_COMMUNITY_DependencyInjection|DependencyInjection]]
-- [[_COMMUNITY_MappingRegistration|MappingRegistration]]
-- [[_COMMUNITY_Claims Principal Extensions|Claims Principal Extensions]]
-- [[_COMMUNITY_IUserContext|IUserContext]]
-- [[_COMMUNITY_AuthenticationOptions|AuthenticationOptions]]
-- [[_COMMUNITY_KeycloackOptions|KeycloackOptions]]
-- [[_COMMUNITY_RedisOptions|RedisOptions]]
-- [[_COMMUNITY_AuthenticationToken|AuthenticationToken]]
-- [[_COMMUNITY_CredentialRepresentationModel|CredentialRepresentationModel]]
-- [[_COMMUNITY_UserRepresentationModel|UserRepresentationModel]]
-- [[_COMMUNITY_DeleteAvatarCommandValidator|DeleteAvatarCommandValidator]]
-- [[_COMMUNITY_RegisterParticipantCommandValidator|RegisterParticipantCommandValidator]]
-- [[_COMMUNITY_SearchClubsQueryValidator|SearchClubsQueryValidator]]
-- [[_COMMUNITY_CreateUserProfileCommandValidator|CreateUserProfileCommandValidator]]
-- [[_COMMUNITY_UpdateUserProfileInterestsCommandValidat|UpdateUserProfileInterestsCommandValidat]]
-- [[_COMMUNITY_UpdateClubCommandValidator|UpdateClubCommandValidator]]
-- [[_COMMUNITY_GetClubMembersQueryValidator|GetClubMembersQueryValidator]]
-- [[_COMMUNITY_UpdateEventCommandValidator|UpdateEventCommandValidator]]
-- [[_COMMUNITY_CreateAvatarCommandValidator|CreateAvatarCommandValidator]]
-- [[_COMMUNITY_GetClubsByUserQueryValidator|GetClubsByUserQueryValidator]]
-- [[_COMMUNITY_CreateEventTypeCommandValidator|CreateEventTypeCommandValidator]]
-- [[_COMMUNITY_GetEventParticipantsQueryValidator|GetEventParticipantsQueryValidator]]
-- [[_COMMUNITY_GetAllEventTypesQueryValidator|GetAllEventTypesQueryValidator]]
-- [[_COMMUNITY_GetClubQueryValidator|GetClubQueryValidator]]
-- [[_COMMUNITY_DeleteEventCommandValidator|DeleteEventCommandValidator]]
-- [[_COMMUNITY_GetTopRatedEventsByStartDateWithLimitQue|GetTopRatedEventsByStartDateWithLimitQue]]
-- [[_COMMUNITY_UpdateAvatarCommandValidator|UpdateAvatarCommandValidator]]
-- [[_COMMUNITY_GetEventsByTextAndFiltersQueryValidator|GetEventsByTextAndFiltersQueryValidator]]
-- [[_COMMUNITY_GetUserProfileInterestsQueryValidator|GetUserProfileInterestsQueryValidator]]
-- [[_COMMUNITY_JoinToClubCommandValidator|JoinToClubCommandValidator]]
-- [[_COMMUNITY_CreateClubCommandValidator|CreateClubCommandValidator]]
-- [[_COMMUNITY_GetAllUserEventsQueryValidator|GetAllUserEventsQueryValidator]]
-- [[_COMMUNITY_DeleteClubCommandValidator|DeleteClubCommandValidator]]
-- [[_COMMUNITY_CreateEventCommandValidator|CreateEventCommandValidator]]
-- [[_COMMUNITY_RoleId Value Object|RoleId Value Object]]
-- [[_COMMUNITY_Authentication Options|Authentication Options]]
-- [[_COMMUNITY_Credential Representation Model DTO|Credential Representation Model DTO]]
-- [[_COMMUNITY_AuthService.Api Program (composition roo|AuthService.Api Program (composition roo]]
-- [[_COMMUNITY_AuthService.Application DependencyInject|AuthService.Application DependencyInject]]
-- [[_COMMUNITY_IUserContext Interface|IUserContext Interface]]
-- [[_COMMUNITY_ValueObject Abstract Base|ValueObject Abstract Base]]
-- [[_COMMUNITY_Auth Database Options|Auth Database Options]]
-- [[_COMMUNITY_RedisOptions|RedisOptions]]
+- [[_COMMUNITY_DbContext & Generic Repository|DbContext & Generic Repository]]
+- [[_COMMUNITY_Mapster Mapping Configs|Mapster Mapping Configs]]
+- [[_COMMUNITY_Options Validators & Storage|Options Validators & Storage]]
+- [[_COMMUNITY_Event Domain Event Handlers|Event Domain Event Handlers]]
+- [[_COMMUNITY_Event Query Handlers|Event Query Handlers]]
+- [[_COMMUNITY_Keycloak Auth & JWT|Keycloak Auth & JWT]]
+- [[_COMMUNITY_Specification Base|Specification Base]]
+- [[_COMMUNITY_Kafka Dispatch & Producer Factory|Kafka Dispatch & Producer Factory]]
+- [[_COMMUNITY_Domain Services|Domain Services]]
+- [[_COMMUNITY_User Profile CQRS Handlers|User Profile CQRS Handlers]]
+- [[_COMMUNITY_Kafka Producers & DLQ|Kafka Producers & DLQ]]
+- [[_COMMUNITY_Update Command Handlers|Update Command Handlers]]
+- [[_COMMUNITY_Global Exception Handlers|Global Exception Handlers]]
+- [[_COMMUNITY_ClubService Implementation|ClubService Implementation]]
+- [[_COMMUNITY_IClubService Contract|IClubService Contract]]
+- [[_COMMUNITY_Community 28|Community 28]]
+- [[_COMMUNITY_Community 29|Community 29]]
+- [[_COMMUNITY_Community 30|Community 30]]
+- [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 32|Community 32]]
+- [[_COMMUNITY_Community 33|Community 33]]
+- [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
+- [[_COMMUNITY_Community 37|Community 37]]
+- [[_COMMUNITY_Community 38|Community 38]]
+- [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 41|Community 41]]
+- [[_COMMUNITY_Community 42|Community 42]]
+- [[_COMMUNITY_Community 43|Community 43]]
+- [[_COMMUNITY_Community 44|Community 44]]
+- [[_COMMUNITY_Community 45|Community 45]]
+- [[_COMMUNITY_Community 46|Community 46]]
+- [[_COMMUNITY_Community 47|Community 47]]
+- [[_COMMUNITY_Community 48|Community 48]]
+- [[_COMMUNITY_Community 49|Community 49]]
+- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
+- [[_COMMUNITY_Community 53|Community 53]]
+- [[_COMMUNITY_Community 54|Community 54]]
+- [[_COMMUNITY_Community 55|Community 55]]
+- [[_COMMUNITY_Community 56|Community 56]]
+- [[_COMMUNITY_Community 57|Community 57]]
+- [[_COMMUNITY_Community 58|Community 58]]
+- [[_COMMUNITY_Community 59|Community 59]]
+- [[_COMMUNITY_Community 60|Community 60]]
+- [[_COMMUNITY_Community 61|Community 61]]
+- [[_COMMUNITY_Community 62|Community 62]]
+- [[_COMMUNITY_Community 63|Community 63]]
+- [[_COMMUNITY_Community 64|Community 64]]
+- [[_COMMUNITY_Community 65|Community 65]]
+- [[_COMMUNITY_Community 66|Community 66]]
+- [[_COMMUNITY_Community 67|Community 67]]
+- [[_COMMUNITY_Community 68|Community 68]]
+- [[_COMMUNITY_Community 69|Community 69]]
+- [[_COMMUNITY_Community 70|Community 70]]
+- [[_COMMUNITY_Community 71|Community 71]]
+- [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
+- [[_COMMUNITY_Community 74|Community 74]]
+- [[_COMMUNITY_Community 75|Community 75]]
+- [[_COMMUNITY_Community 76|Community 76]]
+- [[_COMMUNITY_Community 77|Community 77]]
+- [[_COMMUNITY_Community 78|Community 78]]
+- [[_COMMUNITY_Community 79|Community 79]]
+- [[_COMMUNITY_Community 80|Community 80]]
+- [[_COMMUNITY_Community 81|Community 81]]
+- [[_COMMUNITY_Community 82|Community 82]]
+- [[_COMMUNITY_Community 83|Community 83]]
+- [[_COMMUNITY_Community 84|Community 84]]
+- [[_COMMUNITY_Community 85|Community 85]]
+- [[_COMMUNITY_Community 86|Community 86]]
+- [[_COMMUNITY_Community 87|Community 87]]
+- [[_COMMUNITY_Community 88|Community 88]]
+- [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
+- [[_COMMUNITY_Community 91|Community 91]]
+- [[_COMMUNITY_Community 92|Community 92]]
+- [[_COMMUNITY_Community 93|Community 93]]
+- [[_COMMUNITY_Community 94|Community 94]]
+- [[_COMMUNITY_Community 95|Community 95]]
+- [[_COMMUNITY_Community 96|Community 96]]
+- [[_COMMUNITY_Community 97|Community 97]]
+- [[_COMMUNITY_Community 98|Community 98]]
+- [[_COMMUNITY_Community 99|Community 99]]
+- [[_COMMUNITY_Community 100|Community 100]]
+- [[_COMMUNITY_Community 101|Community 101]]
+- [[_COMMUNITY_Community 102|Community 102]]
+- [[_COMMUNITY_Community 103|Community 103]]
+- [[_COMMUNITY_Community 104|Community 104]]
+- [[_COMMUNITY_Community 105|Community 105]]
+- [[_COMMUNITY_Community 106|Community 106]]
+- [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 108|Community 108]]
+- [[_COMMUNITY_Community 109|Community 109]]
+- [[_COMMUNITY_Community 110|Community 110]]
+- [[_COMMUNITY_Community 111|Community 111]]
+- [[_COMMUNITY_Community 112|Community 112]]
+- [[_COMMUNITY_Community 113|Community 113]]
+- [[_COMMUNITY_Community 114|Community 114]]
+- [[_COMMUNITY_Community 115|Community 115]]
+- [[_COMMUNITY_Community 116|Community 116]]
+- [[_COMMUNITY_Community 117|Community 117]]
+- [[_COMMUNITY_Community 118|Community 118]]
+- [[_COMMUNITY_Community 119|Community 119]]
+- [[_COMMUNITY_Community 120|Community 120]]
+- [[_COMMUNITY_Community 121|Community 121]]
+- [[_COMMUNITY_Community 122|Community 122]]
+- [[_COMMUNITY_Community 123|Community 123]]
+- [[_COMMUNITY_Community 124|Community 124]]
+- [[_COMMUNITY_Community 125|Community 125]]
+- [[_COMMUNITY_Community 126|Community 126]]
+- [[_COMMUNITY_Community 127|Community 127]]
+- [[_COMMUNITY_Community 128|Community 128]]
+- [[_COMMUNITY_Community 129|Community 129]]
+- [[_COMMUNITY_Community 130|Community 130]]
+- [[_COMMUNITY_Community 131|Community 131]]
+- [[_COMMUNITY_Community 132|Community 132]]
+- [[_COMMUNITY_Community 133|Community 133]]
+- [[_COMMUNITY_Community 134|Community 134]]
+- [[_COMMUNITY_Community 135|Community 135]]
+- [[_COMMUNITY_Community 136|Community 136]]
+- [[_COMMUNITY_Community 137|Community 137]]
+- [[_COMMUNITY_Community 138|Community 138]]
+- [[_COMMUNITY_Community 139|Community 139]]
+- [[_COMMUNITY_Community 140|Community 140]]
+- [[_COMMUNITY_Community 141|Community 141]]
+- [[_COMMUNITY_Community 142|Community 142]]
+- [[_COMMUNITY_Community 143|Community 143]]
+- [[_COMMUNITY_Community 144|Community 144]]
+- [[_COMMUNITY_Community 145|Community 145]]
+- [[_COMMUNITY_Community 146|Community 146]]
+- [[_COMMUNITY_Community 147|Community 147]]
+- [[_COMMUNITY_Community 148|Community 148]]
+- [[_COMMUNITY_Community 149|Community 149]]
+- [[_COMMUNITY_Community 150|Community 150]]
+- [[_COMMUNITY_Community 151|Community 151]]
+- [[_COMMUNITY_Community 152|Community 152]]
+- [[_COMMUNITY_Community 153|Community 153]]
+- [[_COMMUNITY_Community 154|Community 154]]
+- [[_COMMUNITY_Community 155|Community 155]]
+- [[_COMMUNITY_Community 156|Community 156]]
+- [[_COMMUNITY_Community 157|Community 157]]
+- [[_COMMUNITY_Community 158|Community 158]]
+- [[_COMMUNITY_Community 159|Community 159]]
+- [[_COMMUNITY_Community 299|Community 299]]
+- [[_COMMUNITY_Community 300|Community 300]]
+- [[_COMMUNITY_Community 301|Community 301]]
+- [[_COMMUNITY_Community 302|Community 302]]
+- [[_COMMUNITY_Community 303|Community 303]]
+- [[_COMMUNITY_Community 304|Community 304]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `GenericRepository` - 19 edges
-2. `UnitOfWork` - 18 edges
-3. `Event` - 17 edges
-4. `BaseSpecification` - 16 edges
-5. `ClubService` - 14 edges
-6. `ClubController` - 13 edges
-7. `Enumeration` - 13 edges
-8. `EventsController` - 13 edges
-9. `IClubService` - 12 edges
-10. `Club` - 12 edges
+1. `ILogger` - 23 edges
+2. `UnitOfWork` - 20 edges
+3. `GenericRepository` - 19 edges
+4. `Event` - 19 edges
+5. `string` - 16 edges
+6. `BaseSpecification` - 16 edges
+7. `KafkaEventConsumer` - 16 edges
+8. `ClubService` - 14 edges
+9. `ClubController` - 13 edges
+10. `Enumeration` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Permissions` --references--> `string`  [EXTRACTED]
-  AuthService/AuthService.Contracts/Constants/Permissions.cs → UserService/UserService.Application/Common/Configuration/UserDatabaseOptions.cs
-- `AuthDatabaseOptions` --references--> `string`  [EXTRACTED]
-  AuthService/AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs → UserService/UserService.Application/Common/Configuration/UserDatabaseOptions.cs
-- `ClubsDatabaseOptions` --references--> `string`  [EXTRACTED]
-  ClubService/ClubService.Application/Common/Configuration/ClubsDatabaseOptions.cs → UserService/UserService.Application/Common/Configuration/UserDatabaseOptions.cs
-- `ApiSettings` --references--> `string`  [EXTRACTED]
-  EventService/EventService.Application/Common/Configuration/ApiSettings.cs → UserService/UserService.Application/Common/Configuration/UserDatabaseOptions.cs
-- `EventsDatabaseOptions` --references--> `string`  [EXTRACTED]
-  EventService/EventService.Application/Common/Configuration/EventsDatabaseOptions.cs → UserService/UserService.Application/Common/Configuration/UserDatabaseOptions.cs
+  AuthService/AuthService.Contracts/Constants/Permissions.cs → SharedKernel/WingDing.Auth.Shared/Permissions.cs
+- `string` --references--> `AuthDatabaseOptions`  [EXTRACTED]
+  SharedKernel/WingDing.Auth.Shared/Permissions.cs → AuthService/AuthService.Infrastructure/Common/Configuration/AuthDatabaseOptions.cs
+- `string` --references--> `ClubsDatabaseOptions`  [EXTRACTED]
+  SharedKernel/WingDing.Auth.Shared/Permissions.cs → ClubService/ClubService.Application/Common/Configuration/ClubsDatabaseOptions.cs
+- `string` --references--> `ApiSettings`  [EXTRACTED]
+  SharedKernel/WingDing.Auth.Shared/Permissions.cs → EventService/EventService.Application/Common/Configuration/ApiSettings.cs
+- `string` --references--> `EventsDatabaseOptions`  [EXTRACTED]
+  SharedKernel/WingDing.Auth.Shared/Permissions.cs → EventService/EventService.Application/Common/Configuration/EventsDatabaseOptions.cs
 
-## Hyperedges (group relationships)
-- **DI composition root pipeline** — api_program, api_di_addpresentation, infra_di_addinfrastructure [EXTRACTED 1.00]
-- **Application Service Interface Layer** — iauthenticationservice_interface, ijwtservice_interface, iusercontext_interface [INFERRED 0.95]
-- **Permission System** — domain_permission, contracts_permissions, api_userscontroller, rationale_permission_based_authz [EXTRACTED 1.00]
-- **DDD Domain Abstractions Pattern** — entity_abstract, enumeration_abstract, valueobject_abstract [INFERRED 0.95]
-- **EF Core Persistence Layer Configuration** — authdbcontext_AuthDbContext, permissionconfiguration_PermissionConfiguration, roleconfiguration_RoleConfiguration, userconfiguration_UserConfiguration [INFERRED 0.95]
-- **Keycloak user registration flow** — api_users_controller, infra_authentication_service, domain_user_create_factory, concept_keycloak_identity_link [INFERRED 0.85]
-- **Permission-Based Authorization System** — rationale_permission_based_authz, permissionconfiguration_permissionconfiguration, roleconfiguration_roleconfiguration, claimsprincipalextensions_claimsprincipalextensions, rationale_custom_claims_transformation, rationale_redis_role_cache [INFERRED 0.85]
-- **Database Connection Errors on PostgreSQL localhost:5432** — authservice_authdb, eventservice_eventdb, infra_postgresql [EXTRACTED 1.00]
-- **Missing .env File Warnings Across Services** — eventservice_dotenv_missing, userservice_dotenv_missing, eventservice_api, userservice_api [EXTRACTED 1.00]
+## Communities (325 total, 121 thin omitted)
 
-## Communities (303 total, 122 thin omitted)
-
-### Community 0 - "Domain Base Classes"
-Cohesion: 0.05
-Nodes (8): Entity, Enumeration, ValueObject, Entity, Enumeration, ValueObject, IComparable, IEquatable
-
-### Community 1 - "Repository and DB Context"
+### Community 0 - "Club Aggregate (Domain)"
 Cohesion: 0.06
-Nodes (13): bool, DbContext, DbSet, EventServiceDbContext, IDbContextTransaction, IPublisher, AuthDbContext, EventService.Infrastructure.Persistence (+5 more)
+Nodes (7): AggregateRoot, Club, AvatarCollection, Role, Event, List, UserProfile
+
+### Community 1 - "Kafka Consumer & UnitOfWork"
+Cohesion: 0.05
+Nodes (20): BackgroundService, bool, IConsumer, IDbContextTransaction, IEventConsumer, IIntegrationEventDispatcher, IIntegrationEventTypeRegistry, IIntegrationEventTypeResolver (+12 more)
 
 ### Community 2 - "REST API Controllers"
 Cohesion: 0.05
-Nodes (8): ControllerBase, AvatarController, ClubController, EventsController, UserProfileController, UsersController, IMapper, ISender
+Nodes (9): ControllerBase, AdminController, AvatarController, ClubController, EventsController, UserProfileController, UsersController, IMapper (+1 more)
 
-### Community 3 - "EF Core Entity Configurations"
-Cohesion: 0.06
+### Community 3 - "Domain Base Classes"
+Cohesion: 0.05
+Nodes (8): Entity, Enumeration, ValueObject, Entity, Enumeration, ValueObject, IComparable, IEquatable
+
+### Community 4 - "EF Core Entity Configurations"
+Cohesion: 0.05
 Nodes (14): ClubConfigurations, EventConfigurations, EventStatusConfiguration, EventTypeConfigurations, ParticipantStatusConfiguration, UserProfileConfigurations, IEntityTypeConfiguration, PermissionConfiguration (+6 more)
-
-### Community 4 - "Domain Services"
-Cohesion: 0.06
-Nodes (5): IRepository, ClubService, EventService, EventTypeService, UserProfileService
 
 ### Community 5 - "Query Specifications"
 Cohesion: 0.05
-Nodes (20): BaseSpecification, ClubByIdSpec, ClubsByIdsSpec, ClubsByUserSpec, GetAnyClubsSpec, SearchClubsSpec, ActiveEventsSpecification, DefaultEventTypeSpecification (+12 more)
+Nodes (21): BaseSpecification, ClubByIdSpec, ClubsByIdsSpec, ClubsByUserSpec, GetAnyClubsSpec, SearchClubsSpec, ActiveEventsSpecification, DefaultEventTypeSpecification (+13 more)
 
-### Community 6 - "Auth and JWT Middleware"
+### Community 6 - "Aggregate Root & Domain Events"
+Cohesion: 0.06
+Nodes (10): AggregateRoot, Avatar, ClubMember, EventType, Organizer, Participant, Review, User (+2 more)
+
+### Community 7 - "Configuration Options"
+Cohesion: 0.06
+Nodes (17): ApiOptions, ApiSettings, AuthDatabaseOptions, AuthenticationOptions, ClubsDatabaseOptions, EventsDatabaseOptions, FileStorageOptions, KafkaOptions (+9 more)
+
+### Community 8 - "DI Registration & Bootstrap"
 Cohesion: 0.08
-Nodes (12): AdminAuthorizationDelegatingHandler, JwtBearerOptionsSetup, AuthenticationOptions, DependencyInjection, DelegatingHandler, HttpClient, IAuthenticationService, IConfigureNamedOptions (+4 more)
+Nodes (7): DependencyInjection, Dictionary, DependencyInjection, IEventTypeMapper, int, EventTypeMapper, OutboxProcessorBackgroundService
 
-### Community 7 - "Domain Exceptions"
+### Community 9 - "Auth Command Handlers & Cache"
+Cohesion: 0.08
+Nodes (12): AssignRoleCommandHandler, JwtBearerOptionsSetup, AuthenticationOptions, PermissionCache, DependencyInjection, IAuthDbContext, IAuthenticationService, IConfigureNamedOptions (+4 more)
+
+### Community 10 - "Errors & Domain Exceptions"
 Cohesion: 0.07
-Nodes (12): ValidationError, Exception, AlreadyDoneException, AvatarAlreadyExistsException, AvatarException, AvatarMismatchException, AvatarNotFoundException, EntityAlreadyExistsException (+4 more)
+Nodes (13): ServiceError, ValidationError, Exception, AlreadyDoneException, AvatarAlreadyExistsException, AvatarException, AvatarMismatchException, AvatarNotFoundException (+5 more)
 
-### Community 8 - "Configuration Options"
-Cohesion: 0.09
-Nodes (11): ApiOptions, ApiSettings, AuthDatabaseOptions, ClubsDatabaseOptions, EventsDatabaseOptions, FileStorageOptions, KafkaOptions, PgAdminSettings (+3 more)
-
-### Community 9 - "Authorization Services"
-Cohesion: 0.09
-Nodes (11): AuthorizationService, LocalPermissionService, AuthorizationService, IDbContextFactory, IDistributedCache, IMemoryCache, IPermissionService, PermissionOracleClient (+3 more)
-
-### Community 10 - "Event CQRS Handlers"
-Cohesion: 0.11
-Nodes (9): GetAllUserEventsQueryHandler, GetEventByIdQueryHandler, GetEventParticipantsQueryHandler, GetEventsByTextAndFiltersQueryHandler, GetTopRatedEventsByStartDateWithLimitQueryHandler, IEventService, IRequestHandler, RegisterParticipantCommandHandler (+1 more)
-
-### Community 11 - "Mapster Mapping Configs"
-Cohesion: 0.11
-Nodes (7): IRegister, AvatarMappingConfiguration, ClubIntegrationMappingConfiguration, ClubMappingConfiguration, EventMappingConfiguration, UserIntegrationMappingConfiguration, UserProfileMappingConfiguration
+### Community 11 - "Authorization & Permission (gRPC)"
+Cohesion: 0.08
+Nodes (12): AuthorizationService, LocalPermissionService, AuthorizationService, IDbContextFactory, IMemoryCache, IPermissionService, ITopicProvisioner, KafkaTopicProvisioner (+4 more)
 
 ### Community 12 - "Club CQRS Handlers"
-Cohesion: 0.11
-Nodes (7): DeleteClubCommandHandler, GetClubMembersHandler, GetClubQueryHandler, GetClubsQueryByUserHandler, IClubService, LeaveClubCommandHandler, SearchClubsQueryHandler
+Cohesion: 0.1
+Nodes (10): CreateClubCommandHandler, DeleteClubCommandHandler, GetClubMembersHandler, GetClubQueryHandler, GetClubsQueryByUserHandler, IClubService, IRequestHandler, JoinToClubCommandHandler (+2 more)
 
-### Community 13 - "User CQRS Handlers"
-Cohesion: 0.12
-Nodes (8): CreateAvatarCommandHandler, CreateUserProfileCommandHandler, DeleteAvatarCommandHandler, GetUserProfileQueryHandler, IFileStorage, IOptionsMonitor, IUserProfileService, UpdateUserProfileInterestsCommandHandler
+### Community 13 - "DbContext & Generic Repository"
+Cohesion: 0.1
+Nodes (6): DbContext, DbSet, EventService.Infrastructure.Persistence, EventServiceDbContext, GenericRepository, UserServiceDbContext
 
-### Community 16 - "Background Services"
+### Community 14 - "Mapster Mapping Configs"
+Cohesion: 0.08
+Nodes (9): IRegister, AssignRoleMappingConfig, AvatarMappingConfiguration, ClubIntegrationMappingConfiguration, ClubMappingConfiguration, EventMappingConfiguration, UserIntegrationMappingConfiguration, UserIntegrationMappingConfiguration (+1 more)
+
+### Community 15 - "Options Validators & Storage"
+Cohesion: 0.1
+Nodes (9): FileStorageOptions, HashSet, IMinioBucketManager, IMinioClient, IValidateOptions, KafkaOptionsValidator, OutboxOptionsValidator, MinioBucketManager (+1 more)
+
+### Community 16 - "Event Domain Event Handlers"
 Cohesion: 0.14
-Nodes (7): BackgroundService, Dictionary, IEventTypeMapper, int, IServiceScopeFactory, EventTypeMapper, OutboxProcessorBackgroundService
+Nodes (9): EventCancelledDomainEventHandler, EventCreatedDomainEventHandler, EventDeletedDomainEventHandler, EventPublishedDomainEventHandler, EventUpdatedDomainEventHandler, ParticipantRegisteredDomainEventHandler, ILogger, INotificationHandler (+1 more)
 
-### Community 18 - "Club Command Handlers"
+### Community 17 - "Event Query Handlers"
+Cohesion: 0.11
+Nodes (7): GetAllUserEventsQueryHandler, GetEventByIdQueryHandler, GetEventParticipantsQueryHandler, GetEventsByTextAndFiltersQueryHandler, GetTopRatedEventsByStartDateWithLimitQueryHandler, IEventService, RegisterParticipantCommandHandler
+
+### Community 18 - "Keycloak Auth & JWT"
+Cohesion: 0.12
+Nodes (8): AdminAuthorizationDelegatingHandler, DelegatingHandler, HttpClient, IJwtService, KeycloakOptions, LoginUserQueryHandler, AuthenticationService, JwtService
+
+### Community 20 - "Kafka Dispatch & Producer Factory"
+Cohesion: 0.12
+Nodes (6): ConcurrentDictionary, CreateAvatarCommandHandler, IKafkaProducerFactory, IOptionsMonitor, KafkaIntegrationEventDispatcher, KafkaProducerFactory
+
+### Community 21 - "Domain Services"
+Cohesion: 0.12
+Nodes (3): IRepository, EventTypeService, UserProfileService
+
+### Community 22 - "User Profile CQRS Handlers"
+Cohesion: 0.12
+Nodes (6): GetUserProfileQueryInterestsHandler, GetUserProfileQueryHandler, IUserProfileService, UpdateAvatarCommandHandler, UpdateUserProfileCommandHandler, UpdateUserProfileInterestsCommandHandler
+
+### Community 23 - "Kafka Producers & DLQ"
+Cohesion: 0.14
+Nodes (8): IDeadLetterQueueProducer, IEventProducer, IProducer, JsonSerializerOptions, KafkaOptions, DeadLetterQueueProducer, KafkaEventProducer, KafkaIntegrationEventPublisher
+
+### Community 24 - "Update Command Handlers"
 Cohesion: 0.15
-Nodes (5): CreateClubCommandHandler, DeleteEventCommandHandler, IUnitOfWork, UpdateAvatarCommandHandler, UpdateUserProfileCommandHandler
+Nodes (6): CreateUserProfileCommandHandler, DeleteAvatarCommandHandler, IFileStorage, IUnitOfWork, UpdateClubCommandHandler, UpdateEventCommandHandler
 
-### Community 19 - "Club Member Entities"
+### Community 25 - "Global Exception Handlers"
 Cohesion: 0.15
-Nodes (5): ClubMember, Organizer, Participant, Review, Entity
-
-### Community 20 - "Global Error Handling"
-Cohesion: 0.18
 Nodes (3): GlobalExceptionHandler, ValidationExceptionHandler, IExceptionHandler
 
-### Community 24 - "Expression Extensions"
+### Community 30 - "Community 30"
+Cohesion: 0.17
+Nodes (4): IDeadLetterQueueProducer, IEventConsumer, IEventProducer, IDisposable
+
+### Community 35 - "Community 35"
 Cohesion: 0.29
 Nodes (4): Expression, ExpressionVisitor, ExpressionExtensions, ReplaceExpressionVisitor
 
-### Community 27 - "Create Command Handlers"
+### Community 36 - "Community 36"
 Cohesion: 0.2
 Nodes (4): CreateEventCommandHandler, CreateEventTypeCommandHandler, GetAllEventTypesQueryHandler, IEventTypeService
 
-### Community 29 - "Permission"
+### Community 37 - "Community 37"
+Cohesion: 0.22
+Nodes (5): EventServiceDbContext, IIntegrationEventPublisher, OutboxProcessor, OutboxService, OutboxOptions
+
+### Community 39 - "Community 39"
 Cohesion: 0.33
 Nodes (5): Enumeration, EventStatus, ParticipantStatus, Permission, RoleType
 
-### Community 31 - "AbstractValidator"
+### Community 40 - "Community 40"
 Cohesion: 0.22
-Nodes (5): AbstractValidator, GetEventByIdQueryValidator, GetUserProfileQueryValidator, LeaveClubCommandValidator, UpdateUserProfileCommandValidator
+Nodes (5): AbstractValidator, DeleteAvatarCommandValidator, DeleteClubCommandValidator, DeleteEventCommandValidator, GetAllEventTypesQueryValidator
 
-### Community 34 - "RolePermission"
+### Community 41 - "Community 41"
 Cohesion: 0.22
-Nodes (3): ValueObject, Location, RolePermission
+Nodes (5): ClubCreatedIntegrationEvent, ClubDeletedIntegrationEvent, IIntegrationEvent, UserProfileCreatedIntegrationEvent, UserProfileUpdatedIntegrationEvent
 
-### Community 35 - "Role"
-Cohesion: 0.25
-Nodes (3): Role, User, List
+### Community 45 - "Community 45"
+Cohesion: 0.22
+Nodes (3): RoleId, ValueObject, Location
 
-### Community 37 - "FileStorageOptions"
-Cohesion: 0.25
-Nodes (5): FileStorageOptions, HashSet, IMinioBucketManager, IMinioClient, MinioFileStorage
+### Community 46 - "Community 46"
+Cohesion: 0.22
+Nodes (4): ValidationBehavior, IEnumerable, IPipelineBehavior, IValidator
 
-### Community 38 - "API Config Settings"
+### Community 47 - "Community 47"
 Cohesion: 0.22
 Nodes (5): ApiSettings, EventsDatabaseOptions, IConfigurationService, PgAdminSettings, ConfigurationService
 
-### Community 43 - "ValidationBehavior"
-Cohesion: 0.25
-Nodes (4): ValidationBehavior, IEnumerable, IPipelineBehavior, IValidator
-
-### Community 46 - "ClubCreatedIntegrationEvent"
-Cohesion: 0.29
-Nodes (4): ClubCreatedIntegrationEvent, ClubDeletedIntegrationEvent, IIntegrationEvent, UserProfileCreatedIntegrationEvent
-
-### Community 52 - "KafkaIntegrationEventDispatcher"
-Cohesion: 0.29
-Nodes (3): IIntegrationEventDispatcher, IKafkaProducerFactory, KafkaIntegrationEventDispatcher
-
-### Community 53 - "IDeadLetterQueueProducer"
-Cohesion: 0.29
-Nodes (3): IDeadLetterQueueProducer, IEventProducer, IDisposable
-
-### Community 54 - "Admin Authorization Delegating Handler"
+### Community 53 - "Community 53"
 Cohesion: 0.33
 Nodes (7): Admin Authorization Delegating Handler, Authorization Token DTO, IAuthenticationService Interface, IJwtService Interface, JwtService, Keycloak Token API (ROPG Flow), Keycloak Options
 
-### Community 55 - "Migration"
+### Community 54 - "Community 54"
 Cohesion: 0.33
 Nodes (3): Migration, ChangeErrotTypeInOutbox, UserService.Infrastructure.Persistence.Migrations
 
-### Community 59 - "AuthService CLAUDE.md"
-Cohesion: 0.33
-Nodes (6): AuthService CLAUDE.md, Permissions Constants, CustomClaimsTransformation Enriches ClaimsPrincipal from DB, Keycloak Integration Pattern, Permission-Based Authorization Pattern, Redis Role Cache (TTL 5min, key auth:roles-{identityId})
-
-### Community 60 - "EventService.Api"
-Cohesion: 0.33
-Nodes (4): EventService .env File Missing, EventService Warning Log 2026-06-01, UserService .env File Missing, UserService Warning Log 2026-04-07
-
-### Community 86 - "PermissionAuthorizationHandler"
+### Community 74 - "Community 74"
 Cohesion: 0.4
 Nodes (3): PermissionAuthorizationHandler, AuthorizationHandler, IServiceProvider
 
-### Community 87 - "PermissionAuthorizationPolicyProvider"
+### Community 75 - "Community 75"
 Cohesion: 0.4
 Nodes (3): PermissionAuthorizationPolicyProvider, AuthorizationOptions, DefaultAuthorizationPolicyProvider
 
-### Community 91 - "Entity<Tid> Abstract Base"
+### Community 86 - "Community 86"
 Cohesion: 0.5
 Nodes (5): Entity<Tid> Abstract Base, Enumeration Abstract Base, Permission Enumeration, Role Entity, RoleType Enumeration
 
-### Community 92 - "Keycloak Identity Link (sub -> User.Iden"
+### Community 87 - "Community 87"
 Cohesion: 0.5
 Nodes (5): Keycloak Identity Link (sub -> User.IdentityId), User.Create factory (auto-adds Registered role), User aggregate (Entity<UserId>), AuthenticationService (Keycloak Admin client), ExtractIdentityIdFromLocationHeader
 
-### Community 93 - "authdb Database"
-Cohesion: 0.5
-Nodes (5): authdb Database, AuthService Error Log 2026-06-01, EventService Error Log 2026-06-01, eventdb Database, PostgreSQL (localhost:5432)
+### Community 88 - "Community 88"
+Cohesion: 0.4
+Nodes (5): AuthService CLAUDE.md, CustomClaimsTransformation Enriches ClaimsPrincipal from DB, Keycloak Integration Pattern, Permission-Based Authorization Pattern, Redis Role Cache (TTL 5min, key auth:roles-{identityId})
 
-### Community 94 - "UserContext"
+### Community 89 - "Community 89"
 Cohesion: 0.5
 Nodes (3): UserContext, IHttpContextAccessor, IUserContext
 
-### Community 108 - "AuthDbContext"
+### Community 102 - "Community 102"
 Cohesion: 0.5
 Nodes (4): AuthDbContext, PermissionConfiguration, RoleConfiguration, UserConfiguration
 
-### Community 123 - "Claims Principal Extensions"
+### Community 118 - "Community 118"
 Cohesion: 0.67
 Nodes (3): Claims Principal Extensions, UserContext, UserId Value Object
 
 ## Knowledge Gaps
-- **77 isolated node(s):** `IUserContext`, `IHttpContextAccessor`, `IDbContextFactory`, `IDistributedCache`, `AuthorizationService` (+72 more)
+- **67 isolated node(s):** `IUserContext`, `IHttpContextAccessor`, `IDbContextFactory`, `AuthorizationService`, `AuthorizationToken` (+62 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **122 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **121 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `UnitOfWork` connect `Repository and DB Context` to `Club Command Handlers`, `REST API Controllers`, `ILogger`?**
-  _High betweenness centrality (0.032) - this node is a cross-community bridge._
-- **Why does `GenericRepository` connect `Repository and DB Context` to `Domain Services`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
-- **Why does `ILogger` connect `ILogger` to `Repository and DB Context`, `API Config Settings`, `ValidationBehavior`, `Background Services`, `KafkaProducerFactory`, `KafkaIntegrationEventDispatcher`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+- **Why does `ILogger` connect `Event Domain Event Handlers` to `Community 96`, `Kafka Consumer & UnitOfWork`, `Community 37`, `DI Registration & Bootstrap`, `Authorization & Permission (gRPC)`, `Community 46`, `Community 47`, `Options Validators & Storage`, `Kafka Dispatch & Producer Factory`, `Kafka Producers & DLQ`?**
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
+- **Why does `UnitOfWork` connect `Kafka Consumer & UnitOfWork` to `Update Command Handlers`, `Event Domain Event Handlers`, `REST API Controllers`, `Community 37`?**
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `GenericRepository` connect `DbContext & Generic Repository` to `Kafka Consumer & UnitOfWork`, `Domain Services`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **What connects `IUserContext`, `IHttpContextAccessor`, `IDbContextFactory` to the rest of the system?**
-  _77 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Domain Base Classes` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
-- **Should `Repository and DB Context` be split into smaller, more focused modules?**
+  _67 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Club Aggregate (Domain)` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._
+- **Should `Kafka Consumer & UnitOfWork` be split into smaller, more focused modules?**
+  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `REST API Controllers` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._

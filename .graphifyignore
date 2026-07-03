@@ -14,3 +14,7 @@ GlobalUsings.cs
 # EF Core auto-generated model snapshots
 # (the Migration *.Up/*.Down classes are real source — keep them)
 *ModelSnapshot.cs
+
+# Serilog runtime log sinks — noise, regenerated on every run
+logs/
+*.log.txt
