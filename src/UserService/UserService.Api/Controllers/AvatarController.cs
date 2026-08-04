@@ -6,8 +6,8 @@ using UserService.Application.AvatarManagement.Commands.CreateAvatarCommand;
 using UserService.Application.AvatarManagement.Commands.DeleteAvatarCommand;
 using UserService.Application.AvatarManagement.Commands.UpdateAvatarCommand;
 using UserService.Contracts.Avatars;
-using WingDing.Auth.Shared;
-using WingDing.Auth.Shared.Authorization;
+using WingDing.SharedKernel.Auth;
+using WingDing.SharedKernel.Auth.Authorization;
 
 namespace UserService.Api.Controllers;
 
@@ -44,7 +44,7 @@ public class AvatarController : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpPut]
     [HasPermission(Permissions.UsersUpdate)]
     public async Task<IActionResult> UpdateAvatarProfile([FromBody] UpdateAvatarRequest request)
@@ -57,7 +57,7 @@ public class AvatarController : ControllerBase
 
         return Ok(response);
     }
-    
+
     [HttpDelete]
     [HasPermission(Permissions.UsersUpdate)]
     public async Task<IActionResult> DeleteAvatarProfile([FromBody] DeleteAvatarRequest request)

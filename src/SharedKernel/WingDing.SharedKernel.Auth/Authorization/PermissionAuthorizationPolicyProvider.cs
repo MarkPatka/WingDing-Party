@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace WingDing.Auth.Shared.Authorization;
+namespace WingDing.SharedKernel.Auth.Authorization;
 
 /// <summary>
 /// Dynamically creates authorization policies on-the-fly.

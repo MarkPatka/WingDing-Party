@@ -7,7 +7,7 @@ using Microsoft.OpenApi;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
-using WingDing.Auth.Shared;
+using WingDing.SharedKernel.Auth;
 
 namespace EventService.Api;
 

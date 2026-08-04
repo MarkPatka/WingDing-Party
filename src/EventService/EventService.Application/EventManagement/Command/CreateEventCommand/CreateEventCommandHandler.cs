@@ -3,7 +3,7 @@ using EventService.Application.Common.Exceptions;
 using EventService.Application.EventManagement.Common;
 using EventService.Application.Persistence;
 using EventService.Application.Services;
-using EventService.Domain;
+using EventService.Domain.EventAggregate;
 using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
 using MediatR;

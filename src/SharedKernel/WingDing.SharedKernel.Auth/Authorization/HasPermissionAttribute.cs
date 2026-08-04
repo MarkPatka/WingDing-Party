@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace WingDing.Auth.Shared.Authorization;
+namespace WingDing.SharedKernel.Auth.Authorization;
 
 /// <summary>
 /// Usage: [HasPermission(Permissions.EventsCreate)]

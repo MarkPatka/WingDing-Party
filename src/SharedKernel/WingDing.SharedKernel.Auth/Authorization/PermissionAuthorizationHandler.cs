@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
-using WingDing.Auth.Shared.Services;
+using WingDing.SharedKernel.Auth.Services;
 
-namespace WingDing.Auth.Shared.Authorization;
+namespace WingDing.SharedKernel.Auth.Authorization;
 
 /// <summary>
 /// The actual permission check. Called by ASP.NET Core's authorization middleware.

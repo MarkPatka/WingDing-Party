@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WingDing.Auth.Shared.Authorization;
 using WingDing.Auth.Shared.Grpc;
-using WingDing.Auth.Shared.Services;
+using WingDing.SharedKernel.Auth.Authorization;
+using WingDing.SharedKernel.Auth.Services;
 
-namespace WingDing.Auth.Shared;
+namespace WingDing.SharedKernel.Auth;
 
 public static class DependencyInjection
 {

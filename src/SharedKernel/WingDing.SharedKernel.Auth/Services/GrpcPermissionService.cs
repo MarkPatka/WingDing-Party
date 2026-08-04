@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using WingDing.Auth.Shared.Grpc;
 
-namespace WingDing.Auth.Shared.Services;
+namespace WingDing.SharedKernel.Auth.Services;
 
 /// <summary>
 /// Calls AuthService gRPC endpoint (PermissionOracle) to get permissions and roles.

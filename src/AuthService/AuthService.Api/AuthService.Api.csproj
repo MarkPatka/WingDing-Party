@@ -31,7 +31,7 @@
     <ProjectReference Include="..\AuthService.Contracts\AuthService.Contracts.csproj" />
     <ProjectReference Include="..\AuthService.Infrastructure\AuthService.Infrastructure.csproj" />
     <ProjectReference Include="..\AuthService.Application\AuthService.Application.csproj" />
-    <ProjectReference Include="..\..\SharedKernel\WingDing.Auth.Shared\WingDing.Auth.Shared.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\WingDing.SharedKernel.Auth\WingDing.SharedKernel.Auth.csproj" />
   </ItemGroup>
 
 </Project>

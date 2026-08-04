@@ -16,8 +16,8 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WingDing.Auth.Shared;
-using WingDing.Auth.Shared.Authorization;
+using WingDing.SharedKernel.Auth;
+using WingDing.SharedKernel.Auth.Authorization;
 
 namespace EventService.Api.Controllers;
 

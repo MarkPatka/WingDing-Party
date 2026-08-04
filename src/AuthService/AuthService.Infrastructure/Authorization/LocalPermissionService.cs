@@ -1,4 +1,4 @@
-using WingDing.Auth.Shared.Services;
+using WingDing.SharedKernel.Auth.Services;
 
 namespace AuthService.Infrastructure.Authorization;
 

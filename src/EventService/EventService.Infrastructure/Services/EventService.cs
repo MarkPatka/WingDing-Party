@@ -2,7 +2,7 @@
 using EventService.Application.Persistence;
 using EventService.Application.Persistence.Specifications;
 using EventService.Application.Services;
-using EventService.Domain;
+using EventService.Domain.EventAggregate;
 using EventService.Domain.EventAggregate.ValueObjects;
 
 namespace EventService.Infrastructure.Services;

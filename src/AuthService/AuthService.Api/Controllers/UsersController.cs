@@ -4,8 +4,6 @@ using AuthService.Contracts.Authentication;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WingDing.Auth.Shared;
-using WingDing.Auth.Shared.Authorization;
 
 namespace AuthService.Api.Controllers;
 
@@ -22,7 +20,7 @@ public class UsersController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
-        var command = _mapper.Map<RegisterUserCommand>(request);    
+        var command = _mapper.Map<RegisterUserCommand>(request);
         var result = await _sender.Send(command);
         var response = _mapper.Map<RegisterUserResponse>(result);
         return Ok(response);
@@ -33,11 +31,11 @@ public class UsersController : ControllerBase
     {
         var query = _mapper.Map<LoginUserQuery>(request);
         var result = await _sender.Send(query);
-        
+
         if (result is null)
         {
             return Unauthorized();
-        }   
+        }
 
         var response = _mapper.Map<LoginResponse>(result);
         return Ok(response);

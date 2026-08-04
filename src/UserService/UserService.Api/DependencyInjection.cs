@@ -3,7 +3,7 @@ using Serilog;
 using Serilog.Events;
 using UserService.Api.Middleware.GlobalErrorHandler;
 using UserService.Application.Common.Configuration;
-using WingDing.Auth.Shared;
+using WingDing.SharedKernel.Auth;
 
 namespace UserService.Api;
 

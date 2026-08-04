@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharedKernel\WingDing.Auth.Shared\WingDing.Auth.Shared.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\WingDing.SharedKernel.Auth\WingDing.SharedKernel.Auth.csproj" />
     <ProjectReference Include="..\AuthService.Application\AuthService.Application.csproj" />
   </ItemGroup>
 

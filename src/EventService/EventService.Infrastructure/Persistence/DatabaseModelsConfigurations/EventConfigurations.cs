@@ -1,5 +1,5 @@
-﻿using EventService.Domain;
-using EventService.Domain.Common.Abstract;
+﻿using EventService.Domain.Common.Abstract;
+using EventService.Domain.EventAggregate;
 using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.Enumerations;
 using EventService.Domain.EventAggregate.ValueObjects;

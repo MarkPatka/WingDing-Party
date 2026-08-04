@@ -11,8 +11,8 @@ using ClubService.Contracts.Clubs;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WingDing.Auth.Shared;
-using WingDing.Auth.Shared.Authorization;
+using WingDing.SharedKernel.Auth;
+using WingDing.SharedKernel.Auth.Authorization;
 
 namespace ClubService.Api.Controllers;
 

@@ -8,8 +8,8 @@ using UserService.Application.UserProfileManagement.Common;
 using UserService.Application.UserProfileManagement.Queries.GetUserProfileInterestsQuery;
 using UserService.Application.UserProfileManagement.Queries.GetUserProfileQuery;
 using UserService.Contracts.UserProfiles;
-using WingDing.Auth.Shared;
-using WingDing.Auth.Shared.Authorization;
+using WingDing.SharedKernel.Auth;
+using WingDing.SharedKernel.Auth.Authorization;
 
 namespace UserService.Api.Controllers;
 

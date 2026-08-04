@@ -1,4 +1,4 @@
-﻿namespace WingDing.Auth.Shared;
+﻿namespace WingDing.SharedKernel.Auth;
 
 /// <summary>
 /// String constants matching Permission.Name values from the domain.

@@ -1,4 +1,4 @@
-﻿using EventService.Domain;
+﻿using EventService.Domain.EventAggregate;
 
 namespace EventService.Application.Persistence.Specifications;
 

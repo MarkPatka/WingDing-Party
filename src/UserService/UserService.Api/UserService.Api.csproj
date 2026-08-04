@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\SharedKernel\WingDing.Auth.Shared\WingDing.Auth.Shared.csproj" />
+        <ProjectReference Include="..\..\SharedKernel\WingDing.SharedKernel.Auth\WingDing.SharedKernel.Auth.csproj" />
         <ProjectReference Include="..\UserService.Application\UserService.Application.csproj" />
         <ProjectReference Include="..\UserService.Contracts\UserService.Contracts.csproj" />
         <ProjectReference Include="..\UserService.Infrastructure\UserService.Infrastructure.csproj" />

@@ -5,7 +5,7 @@ using EventService.Domain.EventAggregate.Enumerations;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventId = EventService.Domain.EventAggregate.ValueObjects.EventId;
 
-namespace EventService.Domain;
+namespace EventService.Domain.EventAggregate;
 
 public sealed class Event : AggregateRoot<EventId>
 {

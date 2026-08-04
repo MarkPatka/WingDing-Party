@@ -2,9 +2,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
-using WingDing.Auth.Shared.Services;
+using WingDing.SharedKernel.Auth.Services;
 
-namespace WingDing.Auth.Shared.Authorization;
+namespace WingDing.SharedKernel.Auth.Authorization;
 
 /// <summary>
 /// Enriches the ClaimsPrincipal with data from the auth DB (via IPermissionService).

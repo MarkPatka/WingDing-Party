@@ -1,5 +1,5 @@
 ﻿using EventService.Application.Common;
-using EventService.Domain;
+using EventService.Domain.EventAggregate;
 using EventService.Domain.EventAggregate.ValueObjects;
 
 namespace EventService.Application.Services;

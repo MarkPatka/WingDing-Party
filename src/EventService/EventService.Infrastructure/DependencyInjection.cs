@@ -5,7 +5,7 @@ using EventService.Application.EventSourcing.IntegrationEvents.Incoming;
 using EventService.Application.EventSourcing.Outbox;
 using EventService.Application.Persistence;
 using EventService.Application.Services;
-using EventService.Domain;
+using EventService.Domain.EventAggregate;
 using EventService.Domain.EventAggregate.Entities;
 using EventService.Domain.EventAggregate.ValueObjects;
 using EventService.Infrastructure.EventSourcing.Messaging;

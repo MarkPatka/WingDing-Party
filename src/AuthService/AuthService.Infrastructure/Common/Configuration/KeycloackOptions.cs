@@ -1,4 +1,4 @@
-﻿using WingDing.Auth.Shared;
+﻿using WingDing.SharedKernel.Auth;
 
 namespace AuthService.Infrastructure.Common.Configuration;
 

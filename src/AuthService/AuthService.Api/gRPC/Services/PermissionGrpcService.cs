@@ -1,6 +1,6 @@
 using Grpc.Core;
 using WingDing.Auth.Shared.Grpc;
-using WingDing.Auth.Shared.Services;
+using WingDing.SharedKernel.Auth.Services;
 
 namespace AuthService.Api.gRPC.Services;
 

@@ -1,4 +1,4 @@
-﻿namespace WingDing.Auth.Shared.Services;
+﻿namespace WingDing.SharedKernel.Auth.Services;
 
 /// <summary>
 /// Abstraction for permission checking.
