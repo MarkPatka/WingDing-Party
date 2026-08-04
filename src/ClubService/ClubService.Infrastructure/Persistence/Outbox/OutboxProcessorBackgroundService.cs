@@ -87,7 +87,8 @@ public class OutboxProcessorBackgroundService : BackgroundService
                                 }
                                 catch (Exception e)
                                 {
-                                    _logger.LogError(e, "Message {MessageId} wasn't sent due to the exception.");
+                                    _logger.LogError(e, "Message {MessageId} wasn't sent due to the exception.",
+                                        message.Id);
                                 }
                             }
                             else

@@ -43,9 +43,6 @@ internal sealed class GlobalExceptionHandler(
 
         var (statusCode, message, stackTrace) = exception switch
         {
-            IServiceError serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage,
-                serviceException.StackTrace),
-
             EntityNotFoundException => (StatusCodes.Status404NotFound,
                 exception.Message,
                 string.Empty),
