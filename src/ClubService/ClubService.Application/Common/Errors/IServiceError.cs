@@ -6,5 +6,4 @@ public interface IServiceError
 {
     public HttpStatusCode StatusCode { get; }
     public string ErrorMessage { get; }
-    public string StackTrace { get; }
 }

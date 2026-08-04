@@ -81,13 +81,15 @@ public class OutboxProcessorBackgroundService : BackgroundService
                                         integrationEvent,
                                         ex,
                                         stoppingToken);
+
                                     _logger.LogError(
                                         "Message {MessageId} exceeded max retries. Marking as failed.",
                                         message.Id);
                                 }
                                 catch (Exception e)
                                 {
-                                    _logger.LogError(e, "Message {MessageId} wasn't sent due to the exception.");
+                                    _logger.LogError(e, "Message {MessageId} wasn't sent due to the exception.",
+                                        message.Id);
                                 }
                             }
                             else

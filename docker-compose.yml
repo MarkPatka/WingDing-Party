@@ -1,3 +1,5 @@
+name: wingding
+
 services:
   user-service:
     image: ${DOCKER_REGISTRY-}userserviceapi

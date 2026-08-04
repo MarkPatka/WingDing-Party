@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
   <PropertyGroup Label="Globals">
+    <DockerComposeProjectName>wingding</DockerComposeProjectName>
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
     <ProjectGuid>{C4D3E2F1-A1B2-4C3D-8E9F-0A1B2C3D4E5F}</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>wingding-party</DockerServiceName>
+    <DockerServiceName>wingding</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".env" />

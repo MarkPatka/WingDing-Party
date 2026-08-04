@@ -1,11 +1,7 @@
 using System.Reactive.Linq;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Minio;
-using Minio.ApiEndpoints;
 using Minio.DataModel.Args;
-using Minio.Exceptions;
-using UserService.Application.Common.Configuration;
 using UserService.Application.Common.Exceptions;
 
 namespace UserService.Infrastructure.Storage;
@@ -54,11 +50,13 @@ public class MinioBucketManager : IMinioBucketManager
 
         try
         {
-            var isExistFolder = await _client.ListObjectsAsync(
+            var isExistFolder = await _client.ListObjectsEnumAsync(
                 new ListObjectsArgs()
                     .WithBucket(bucket)
                     .WithPrefix(folder)
-                    .WithRecursive(true)).Any();
+                    .WithRecursive(true), ct)
+                .AnyAsync();
+            
             if (isExistFolder)
             {
                 return;
@@ -66,9 +64,10 @@ public class MinioBucketManager : IMinioBucketManager
         }
         catch (Exception e)
         {
-            var mes = $"Exception occured while verifying folder {folder} in bucket {bucket} due to {e.Message}";
-            _logger.LogError(mes);
-            throw new FileStorageException(mes);
+            _logger.LogError("Exception occured while verifying folder {folder} in bucket {bucket} due to {message}",
+                folder, bucket, e.Message);
+
+            throw new FileStorageException($"Exception occured while verifying folder {folder} in bucket {bucket} due to {e.Message}");
         }
 
         try
@@ -95,17 +94,17 @@ public class MinioBucketManager : IMinioBucketManager
         try
         {
             var policy = $@"
-        {{
-          ""Version"": ""2012-10-17"",
-          ""Statement"": [
             {{
-              ""Effect"": ""Allow"",
-              ""Principal"": ""*"",
-              ""Action"": [""s3:GetObject""],
-              ""Resource"": [""arn:aws:s3:::{bucket}/*""]
-            }}
-          ]
-        }}";
+              ""Version"": ""2012-10-17"",
+              ""Statement"": [
+                {{
+                  ""Effect"": ""Allow"",
+                  ""Principal"": ""*"",
+                  ""Action"": [""s3:GetObject""],
+                  ""Resource"": [""arn:aws:s3:::{bucket}/*""]
+                }}
+              ]
+            }}";
 
             await _client.SetPolicyAsync(
                 new SetPolicyArgs()
