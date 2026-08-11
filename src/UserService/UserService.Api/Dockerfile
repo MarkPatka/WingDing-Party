@@ -12,18 +12,25 @@ EXPOSE 5101
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 ARG BUILD_CONFIGURATION=Release
+# Preserve the repo's src/ layout so Directory.Packages.props (Central Package
+# Management) stays a common ancestor of UserService and the SharedKernel project,
+# and the ..\..\SharedKernel project reference resolves the same way as on the host.
+# The .csproj files are copied first, by their structural paths, to keep the restore
+# layer cacheable.
 WORKDIR /src
 COPY ["Directory.Packages.props", "./"]
-COPY ["src/UserService/UserService.Api/UserService.Api.csproj", "UserService.Api/"]
-COPY ["src/UserService/UserService.Application/UserService.Application.csproj", "UserService.Application/"]
-COPY ["src/UserService/UserService.Domain/UserService.Domain.csproj", "UserService.Domain/"]
-COPY ["src/UserService/UserService.Contracts/UserService.Contracts.csproj", "UserService.Contracts/"]
-COPY ["src/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj", "UserService.Infrastructure/"]
-RUN dotnet restore "UserService.Api/UserService.Api.csproj"
+COPY ["src/UserService/UserService.Api/UserService.Api.csproj", "UserService/UserService.Api/"]
+COPY ["src/UserService/UserService.Application/UserService.Application.csproj", "UserService/UserService.Application/"]
+COPY ["src/UserService/UserService.Domain/UserService.Domain.csproj", "UserService/UserService.Domain/"]
+COPY ["src/UserService/UserService.Contracts/UserService.Contracts.csproj", "UserService/UserService.Contracts/"]
+COPY ["src/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj", "UserService/UserService.Infrastructure/"]
+COPY ["src/SharedKernel/WingDing.Auth.Shared/WingDing.Auth.Shared.csproj", "SharedKernel/WingDing.Auth.Shared/"]
+RUN dotnet restore "UserService/UserService.Api/UserService.Api.csproj"
 
-COPY src/UserService/ .
+COPY src/UserService/ ./UserService/
+COPY src/SharedKernel/ ./SharedKernel/
 
-WORKDIR "UserService.Api"
+WORKDIR "/src/UserService/UserService.Api"
 RUN dotnet build "UserService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

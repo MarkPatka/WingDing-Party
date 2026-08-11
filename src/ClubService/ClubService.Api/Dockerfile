@@ -12,18 +12,25 @@ EXPOSE 5401
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 ARG BUILD_CONFIGURATION=Release
+# Preserve the repo's src/ layout so Directory.Packages.props (Central Package
+# Management) stays a common ancestor of ClubService and the SharedKernel project,
+# and the ..\..\SharedKernel project reference resolves the same way as on the host.
+# The .csproj files are copied first, by their structural paths, to keep the restore
+# layer cacheable.
 WORKDIR /src
 COPY ["Directory.Packages.props", "./"]
-COPY ["src/ClubService/ClubService.Api/ClubService.Api.csproj", "ClubService.Api/"]
-COPY ["src/ClubService/ClubService.Application/ClubService.Application.csproj", "ClubService.Application/"]
-COPY ["src/ClubService/ClubService.Domain/ClubService.Domain.csproj", "ClubService.Domain/"]
-COPY ["src/ClubService/ClubService.Contracts/ClubService.Contracts.csproj", "ClubService.Contracts/"]
-COPY ["src/ClubService/ClubService.Infrastructure/ClubService.Infrastructure.csproj", "ClubService.Infrastructure/"]
-RUN dotnet restore "ClubService.Api/ClubService.Api.csproj"
+COPY ["src/ClubService/ClubService.Api/ClubService.Api.csproj", "ClubService/ClubService.Api/"]
+COPY ["src/ClubService/ClubService.Application/ClubService.Application.csproj", "ClubService/ClubService.Application/"]
+COPY ["src/ClubService/ClubService.Domain/ClubService.Domain.csproj", "ClubService/ClubService.Domain/"]
+COPY ["src/ClubService/ClubService.Contracts/ClubService.Contracts.csproj", "ClubService/ClubService.Contracts/"]
+COPY ["src/ClubService/ClubService.Infrastructure/ClubService.Infrastructure.csproj", "ClubService/ClubService.Infrastructure/"]
+COPY ["src/SharedKernel/WingDing.Auth.Shared/WingDing.Auth.Shared.csproj", "SharedKernel/WingDing.Auth.Shared/"]
+RUN dotnet restore "ClubService/ClubService.Api/ClubService.Api.csproj"
 
-COPY src/ClubService/ .
+COPY src/ClubService/ ./ClubService/
+COPY src/SharedKernel/ ./SharedKernel/
 
-WORKDIR "ClubService.Api"
+WORKDIR "/src/ClubService/ClubService.Api"
 RUN dotnet build "ClubService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

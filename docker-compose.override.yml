@@ -18,7 +18,7 @@ services:
     networks:
       - wingding_network
     healthcheck:
-      test: ["CMD", "kc.sh", "show-config"]
+      test: ["CMD", "/opt/keycloak/bin/kc.sh", "show-config"]
       interval: 10s
       timeout: 5s
       retries: 5
